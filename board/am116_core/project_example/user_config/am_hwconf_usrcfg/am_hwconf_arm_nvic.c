@@ -24,7 +24,6 @@
 #include "ametal.h"
 #include "am_zlg116.h"
 #include "am_arm_nvic.h"
-
 /**
  * \addtogroup am_if_src_hwconf_arm_nvic
  * \copydoc am_hwconf_arm_nvic.c

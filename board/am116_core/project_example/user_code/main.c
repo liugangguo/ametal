@@ -24,18 +24,47 @@
  * - 1.00 17-07-07  nwt, first implementation
  * \endinternal
  */
+#include "am_boot_startup.h"
 #include "ametal.h"
 #include "am_led.h"
 #include "am_delay.h"
 #include "am_vdebug.h"
 #include "am_board.h"
 #include "demo_am116_core_entries.h"
+#include "zlg116_pin.h"
+#include "am_boot.h"
+#include "am_zlg116_inst_init.h"
+#include "am_bootconf_zlg116_all_inst_init.h"
+
+/** \brief 固件升级引脚 */
+#define __ENABLE_PIN          (PIOA_8)
+/** \brief 应用代码起始地址  */
+#define __APP_START_ADDR      0x08007000
+
 /**
  * \brief AMetal 应用程序入口
  */
 int am_main (void)
 {
     AM_DBG_INFO("Start up successful!\r\n");
+
+#if 1
+    am_gpio_pin_cfg(__ENABLE_PIN, AM_GPIO_INPUT | AM_GPIO_PULLUP);
+
+    am_boot_handle_t boot_handle = am_zlg116_std_boot_inst_init();
+
+    if (am_gpio_get(__ENABLE_PIN)) {
+
+        am_zlg116_boot_startup_inst_deinit();
+        am_gpio_pin_cfg(__ENABLE_PIN, AM_GPIO_INPUT | AM_GPIO_FLOAT);
+        if(AM_OK != am_boot_go_application(boot_handle, __APP_START_ADDR)){
+            while(1);
+        }
+    }
+    am_zlg116_boot_startup_inst_init(boot_handle);
+    am_boot_by_command_startup();
+#endif
+
     /*
      * 以下为所有demo的入口函数，需要运行哪个 demo， 就取消对应函数调用行的注释
      *
@@ -43,7 +72,7 @@ int am_main (void)
      *
      * 注意：同一时刻只能运行一个 demo，即只能使某一行处于取消注释状态。
      */
-    demo_am116_core_std_led_entry();
+//    demo_am116_core_std_led_entry();
 //    demo_am116_core_std_delay_entry();
 //    demo_am116_core_hw_adc_int_entry();
 //    demo_am116_core_std_adc_entry();
@@ -135,5 +164,6 @@ int am_main (void)
 //    demo_am116_core_dr_fm175xx_piccb_read_id();
 //    demo_am116_core_dr_fm175xx_picca_lpcd_read_id();
     while (1) {
+
     }
 }

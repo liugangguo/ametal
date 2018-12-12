@@ -50,7 +50,7 @@
 #define AM_CFG_INT_ENABLE                1
 
 /** \brief 为1，初始化 DMA 相关功能 */
-#define AM_CFG_DMA_ENABLE                1
+#define AM_CFG_DMA_ENABLE                0
 
 /** @} */
 
@@ -61,13 +61,13 @@
  */
 
 /** \brief 使能 NVRAM 服务 */
-#define AM_CFG_NVRAM_ENABLE              1
+#define AM_CFG_NVRAM_ENABLE              0
 
 /** \brief 是否使用按键系统 */
-#define AM_CFG_KEY_ENABLE                1
+#define AM_CFG_KEY_ENABLE                0
 
 /** \brief 是否使用 isr defer 组件 */
-#define AM_CFG_ISR_DEFER_ENABLE          1
+#define AM_CFG_ISR_DEFER_ENABLE          0
 
 /** @} */
 
@@ -87,7 +87,7 @@
  * 注意，默认的延时函数由 am_delay.c文件实现，如有特别需求，可以自行更新为其它实现方式
  *
  */
-#define AM_CFG_DELAY_ENABLE          1
+#define AM_CFG_DELAY_ENABLE          0
 
 /**
  * \brief 如果为1，则初始化led的相关功能，板上默认有两个LED
@@ -95,20 +95,20 @@
  * ID: 0 --- PIOB.1 （需要短接跳线帽 J9）
  * ID: 1 --- PIOB.2 （需要短接跳线帽 J10）
  */
-#define AM_CFG_LED_ENABLE            1
+#define AM_CFG_LED_ENABLE            0
 
 /**
  * \brief 如果为1，则初始化板载按键
  * KEY_KP0 （默认按键编号） ：PIOA_8 （需要短接跳线帽 J14的1和2，用作独立按键功能）
  */
-#define AM_CFG_KEY_GPIO_ENABLE       1
+#define AM_CFG_KEY_GPIO_ENABLE       0
 
 /**
  * \brief 如果为1，则初始化蜂鸣器的相关功能
  *
  * 默认使用 TIM16_CH1（PIOB_8）输出PWM （需要短接跳线帽 J7）
  */
-#define AM_CFG_BUZZER_ENABLE         1
+#define AM_CFG_BUZZER_ENABLE         0
 
 /**
  * \brief 如果为1，则初始化系统滴答
@@ -129,7 +129,7 @@
  * UART1 的 TXD 引脚默认为 PIOA_10 只需要将 PIOA_10 连接到串口模块的输入引脚，
  * 即可看到 AM_DBG_INFO() 打印的调试信息
  */
-#define AM_CFG_DEBUG_ENABLE          1
+#define AM_CFG_DEBUG_ENABLE          0
  
 /**
  * \brief 是否使用标准库（使用标准库）
@@ -139,7 +139,7 @@
  * 值得注意的是，使用标准库时，将耗费系统更多的 FLASH 和 RAM 资源，用户
  * 应谨慎使用
  */
-#define AM_CFG_STDLIB_ENABLE         1
+#define AM_CFG_STDLIB_ENABLE         0
 
 /** @} */
  
