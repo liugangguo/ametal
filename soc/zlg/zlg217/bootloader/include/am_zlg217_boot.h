@@ -39,15 +39,8 @@ typedef struct am_zlg217_boot_devinfo {
 }am_zlg217_boot_devinfo_t;
 
 typedef struct am_zlg217_boot_dev {
-    am_boot_serv_t    boot_serv;        /**< \brief 标准的BootLoader服务 */
-
-//    uint32_t          flash_start_addr; /**< \brief flash起始地址 */
-//    uint32_t          flash_size;       /**< \brief flash大小 */
-//
-//    uint32_t          ram_start_addr;   /**< \brief ram起始地址 */
-//    uint32_t          ram_size;         /**< \brief ram的大小 */
-
     am_zlg217_boot_devinfo_t *p_devinfo;
+    am_boot_mem_info_t        mem_info;
     amhw_zlg_flash_t          amhw_zlg_flash;   /**< \brief flash寄存器结构体 */
 
 }am_zlg217_boot_dev_t;
@@ -60,14 +53,8 @@ typedef struct am_zlg217_boot_dev {
  *
  * \return BootLoader标准服务操作句柄，值为NULL时表明初始化失败
  */
-am_boot_handle_t am_zlg217_boot_init(am_zlg217_boot_dev_t     *p_dev,
-                              am_zlg217_boot_devinfo_t *p_devinfo);
+int am_zlg217_boot_init(am_zlg217_boot_dev_t      *p_dev,
+                        am_zlg217_boot_devinfo_t *p_devinfo);
 
-/**
- * \brief 不使用BootLoader时，解初始化BootLoader，释放相关资源
- *
- * \param[in] p_dev : 指向BootLoader设备的指针
- */
-void am_zlg217_boot_deinit(am_zlg217_boot_dev_t  *p_dev);
 
 #endif /* __AM_ZLG217_BOOT_H */

@@ -22,38 +22,33 @@
 #include "am_boot_serial_byte.h"
 #include "am_zlg217_boot_serial_uart.h"
 #include "am_int.h"
+#include "zlg217_inum.h"
 #include "amhw_zlg_uart.h"
 #include "am_zlg217.h"
 #include "am_zlg217_inst_init.h"
 
-#define UART_CH       ZLG217_UART1  /**< \brief UART通道 */
+#define UART_CH       ZLG217_UART1_BASE  /**< \brief UART通道 */
 #define UART_INT_NUM  INUM_UART1         /**< \brief UART中断号*/
 
 static serial_byte_receive_func_t __g_uart_byte_receive_callback;
 
-static status_t __uart_send(void *p_arg, const uint8_t *buffer, uint32_t byte_count)
+static int __uart_send(void *p_arg, const uint8_t *buffer, uint32_t byte_count)
 {
     am_zlg217_boot_serial_uart_dev_t  *p_dev = (am_zlg217_boot_serial_uart_dev_t *)p_arg;
-
-    if(am_uart_poll_send(p_dev->uart_handle,buffer,byte_count) > 0) {
-        return BL_STATUS_SUCCESS;
-    }
-    return BL_STATUS_FAIL;
+    return am_uart_poll_send(p_dev->uart_handle, buffer, byte_count);
 }
 
-static status_t __uart_receive(void *p_arg, uint8_t *buffer, uint32_t requested_bytes)
+static int __uart_receive(void *p_arg, uint8_t *buffer, uint32_t requested_bytes)
 {
     am_zlg217_boot_serial_uart_dev_t *p_dev = (am_zlg217_boot_serial_uart_dev_t  *)p_arg;
-    if(am_uart_poll_receive(p_dev->uart_handle, buffer, requested_bytes) > 0) {
-        return BL_STATUS_SUCCESS;
-    }
-    return BL_STATUS_FAIL;
+    return am_uart_poll_receive(p_dev->uart_handle, buffer, requested_bytes);
+
 }
 
-static status_t __uart_int_callback_enable(void *p_arg, serial_byte_receive_func_t callback_fun)
+static int __uart_int_callback_enable(void *p_arg, serial_byte_receive_func_t callback_fun)
 {
     __g_uart_byte_receive_callback = callback_fun;
-    return BL_STATUS_SUCCESS;
+    return AM_OK;
 }
 
 static void __uart_irq_handler(void *p_arg)
@@ -100,7 +95,7 @@ am_boot_serial_handle_t am_zlg217_boot_serial_uart_init(am_boot_autobaud_handle_
     __g_serial_uart_dev.serial_serv.p_drv   = &__g_serial_uart_dev;
 
     while(1) {
-            ret = am_baudrate_get(autobaud_handle, &baund);
+            ret = am_boot_baudrate_get(autobaud_handle, &baund);
             if (ret == AM_OK) {
 
                 if(baund <= 7200 && baund > 3000) {
@@ -113,7 +108,7 @@ am_boot_serial_handle_t am_zlg217_boot_serial_uart_init(am_boot_autobaud_handle_
                 break;
             }
     }
-    am_boot_autobaud_deinit(autobaud_handle);
+    am_zlg217_boot_autobaud_inst_deinit (autobaud_handle);
 
     uart_handle = am_zlg217_uart1_inst_init();
 

@@ -25,7 +25,7 @@
  */
 
 /** [src_am_autobaud] */
-#include <am_boot_autobaud.h>
+#include "am_boot_autobaud.h"
 #include "ametal.h"
 #include "am_vdebug.h"
 #include "am_timer.h"

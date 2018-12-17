@@ -33,9 +33,8 @@
 #include "am_gpio.h"
 #include "demo_am217_core_entries.h"
 #include "zlg217_pin.h"
-#include "am_boot.h"
 #include "am_zlg217_inst_init.h"
-#include "am_bootconf_zlg217_all_inst_init.h"
+#include "am_boot.h"
 
 /** \brief ¹Ì¼þÉý¼¶Òý½Å */
 #define __ENABLE_PIN          (PIOC_7)
@@ -48,18 +47,20 @@ int am_main (void)
 #if 1
     am_gpio_pin_cfg(__ENABLE_PIN, AM_GPIO_INPUT | AM_GPIO_PULLUP);
 
-    am_boot_handle_t boot_handle = am_zlg217_std_boot_inst_init();
+    am_zlg217_std_boot_inst_init();
 
     if (am_gpio_get(__ENABLE_PIN)) {
-
-        am_zlg217_boot_startup_inst_deinit();
+        am_boot_source_release();
         am_gpio_pin_cfg(__ENABLE_PIN, AM_GPIO_INPUT | AM_GPIO_FLOAT);
-        if(AM_OK != am_boot_go_application(boot_handle, __APP_START_ADDR)){
+        if(AM_OK != am_boot_go_application(__APP_START_ADDR)){
             while(1);
         }
     }
-    am_zlg217_boot_startup_inst_init(boot_handle);
-    am_boot_by_command_startup();
+
+    am_zlg217_boot_kft_inst_init();
+    while(1) {
+        am_boot_kft_command_pump();
+    }
 #endif
 
     /*

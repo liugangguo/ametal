@@ -31,7 +31,7 @@ static int __boot_flash_program(void      *p_drv,
                                 uint32_t   dst_addr,
                                 uint8_t  *p_src,
                                 uint32_t   size);
-static void __boot_flash_info_get(void *p_drv, am_boot_flash_info_t **flash_info);
+static void __boot_flash_info_get(void *p_drv, am_boot_flash_info_t **pp_flash_info);
 /**
  * \brief BootLoader flash标准层接口实现
  */
@@ -151,18 +151,18 @@ static int __boot_flash_program(void      *p_drv,
 /**
  * \brief 获取flash的信息
  */
-static void __boot_flash_info_get(void *p_drv, am_boot_flash_info_t **p_flash_info)
+static void __boot_flash_info_get(void *p_drv, am_boot_flash_info_t **pp_flash_info)
 {
     am_zlg217_boot_flash_dev_t *p_dev = (am_zlg217_boot_flash_dev_t *)p_drv;
 
-    *p_flash_info = &p_dev->flash_info;
+    *pp_flash_info = &p_dev->flash_info;
 }
 
 /**
  * \brief BootLoader flash初始化函数
  */
-am_boot_flash_handle_t am_boot_flash_init(am_zlg217_boot_flash_dev_t     *p_dev,
-                                          am_zlg217_boot_flash_devinfo_t *p_devinfo)
+am_boot_flash_handle_t am_zlg217_boot_flash_init(am_zlg217_boot_flash_dev_t     *p_dev,
+                                                 am_zlg217_boot_flash_devinfo_t *p_devinfo)
 {
     if(p_dev == NULL || p_devinfo == NULL) {
         return NULL;
@@ -186,7 +186,7 @@ am_boot_flash_handle_t am_boot_flash_init(am_zlg217_boot_flash_dev_t     *p_dev,
 /**
  * \brief BootLoader flash解初始化函数
  */
-void am_boot_flash_deinit(am_zlg217_boot_flash_dev_t *p_dev)
+void am_zlg217_boot_flash_deinit(am_zlg217_boot_flash_dev_t *p_dev)
 {
 
 }

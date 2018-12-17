@@ -54,7 +54,7 @@ extern "C" {
 #define AM_CFG_INT_ENABLE                1
 
 /** \brief 为1，初始化 DMA 相关功能 */
-#define AM_CFG_DMA_ENABLE                1
+#define AM_CFG_DMA_ENABLE                0
 
 /** @} */
 
@@ -64,13 +64,13 @@ extern "C" {
  */
 
 /** \brief 使能 NVRAM 服务 */
-#define AM_CFG_NVRAM_ENABLE              1
+#define AM_CFG_NVRAM_ENABLE              0
 
 /** \brief 是否使用按键系统 */
-#define AM_CFG_KEY_ENABLE                1
+#define AM_CFG_KEY_ENABLE                0
 
 /** \brief 是否使用 isr defer 组件 */
-#define AM_CFG_ISR_DEFER_ENABLE          1
+#define AM_CFG_ISR_DEFER_ENABLE          0
 
 /** @} */
 
@@ -90,7 +90,7 @@ extern "C" {
  * 注意，默认的延时函数由 am_delay.c文件实现，如有特别需求，可以自行更新为其它实现方式
  *
  */
-#define AM_CFG_DELAY_ENABLE          1
+#define AM_CFG_DELAY_ENABLE          0
 
 /**
  * \brief 如果为1，则初始化led的相关功能，板上默认有两个LED
@@ -98,7 +98,7 @@ extern "C" {
  * ID: 0 --- PIOC_9 （需要短接跳线帽 J9）
  * ID: 1 --- PIOA_8 （需要短接跳线帽 J10）
  */
-#define AM_CFG_LED_ENABLE            1
+#define AM_CFG_LED_ENABLE            0
 
 /**
  * \brief 如果为1，则初始化板载按键
@@ -111,7 +111,7 @@ extern "C" {
  *
  * 默认使用 TIM3_OU1（PIOC_8）输出PWM （需要短接跳线帽 J7）
  */
-#define AM_CFG_BUZZER_ENABLE         1
+#define AM_CFG_BUZZER_ENABLE         0
 
 /**
  * \brief 如果为1，则初始化系统滴答
@@ -132,7 +132,7 @@ extern "C" {
  * UART1的TXD引脚默认为 PIOA_9 只需要将PIOA_9连接到串口模块的输入引脚，
  * 即可看到 AM_DBG_INFO() 打印的调试信息
  */
-#define AM_CFG_DEBUG_ENABLE          1
+#define AM_CFG_DEBUG_ENABLE          0
 
 /**
  * \brief 是否使用标准库（使用标准库）

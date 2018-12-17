@@ -11,13 +11,11 @@
 *******************************************************************************/
 /**
  * \file
- * \brief ZLG116 例程工程
+ * \brief ZLG116 bootloader kboot kinetisFlashTool 的 bootloader 工程
  *
  * - 操作步骤：
- *   1. 取消屏蔽需要使用的例程。
+ *    参考zlg116 bootloader 操作手册。
  *
- * \note
- *    同一时刻只能使用一个例程。
  *
  * \internal
  * \par Modification history

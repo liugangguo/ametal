@@ -56,9 +56,5 @@ typedef struct am_zlg116_boot_dev {
 int am_zlg116_boot_init(am_zlg116_boot_dev_t      *p_dev,
                         am_zlg116_boot_devinfo_t *p_devinfo);
 
-/**
- * \brief 不使用BootLoader时，解初始化BootLoader，释放相关资源
- */
-void am_zlg116_boot_deinit();
 
 #endif /* __AM_ZLG116_BOOT_H */

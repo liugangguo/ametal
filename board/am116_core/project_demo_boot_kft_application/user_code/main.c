@@ -11,17 +11,17 @@
 *******************************************************************************/
 /**
  * \file
- * \brief ZLG116 例程工程
+ * \brief ZLG116 bootloader kboot kinetisFlashTool 应用固件工程
  *
  * - 操作步骤：
- *   1. 取消屏蔽需要使用的例程。
+ *    参考zlg116 bootloader 操作手册。
  *
  * \note
- *    同一时刻只能使用一个例程。
+ *    该例程为固件程序，无法直接在运行
  *
  * \internal
  * \par Modification history
- * - 1.00 17-07-07  nwt, first implementation
+ * - 1.00 18-12-14  yrh, first implementation
  * \endinternal
  */
 #include "ametal.h"

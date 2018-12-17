@@ -54,8 +54,8 @@ typedef struct am_zlg217_boot_flash_dev {
  *
  * \return flash标准服务操作句柄，值为NULL时表明初始化失败
  */
-am_boot_flash_handle_t am_boot_flash_init(am_zlg217_boot_flash_dev_t     *p_dev,
-                                          am_zlg217_boot_flash_devinfo_t *p_devinfo);
+am_boot_flash_handle_t am_zlg217_boot_flash_init(am_zlg217_boot_flash_dev_t     *p_dev,
+                                                 am_zlg217_boot_flash_devinfo_t *p_devinfo);
 
 
 #endif /* __AM_ZLG217_BOOT_FLASH_H */
