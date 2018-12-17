@@ -496,6 +496,15 @@ void demo_am116_core_sensor_hts221_entry (void);
  */
 void demo_am116_core_sensor_hts221_int_entry (void);
 
+/**
+ * \brief bootloader kboot KinetisFlashTool 例程入口
+ */
+void demo_am116_core_kft_bootloader_entry (void);
+/**
+ * \brief bootloader kboot KinetisFlashTool 应用例程入口
+ */
+void demo_am116_core_kft_application_entry (void);
+
 #ifdef __cplusplus
 }
 #endif

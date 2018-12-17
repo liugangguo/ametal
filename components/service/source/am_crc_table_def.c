@@ -750,7 +750,7 @@ am_const am_crc_table_t g_crc_table_16_8005_ref = {
 am_const am_crc_table_t g_crc_table_16_1021_ref = {
     16,
     0x1021,
-    AM_TRUE,
+   AM_TRUE,
     __g_data_crc_16_1021_ref
 };
 

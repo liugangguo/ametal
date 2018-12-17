@@ -40,6 +40,7 @@
 #include "am_spi_slv.h"
 #include "am_uart.h"
 #include "am_zlg116_pwr.h"
+#include "am_boot_autobaud.h"
 #include "am_hwconf_led_gpio.h"
 #include "am_hwconf_key_gpio.h"
 #include "am_hwconf_buzzer_pwm.h"
@@ -756,6 +757,32 @@ am_spi_handle_t am_zlg116_spi1_poll_inst_init (void);
  */
 void am_zlg116_spi1_poll_inst_deinit (am_spi_handle_t handle);
 
+/**
+ * \brief 自动波特率检测实例初始化，获得自动波特率服务句柄
+ *
+ * \retval 自动波特率句柄值，若为NULL，表明初始化失败
+ */
+am_boot_autobaud_handle_t am_zlg116_boot_autobaud_inst_init (void);
+
+/** \brief 自动波特率实例解初始化
+ *
+ * \param[in] handle : 自动波特率句柄值
+ */
+void am_zlg116_boot_autobaud_inst_deinit (am_boot_autobaud_handle_t handle);
+/**
+ * \brief bootloader kboot KinetisFlashTool 实例初始化
+ *
+ *
+ * \return 若为 AM_OK，表明初始化成功
+ */
+int am_zlg116_boot_kft_inst_init();
+/**
+ * \brief bootloader 标准实例初始化
+ *
+ *
+ * \return 若为 AM_OK，表明初始化成功
+ */
+int am_zlg116_std_boot_inst_init();
 /**
  * @}
  */
