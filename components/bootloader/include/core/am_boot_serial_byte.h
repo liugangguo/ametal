@@ -38,11 +38,20 @@
 extern "C" {
 #endif
 
+/**< \brief 接收回调函数类型声明 */
 typedef void (*serial_byte_receive_func_t)(uint8_t);
 
+/**
+ * \brief 串行设备字节传输驱动函数结构体
+ */
 struct am_boot_serial_byte_funcs {
+    /**< \brief 发送数据 */
     int (*pfn_serial_byte_send)(void *p_arg, const uint8_t *p_buffer, uint32_t byte_count);
+
+    /**< \brief 接收数据 */
     int (*pfn_serial_byte_receive)(void *p_arg, uint8_t *buffer, uint32_t requested_bytes);
+
+    /**< \brief 用户中断接收回调函数设置 */
     int (*pfn_serial_int_callback_enable)(void *p_arg, serial_byte_receive_func_t callback_fun);
 };
 
@@ -50,8 +59,8 @@ struct am_boot_serial_byte_funcs {
  * \brief bootloader 串行数据处理 标准服务结构体
  */
 typedef struct am_boot_serial_byte_serv {
-    const struct am_boot_serial_byte_funcs *p_funcs;  /**< \brief 设备驱动函数     */
-    void                                   *p_drv;    /**< \brief 设备驱动函数参数 */
+    const struct am_boot_serial_byte_funcs *p_funcs;  /**< \brief 串行数据处理驱动函数结构体指针 */
+    void                                   *p_drv;    /**< \brief 串行数据处理驱动函数第一个参数 */
 } am_boot_serial_byte_serv_t;
 
 /** \brief bootloader 串行数据操作标准服务操作句柄定义 */
@@ -102,7 +111,9 @@ int am_boot_serial_byte_receive(am_boot_serial_handle_t handle,
 }
 
 /**
- * \brief 串行中断接收用户传入的回调函数
+ * \brief 串行中断接收用户传入的回调函数设置
+ *
+ * 用户可以自己编写自己的回调函数，通过该接口使具体的串行设备中断接收回调里面将收到的数据传给用户回调函数。
  *
  * \param[in] handle       : 标准服务句柄
  * \param[in] callback_fun : 用户的回调处理函数,serial_byte_receive_func_t是一个函数指针类型

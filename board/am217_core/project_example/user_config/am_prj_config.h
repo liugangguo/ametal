@@ -104,7 +104,7 @@ extern "C" {
  * \brief 如果为1，则初始化板载按键
  * KEY_KP0 （默认按键编号） ：PIOC_7 （需要短接跳线帽 J14的1和2，用作独立按键功能）
  */
-#define AM_CFG_KEY_GPIO_ENABLE       1
+#define AM_CFG_KEY_GPIO_ENABLE       0
 
 /**
  * \brief 如果为1，则初始化蜂鸣器的相关功能

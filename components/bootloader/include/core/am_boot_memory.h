@@ -61,11 +61,11 @@ struct am_boot_mem_drv_funcs {
  * \brief bootloader memory 标准服务结构体
  */
 typedef struct am_boot_mem_serv {
-    const struct am_boot_mem_drv_funcs *p_funcs;  /**< \brief 设备驱动函数     */
-    void                               *p_drv;   /**< \brief 设备驱动函数参数 */
+    const struct am_boot_mem_drv_funcs *p_funcs;  /**< \brief 设备驱动函数结构体指针    */
+    void                               *p_drv;    /**< \brief 设备驱动函数第一个参数 */
 } am_boot_mem_serv_t;
 
-/** \brief bootloader memory 标准服务操作句柄定义 */
+/** \brief bootloader memory 标准服务操作句柄类型定义 */
 typedef am_boot_mem_serv_t  *am_boot_mem_handle_t;
 
 /**

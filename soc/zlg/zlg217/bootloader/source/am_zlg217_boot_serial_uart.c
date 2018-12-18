@@ -27,8 +27,8 @@
 #include "am_zlg217.h"
 #include "am_zlg217_inst_init.h"
 
-#define UART_CH       ZLG217_UART1_BASE  /**< \brief UART通道 */
-#define UART_INT_NUM  INUM_UART1         /**< \brief UART中断号*/
+#define UART_CH       ZLG217_UART3_BASE  /**< \brief UART通道 */
+#define UART_INT_NUM  INUM_UART3         /**< \brief UART中断号*/
 
 static serial_byte_receive_func_t __g_uart_byte_receive_callback;
 
@@ -110,7 +110,7 @@ am_boot_serial_handle_t am_zlg217_boot_serial_uart_init(am_boot_autobaud_handle_
     }
     am_zlg217_boot_autobaud_inst_deinit (autobaud_handle);
 
-    uart_handle = am_zlg217_uart1_inst_init();
+    uart_handle = am_zlg217_uart3_inst_init();
 
     ret = am_uart_ioctl(uart_handle,
                         AM_UART_BAUD_SET,

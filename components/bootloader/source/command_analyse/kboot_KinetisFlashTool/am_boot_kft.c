@@ -66,7 +66,6 @@ int am_boot_kft_command_pump()
     if (__gp_boot_kft_dev == NULL) {
         return -AM_ENXIO;
     }
-
     __gp_boot_kft_dev->command_handle->p_funcs->pfn_pump(
         __gp_boot_kft_dev->command_handle->p_drv);
 

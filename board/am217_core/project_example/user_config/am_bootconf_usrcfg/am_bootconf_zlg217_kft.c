@@ -59,7 +59,7 @@
 /** \brief 自动波特率的平台初始化 */
 void __zlg217_plfm_autobaud_init (void)
 {
-    amhw_zlg_tim_prescale_set((amhw_zlg_tim_t *)ZLG217_TIM1_BASE, (uint16_t)8);
+    amhw_zlg_tim_prescale_set((amhw_zlg_tim_t *)ZLG217_TIM2_BASE, (uint16_t)8);
 }
 
 /** \brief 自动波特率的平台解初始化  */
@@ -77,7 +77,7 @@ int __fsl_plfm_stat_flag_get (void *parg)
 /** \brief 自动波特率的设备信息实例 */
 static am_boot_autobaud_devinfo_t  __g_zlg217_boot_autobaud_devinfo = {
 
-    2,                            /**< \brief CAP捕获通道号 */
+    3,                            /**< \brief CAP捕获通道号 */
     TIMER_WIDTH,                  /**< \brief TIMER定时器位数 */
     10,                           /**< \brief 接收一次数据的超时时间(ms)*/
     AM_CAP_TRIGGER_RISE,          /**< \brief CAP捕获触发方式 */
@@ -93,7 +93,7 @@ am_boot_autobaud_dev_t  __g_zlg217_boot_autobaud_dev;
 /** \brief 实例初始化，获得自动波特率服务句柄 */
 am_boot_autobaud_handle_t am_zlg217_boot_autobaud_inst_init (void)
 {
-    am_cap_handle_t   cap_handle   = am_zlg217_tim1_cap_inst_init();
+    am_cap_handle_t   cap_handle   = am_zlg217_tim2_cap_inst_init();
 
     am_zlg_tim_cap_dev_t *p_cap_dev = (am_zlg_tim_cap_dev_t *)cap_handle;
 
@@ -108,7 +108,7 @@ am_boot_autobaud_handle_t am_zlg217_boot_autobaud_inst_init (void)
 /** \brief 自动波特率实例解初始化 */
 void am_zlg217_boot_autobaud_inst_deinit (am_boot_autobaud_handle_t handle)
 {
-    am_zlg217_tim1_cap_inst_deinit(handle->cap_handle);
+    am_zlg217_tim2_cap_inst_deinit(handle->cap_handle);
     am_boot_autobaud_deinit(handle);
 }
 

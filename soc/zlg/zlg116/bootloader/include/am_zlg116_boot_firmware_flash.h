@@ -47,7 +47,7 @@ typedef struct am_zlg116_boot_firmware_flash_dev {
     uint32_t                          buf_data_size;
     /**< \brief 当前缓冲区中的数据大小 */
     uint32_t                          curr_buf_data_size;
-    /**< \brief 擦除扇区的起始地址 */
+    /**< \brief 最近被擦除扇区的起始地址 */
     uint32_t                          erase_sector_start_addr;
     /**< \brief 当前写flash的地址 */
     uint32_t                          curr_program_flash_addr;
@@ -75,7 +75,7 @@ am_boot_firmware_handle_t am_zlg116_boot_firmware_flash_init (
 /**
  * \brief 固件flash存储解初始化
  */
-void am_zlg116_boot_firmware_flash_deint();
+void am_zlg116_boot_firmware_flash_deint(void);
 
 #endif /* __AM_ZLG116_BOOT_FIRMWARE_H */
 

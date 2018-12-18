@@ -26,9 +26,7 @@
 #include "am_boot_kft_common.h"
 #include "am_boot_kft_command_packet.h"
 #include "am_boot_serial_byte.h"
-#include "am_crc_soft.h"
 #include "am_crc.h"
-#include "am_crc_table_def.h"
 
 enum kft_serial_protocol_version_constants
 {
@@ -235,7 +233,7 @@ status_t serial_packet_send_sync(am_boot_kft_packet_dev_t *p_dev,
 /**
  * \brief Send a ping message back in response to a ping
  */
-status_t serial_send_ping_response();
+status_t serial_send_ping_response(am_boot_kft_packet_dev_t *p_dev);
 
 /**
  * \brief Queues a byte received by the active peripheral

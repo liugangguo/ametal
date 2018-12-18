@@ -66,7 +66,7 @@ int am_boot_kft_init(am_boot_kft_dev_t       *p_dev,
  *
  * \note 该函数需要用户在应用程序里面循环调用，上位机会一直发送信息给bootloader,状态机需要一直去解析
  */
-int am_boot_kft_command_pump();
+int am_boot_kft_command_pump(void);
 
 #if defined(__cplusplus)
 }

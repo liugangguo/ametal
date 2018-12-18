@@ -40,9 +40,14 @@
 #define __ENABLE_PIN          (PIOC_7)
 /** \brief 应用代码起始地址  */
 #define __APP_START_ADDR      0x0800C400
+
 int am_main (void)
 {
     AM_DBG_INFO("Start up successful!\r\n");
+
+    am_uart_handle_t uart;
+    uart = am_zlg217_uart1_inst_init();
+    am_debug_init(uart, 115200);
 
 #if 1
     am_gpio_pin_cfg(__ENABLE_PIN, AM_GPIO_INPUT | AM_GPIO_PULLUP);
@@ -50,14 +55,19 @@ int am_main (void)
     am_zlg217_std_boot_inst_init();
 
     if (am_gpio_get(__ENABLE_PIN)) {
+
         am_boot_source_release();
         am_gpio_pin_cfg(__ENABLE_PIN, AM_GPIO_INPUT | AM_GPIO_FLOAT);
+        am_kprintf("bootloadr : go to application...\r\n");
+
         if(AM_OK != am_boot_go_application(__APP_START_ADDR)){
             while(1);
         }
     }
 
     am_zlg217_boot_kft_inst_init();
+    am_kprintf("bootloader : running......\r\n");
+    am_kprintf("bootloader : start command pump\r\n");
     while(1) {
         am_boot_kft_command_pump();
     }

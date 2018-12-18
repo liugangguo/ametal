@@ -34,9 +34,14 @@ extern "C" {
  */
 typedef struct am_boot_flash_mem_dev {
     am_boot_mem_serv_t            isa;          /**< \brief 标准的 memory 服务    */
-    am_boot_flash_handle_t        flash_handle; /**< \brief flash的操作句柄  */
+    am_boot_flash_handle_t        flash_handle; /**< \brief flash的标准服务操作句柄  */
 } am_boot_flash_mem_dev_t;
 
+/**
+ * \brief 内存设备flash初始化
+ *
+ * \return flash 标准服务操作句柄
+ */
 am_boot_mem_handle_t am_boot_flash_mem_init(am_boot_flash_handle_t flash_handle);
 
 void am_boot_flash_mem_deinit(void);

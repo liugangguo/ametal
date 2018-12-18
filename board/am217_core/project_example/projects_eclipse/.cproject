@@ -82,8 +82,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/zlg/drivers/include/i2c/hw}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/zlg/drivers/include/gpio/hw}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/zlg/drivers/include/rtc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/demo_zlg116_core_boot_kft_bootloader/soc/zlg/drivers/include/adc/hw}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/demo_zlg116_core_boot_kft_bootloader/soc/zlg/drivers/include/rcc/hw}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/zlg/drivers/include/rtc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/zlg/drivers/include/bkp/hw}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/zlg/drivers/include/pwr/hw}&quot;"/>
@@ -339,8 +337,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/zlg/drivers/include/i2c/hw}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/zlg/drivers/include/gpio/hw}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/zlg/drivers/include/rtc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/demo_zlg116_core_boot_kft_bootloader/soc/zlg/drivers/include/adc/hw}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/demo_zlg116_core_boot_kft_bootloader/soc/zlg/drivers/include/rcc/hw}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/zlg/drivers/include/rtc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/zlg/drivers/include/bkp/hw}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/zlg/drivers/include/pwr/hw}&quot;"/>

@@ -91,6 +91,7 @@ enum kft_bl_status_groups
     KFT_STATUS_GROUP_PROPERTY_STORE,                                       /** \brief Property store status group number (103) */
 };
 
+
 /**
  * \brief Structure of version property
  */
@@ -98,11 +99,11 @@ typedef union standard_version
 {
     struct
     {
-        uint8_t bugfix; /** \brief bugfix version [7:0] */
+        uint8_t bugfix ; /** \brief bugfix version [7:0] */
         uint8_t minor;  /** \brief minor version [15:8] */
         uint8_t major;  /** \brief major version [23:16] */
-        char    name;      /** \brief name [31:24] */
-    };
+        char    name;   /** \brief name [31:24] */
+    }ver;
     uint32_t    version;   /** \brief combined version numbers */
 } standard_version_t;
 

@@ -775,14 +775,14 @@ void am_zlg116_boot_autobaud_inst_deinit (am_boot_autobaud_handle_t handle);
  *
  * \return 若为 AM_OK，表明初始化成功
  */
-int am_zlg116_boot_kft_inst_init(void);
+int am_zlg116_boot_kft_inst_init();
 /**
  * \brief bootloader 标准实例初始化
  *
  *
  * \return 若为 AM_OK，表明初始化成功
  */
-int am_zlg116_std_boot_inst_init(void);
+int am_zlg116_std_boot_inst_init();
 /**
  * @}
  */

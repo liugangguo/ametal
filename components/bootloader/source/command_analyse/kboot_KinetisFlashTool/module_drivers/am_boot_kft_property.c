@@ -71,7 +71,7 @@ static status_t __bootloader_property_load_user_config(void *p_arg)
     bootloader_configuration_data_t *config = &p_dev->property_store.configuration_data;
     {
         /* Copy bootloader configuration data from the flash into the property store. */
-        memcpy(config, (const void *)p_dev->app_start_addr + 0x3c0, sizeof(bootloader_configuration_data_t));
+        memcpy((void *)config, (const void *)(p_dev->app_start_addr + 0x3c0), sizeof(bootloader_configuration_data_t));
 
         /* Verify tag. If it is invalid, wipe the config data to all 0xff. */
         if (KFT_PROPERTY_STORE_TAG != config->tag) {
@@ -93,20 +93,20 @@ static status_t __bootloader_property_init(void *p_arg)
 
     property_store_t   *property_store = &p_dev->property_store;//g_bootloader_context.p_property_interface->store;
     /* Fill in default values */
-    property_store->bootloader_version.name   = KBOOTLOADER_VERSION_NAME;
-    property_store->bootloader_version.major  = KBOOTLOADER_VERSION_MAJOR;
-    property_store->bootloader_version.minor  = KBOOTLOADER_VERSION_MINOR;
-    property_store->bootloader_version.bugfix = KBOOTLOADER_VERSION_BUGFIX;
+    property_store->bootloader_version.ver.name   = KBOOTLOADER_VERSION_NAME;
+    property_store->bootloader_version.ver.major  = KBOOTLOADER_VERSION_MAJOR;
+    property_store->bootloader_version.ver.minor  = KBOOTLOADER_VERSION_MINOR;
+    property_store->bootloader_version.ver.bugfix = KBOOTLOADER_VERSION_BUGFIX;
 
-    property_store->serial_protocol_version.name   = KFT_SERIAL_PROTOCOL_VERSION_NAME;
-    property_store->serial_protocol_version.major  = KFT_SERIAL_PROTOCOL_VERSION_MAJOR;
-    property_store->serial_protocol_version.minor  = KFT_SERIAL_PROTOCOL_VERSION_MINOR;
-    property_store->serial_protocol_version.bugfix = KFT_SERIAL_PROTOCOL_VERSION_BUGFIX;
+    property_store->serial_protocol_version.ver.name   = KFT_SERIAL_PROTOCOL_VERSION_NAME;
+    property_store->serial_protocol_version.ver.major  = KFT_SERIAL_PROTOCOL_VERSION_MAJOR;
+    property_store->serial_protocol_version.ver.minor  = KFT_SERIAL_PROTOCOL_VERSION_MINOR;
+    property_store->serial_protocol_version.ver.bugfix = KFT_SERIAL_PROTOCOL_VERSION_BUGFIX;
 
-    property_store->target_version.name   = 'T';
-    property_store->target_version.major  = 1;
-    property_store->target_version.minor  = 0;
-    property_store->target_version.bugfix = 0;
+    property_store->target_version.ver.name   = 'T';
+    property_store->target_version.ver.major  = 1;
+    property_store->target_version.ver.minor  = 0;
+    property_store->target_version.ver.bugfix = 0;
 
     property_store->verify_writes      = true;
     property_store->available_commands = 61407;

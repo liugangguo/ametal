@@ -36,11 +36,16 @@ struct am_boot_firmware_drv_funcs {
     int (*pfn_store_final)(void *p_drv);
 };
 
+/**< \brief 固件存储标准服务 */
 typedef struct am_boot_firmware_serv {
+    /**< \brief 标准服务驱动函数结构体指针 */
     struct am_boot_firmware_drv_funcs *pfn_funcs;
+
+    /**< \brief 驱动函数的第一个参数 */
     void                              *p_drv;
 }am_boot_firmware_serv_t;
 
+/**< \brief 固件存储标准服务操作句柄的类型定义 */
 typedef am_boot_firmware_serv_t *am_boot_firmware_handle_t;
 
 /**

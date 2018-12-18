@@ -44,6 +44,7 @@ static int __firmware_flash_start (void *p_drv, uint32_t firmware_size)
     am_zlg116_boot_firmware_flash_dev_t *p_dev = (am_zlg116_boot_firmware_flash_dev_t *)p_drv;
     p_dev->firmware_size_is_unknow = AM_FALSE;
     int ret;
+    /*如果用户调用开始函数时没有传入固件的大小，就需要边读边擦除flash，传入了固件大小就一次性擦除*/
     if( firmware_size <= 0) {
         p_dev->firmware_size_is_unknow = AM_TRUE;
     }
@@ -101,10 +102,16 @@ static int __firmware_flash_bytes (void *p_drv, uint8_t *p_data, uint32_t firmwa
     }
     int      leave_size;   /* 剩余 */
     int      ret, i;
-    uint32_t program_size; /* 固件写入flash的大小  */
+    uint32_t program_size; /* 每次写入flash的的数据大小  */
 
-    /* 指向p_data还未取出数据的起始下标  */
+    /* 当缓冲区里面还有数据时，需要将缓冲区用新传入的固件数据填满， data_program_start_index 指向填完缓冲区后，
+     * 固件数据的起始下标，也即没放入缓冲区的数据的起始下标
+     */
     uint32_t data_program_start_index = 0;
+
+    /* 如果按照缓冲区大小的整数倍写入flash后，固件剩余的数据不足缓冲的大小，就要暂时放在缓冲区中，
+     * 等待下次数据过来后凑满缓冲区大小的数据在写入flash，leave_firmware_index就是指向要暂时存入缓冲区的数据的起始下标
+     */
     uint32_t leave_firmware_index;
     am_zlg116_boot_firmware_flash_dev_t *p_dev = (am_zlg116_boot_firmware_flash_dev_t *)p_drv;
 
@@ -122,6 +129,7 @@ static int __firmware_flash_bytes (void *p_drv, uint8_t *p_data, uint32_t firmwa
     }
 
     if(p_dev->firmware_size_is_unknow == AM_TRUE) {
+        /* 固件的大小加上已经擦除的大小， */
         uint32_t add_len = p_dev->curr_program_flash_addr - p_dev->erase_sector_start_addr + firmware_size;
 
         if(add_len >= flash_info->flash_sector_size) {
@@ -191,6 +199,7 @@ static int __firmware_flash_final(void *p_drv)
     am_zlg116_boot_firmware_flash_dev_t *p_dev = (am_zlg116_boot_firmware_flash_dev_t *)p_drv;
     int ret;
     if(p_dev->curr_buf_data_size != 0) {
+        /* 如果结束固件存放时，缓冲区中还有数据 ，且不满时，要用0将缓冲区填满再将剩余的数据写入flash*/
         while(p_dev->curr_buf_data_size < p_dev->buf_data_size) {
             p_dev->buf_data[p_dev->curr_buf_data_size++] = 0;
         }

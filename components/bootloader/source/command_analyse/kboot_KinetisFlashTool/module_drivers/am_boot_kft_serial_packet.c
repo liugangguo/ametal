@@ -27,6 +27,8 @@
 #include "am_boot_kft_serial_packet.h"
 #include <string.h>
 #include "ametal.h"
+#include "am_crc_soft.h"
+#include "am_crc_table_def.h"
 #include "am_zlg_crc.h"
 #include "am_system.h"
 

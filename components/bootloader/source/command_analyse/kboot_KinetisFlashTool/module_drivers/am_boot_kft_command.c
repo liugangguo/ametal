@@ -274,7 +274,7 @@ static status_t __handle_data(am_boot_kft_command_dev_t *p_dev,am_bool_t *p_has_
 */
 void handle_reset(am_boot_kft_command_dev_t *p_dev,uint8_t *p_packet, uint32_t packet_length)
 {
-    am_kprintf("boot : board go reset...\r\n");
+    am_kprintf("bootloader : reset device\r\n");
     command_packet_t *p_command_packet = (command_packet_t *)p_packet;
     send_generic_response(p_dev, KFT_STATUS_SUCCESS, p_command_packet->command_tag);
 
@@ -323,7 +323,7 @@ void handle_flash_erase_region(am_boot_kft_command_dev_t *p_dev,
                                         p_command->byte_count);
 
     send_generic_response(p_dev, status, p_command->command_packet.command_tag);
-    am_kprintf("boot : erase region flash\r\n");
+    am_kprintf("bootloader : firmware transmission is ready\r\n");
 }
 
 /**
@@ -383,7 +383,7 @@ void handle_write_memory(am_boot_kft_command_dev_t *p_dev,uint8_t *p_packet, uin
     p_dev->state_data.data_phase.address     = p_command->start_address;
     p_dev->state_data.data_phase.command_tag = KFT_COMMAND_TAG_WRITE_MEMORY;
     send_generic_response(p_dev, KFT_STATUS_SUCCESS, p_command->command_packet.command_tag);
-    am_kprintf("boot : writing memory...\r\n");
+    am_kprintf("bootloader : firmware updating...\r\n");
 }
 
 /**

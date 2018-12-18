@@ -26,7 +26,7 @@
 #include "am_boot_flash.h"
 #include "am_boot_firmware.h"
 typedef struct am_zlg217_boot_firmware_flash_devinfo {
-    uint32_t dst_addr;             /**< \brief 固件在flash存放的目的地址 */
+    uint32_t firmware_dst_addr;    /**< \brief 固件在flash存放的目的地址 */
     uint32_t buf_size;
 
     void (*pfn_plfm_init)(void);   /**< \brief 平台初始化函数 */
@@ -40,14 +40,14 @@ typedef struct am_zlg217_boot_firmware_flash_dev {
     /**< \brief flash的操作句柄*/
     am_boot_flash_handle_t            flash_handle;
     /**< \brief 设备信息 */
-    am_zlg217_boot_firmware_flash_devinfo_t *devinfo;
-    /**< \brief 缓冲区 */
+    am_zlg217_boot_firmware_flash_devinfo_t *p_devinfo;
+    /**< \brief 数据缓冲区 */
     uint8_t                           buf_data[1024];
     /**< \brief 缓冲区的大小 */
     uint32_t                          buf_data_size;
     /**< \brief 当前缓冲区中的数据大小 */
     uint32_t                          curr_buf_data_size;
-    /**< \brief 擦除扇区的起始地址 */
+    /**< \brief 最近被擦除扇区的起始地址 */
     uint32_t                          erase_sector_start_addr;
     /**< \brief 当前写flash的地址 */
     uint32_t                          curr_program_flash_addr;
@@ -71,11 +71,11 @@ am_boot_firmware_handle_t am_zlg217_boot_firmware_flash_init (
     am_zlg217_boot_firmware_flash_devinfo_t *p_devinfo,
     am_boot_flash_handle_t                   flash_handle);
 
+
 /**
  * \brief 固件flash存储解初始化
  */
 void am_zlg217_boot_firmware_flash_deint();
-
 
 #endif /* __AM_ZLG217_BOOT_FIRMWARE_H */
 
