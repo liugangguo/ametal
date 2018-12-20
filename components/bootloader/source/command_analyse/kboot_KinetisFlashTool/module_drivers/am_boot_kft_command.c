@@ -83,7 +83,7 @@ status_t handle_data_consumer(am_boot_kft_command_dev_t *p_dev, am_bool_t *p_has
 /**
  * \brief 命令处理回调函数表
  */
-static command_handler_entry_t __g_command_handler_table[] = {
+static am_boot_kft_command_handler_entry_t __g_command_handler_table[] = {
     { handle_flash_erase_all, NULL },              // KFT_CommandTag_FlashEraseAll = 0x01
     { handle_flash_erase_region, NULL },           // kCommandTag_FlashEraseRegion = 0x02
     { handle_read_memory, handle_data_producer },  // kCommandTag_ReadMemory = 0x03
@@ -143,7 +143,7 @@ am_boot_kft_command_handle_t am_boot_kft_command_init(am_boot_kft_packet_handle_
     __g_command_dev.command_serv.p_funcs = &__g_command_funcs;
     __g_command_dev.command_serv.p_drv = &__g_command_dev;
 
-    __g_command_dev.state_data.state = KFT_COMMAND_STATE_COMMAND_PHASE;
+    __g_command_dev.state_data.state = AM_BOOT_KFT_COMMAND_STATE_COMMAND_PHASE;
     return &__g_command_dev.command_serv;
 }
 
@@ -155,14 +155,14 @@ am_boot_kft_command_handle_t am_boot_kft_command_init(am_boot_kft_packet_handle_
 status_t bootloader_command_pump(void *p_arg)
 {
     am_boot_kft_command_dev_t *p_dev = (am_boot_kft_command_dev_t *)p_arg;
-    command_processor_data_t  *p_state_data = &p_dev->state_data;
+    am_boot_kft_command_processor_data_t *p_state_data = &p_dev->state_data;
     status_t         status = KFT_STATUS_SUCCESS;
     am_bool_t has_more_data = AM_FALSE;
 
     if (p_dev->packet_handle) {
         switch (p_dev->state_data.state) {
         default:
-        case KFT_COMMAND_STATE_COMMAND_PHASE:
+        case AM_BOOT_KFT_COMMAND_STATE_COMMAND_PHASE:
             status = p_dev->packet_handle->p_funcs->pfn_read_packet(
                 p_dev->packet_handle->p_drv,
                &p_state_data->p_packet,
@@ -186,18 +186,18 @@ status_t bootloader_command_pump(void *p_arg)
                 am_kprintf("Error: handle_command returned status 0x%x\r\n", status);
                 break;
             }
-            p_state_data->state = KFT_COMMAND_STATE_DATA_PHASE;
+            p_state_data->state = AM_BOOT_KFT_COMMAND_STATE_DATA_PHASE;
             break;
 
-        case KFT_COMMAND_STATE_DATA_PHASE:
+        case AM_BOOT_KFT_COMMAND_STATE_DATA_PHASE:
             status = __handle_data(p_dev, &has_more_data);
             if (status != KFT_STATUS_SUCCESS) {
                 am_kprintf("Error: handle_data returned status 0x%x\r\n", status);
-                p_state_data->state = KFT_COMMAND_STATE_COMMAND_PHASE;
+                p_state_data->state = AM_BOOT_KFT_COMMAND_STATE_COMMAND_PHASE;
                 break;
             }
             p_state_data->state =
-                has_more_data ? KFT_COMMAND_STATE_DATA_PHASE : KFT_COMMAND_STATE_COMMAND_PHASE;
+                has_more_data ? AM_BOOT_KFT_COMMAND_STATE_DATA_PHASE : AM_BOOT_KFT_COMMAND_STATE_COMMAND_PHASE;
             break;
         }
     }
@@ -210,13 +210,14 @@ status_t bootloader_command_pump(void *p_arg)
  *
  * \note 如果没有命令处理函数返回NULL
 */
-static const command_handler_entry_t *find_entry(am_boot_kft_command_dev_t *p_dev,uint8_t tag)
+static const am_boot_kft_command_handler_entry_t *find_entry(
+    am_boot_kft_command_dev_t *p_dev,uint8_t tag)
 {
-    if (tag < KFT_FIRST_COMMAND_TAG || tag > KFT_LAST_COMMAND_TAG) {
+    if (tag < AM_BOOT_KFT_FIRST_COMMAND_TAG || tag > AM_BOOT_KFT_LAST_COMMAND_TAG) {
         return 0; // invalid command
     }
-    const command_handler_entry_t *p_entry =
-        &p_dev->p_handler_table[(tag - KFT_FIRST_COMMAND_TAG)];
+    const am_boot_kft_command_handler_entry_t *p_entry =
+        &p_dev->p_handler_table[(tag - AM_BOOT_KFT_FIRST_COMMAND_TAG)];
 
     return p_entry;
 }
@@ -344,7 +345,7 @@ void handle_get_property(am_boot_kft_command_dev_t *p_dev,uint8_t *p_packet, uin
          &value_size);
 
     /* Make sure the property's size is no more than the size of the max number of return parameters. */
-    assert(value_size <= (KFT_MAX_PROPERTY_RETURN_VALUES * sizeof(uint32_t)));
+    assert(value_size <= (AM_BOOT_KFT_MAX_PROPERTY_RETURN_VALUES * sizeof(uint32_t)));
 
     /* Currently there are no property responses that contain a data phase. */
     p_dev->state_data.data_phase.count = 0;
@@ -381,7 +382,7 @@ void handle_write_memory(am_boot_kft_command_dev_t *p_dev,uint8_t *p_packet, uin
     reset_data_phase(p_dev);
     p_dev->state_data.data_phase.count       = p_command->byte_count;
     p_dev->state_data.data_phase.address     = p_command->start_address;
-    p_dev->state_data.data_phase.command_tag = KFT_COMMAND_TAG_WRITE_MEMORY;
+    p_dev->state_data.data_phase.command_tag = AM_BOOT_KFT_COMMAND_TAG_WRITE_MEMORY;
     send_generic_response(p_dev, KFT_STATUS_SUCCESS, p_command->command_packet.command_tag);
     am_kprintf("bootloader : firmware updating...\r\n");
 }
@@ -398,7 +399,7 @@ void handle_read_memory(am_boot_kft_command_dev_t *p_dev,uint8_t *p_packet, uint
     reset_data_phase(p_dev);
     p_dev->state_data.data_phase.count       = p_command->byte_count;
     p_dev->state_data.data_phase.address     = p_command->start_address;
-    p_dev->state_data.data_phase.command_tag = KFT_COMMAND_TAG_READ_MEMORY;
+    p_dev->state_data.data_phase.command_tag = AM_BOOT_KFT_COMMAND_TAG_READ_MEMORY;
     send_read_memory_response(p_dev,KFT_STATUS_SUCCESS, p_command->byte_count);
 }
 
@@ -412,7 +413,7 @@ void finalize_data_phase(am_boot_kft_command_dev_t *p_dev,status_t status)
     p_dev->state_data.data_phase.count = 0;
 
     // Force to write cached data to target memory
-    if (p_dev->state_data.data_phase.command_tag == KFT_COMMAND_TAG_WRITE_MEMORY)
+    if (p_dev->state_data.data_phase.command_tag == AM_BOOT_KFT_COMMAND_TAG_WRITE_MEMORY)
     {
 //        assert(p_dev->memory_handle->p_funcs->pfn_flush);
 //        status_t flushStatus =
@@ -474,7 +475,7 @@ status_t handle_data_consumer(am_boot_kft_command_dev_t *p_dev,am_bool_t *p_has_
 
     packet_length = MIN(packet_length, remaining);
 
-    if (p_dev->state_data.data_phase.command_tag == KFT_COMMAND_TAG_RECEIVE_SB_FILE)
+    if (p_dev->state_data.data_phase.command_tag == AM_BOOT_KFT_COMMAND_TAG_RECEIVE_SB_FILE)
     {
 //        // Consumer is sb loader state machine
 //        p_dev->state_data.dataPhase.data = packet;
@@ -546,10 +547,10 @@ status_t handle_data_producer(am_boot_kft_command_dev_t *p_dev, am_bool_t *p_has
 
     // Initialize the data packet to send.
     uint32_t packet_size;
-    uint8_t  packet[KFT_MIN_PACKET_BUFFER_SIZE];
+    uint8_t  packet[AM_BOOT_KFT_MIN_PACKET_BUFFER_SIZE];
 
     // Copy the data into the data packet.
-    packet_size = MIN(KFT_MIN_PACKET_BUFFER_SIZE, remaining);
+    packet_size = MIN(AM_BOOT_KFT_MIN_PACKET_BUFFER_SIZE, remaining);
     if (data) {
         /* Copy data using compiler-generated memcpy */
         memcpy(packet, data, packet_size);
@@ -557,7 +558,7 @@ status_t handle_data_producer(am_boot_kft_command_dev_t *p_dev, am_bool_t *p_has
         status = KFT_STATUS_SUCCESS;
     }
     else {
-        if (command_tag == KFT_COMMAND_TAG_READ_MEMORY) {
+        if (command_tag == AM_BOOT_KFT_COMMAND_TAG_READ_MEMORY) {
             /* Copy data using memory interface. */
             status = am_boot_mem_read(p_dev->memory_handle,
                                       data_address,
@@ -568,7 +569,7 @@ status_t handle_data_producer(am_boot_kft_command_dev_t *p_dev, am_bool_t *p_has
     }
     if (status != KFT_STATUS_SUCCESS) {
         am_kprintf("Error: %s returned status 0x%x, abort data phase\r\n",
-                     (command_tag == KFT_COMMAND_TAG_READ_MEMORY) ? "read memory" : "flash read resource", status);
+                     (command_tag == AM_BOOT_KFT_COMMAND_TAG_READ_MEMORY) ? "read memory" : "flash read resource", status);
         /* Send zero length packet to tell host we are aborting data phase */
         p_dev->packet_handle->p_funcs->pfn_write_packet(
             p_dev->packet_handle->p_drv,
@@ -710,7 +711,7 @@ void handle_flash_read_resource(am_boot_kft_command_dev_t *p_dev,
     reset_data_phase(p_dev);
     p_dev->state_data.data_phase.count = p_command->byte_count;
     p_dev->state_data.data_phase.address = p_command->start_address;
-    p_dev->state_data.data_phase.command_tag = KFT_COMMAND_TAG_FLASH_READ_RESOURCE;
+    p_dev->state_data.data_phase.command_tag = AM_BOOT_KFT_COMMAND_TAG_FLASH_READ_RESOURCE;
     p_dev->state_data.data_phase.option = (uint8_t)p_command->option;
     send_flash_read_resource_response(p_dev,KFT_STATUS_SUCCESS, p_command->byte_count);
 }
@@ -726,7 +727,7 @@ void send_get_property_response(am_boot_kft_command_dev_t *p_dev,
                                 uint32_t                   num_values)
 {
     get_property_response_packet_t response_packet;
-    response_packet.command_packet.command_tag = KFT_COMMAND_TAG_GET_PROPERTY_RESPONSE;
+    response_packet.command_packet.command_tag = AM_BOOT_KFT_COMMAND_TAG_GET_PROPERTY_RESPONSE;
     response_packet.command_packet.flags = 0;
     response_packet.command_packet.reserved = 0;
     response_packet.command_packet.parameter_count = 1 + num_values; // status + value words
@@ -758,8 +759,8 @@ void send_read_memory_response(am_boot_kft_command_dev_t *p_dev,
                                uint32_t                   length)
 {
     read_memory_response_packet_t response_packet;
-    response_packet.command_packet.command_tag = KFT_COMMAND_TAG_READ_MEMORY_RESPONSE;
-    response_packet.command_packet.flags = KFT_COMMAND_FLAG_HAS_DATA_PHASE;
+    response_packet.command_packet.command_tag = AM_BOOT_KFT_COMMAND_TAG_READ_MEMORY_RESPONSE;
+    response_packet.command_packet.flags = AM_BOOT_KFT_COMMAND_FLAG_HAS_DATA_PHASE;
     response_packet.command_packet.reserved = 0;
     response_packet.command_packet.parameter_count = 2;
     response_packet.status = command_status;
@@ -784,7 +785,7 @@ void send_flash_read_once_response(am_boot_kft_command_dev_t *p_dev,
                                    uint32_t                   byte_count)
 {
     flash_read_once_response_packet_t response_packet;
-    response_packet.command_packet.command_tag = KFT_COMMAND_TAG_FLASH_READ_ONCE_RESPONSE;
+    response_packet.command_packet.command_tag = AM_BOOT_KFT_COMMAND_TAG_FLASH_READ_ONCE_RESPONSE;
     response_packet.command_packet.flags = 0;
     response_packet.command_packet.reserved = 0;
     response_packet.command_packet.parameter_count = 2; // always includes two parameters: status and byte count
@@ -819,8 +820,8 @@ void send_flash_read_once_response(am_boot_kft_command_dev_t *p_dev,
 void send_flash_read_resource_response(am_boot_kft_command_dev_t *p_dev, uint32_t command_status, uint32_t length)
 {
     flash_read_resource_response_packet_t response_packet;
-    response_packet.command_packet.command_tag = KFT_COMMAND_TAG_FLASH_READ_RESOURCE_RESPONSE;
-    response_packet.command_packet.flags       = KFT_COMMAND_FLAG_HAS_DATA_PHASE;
+    response_packet.command_packet.command_tag = AM_BOOT_KFT_COMMAND_TAG_FLASH_READ_RESOURCE_RESPONSE;
+    response_packet.command_packet.flags       = AM_BOOT_KFT_COMMAND_FLAG_HAS_DATA_PHASE;
     response_packet.command_packet.reserved    = 0;
     response_packet.command_packet.parameter_count = 2;
     response_packet.status = command_status;
@@ -832,8 +833,7 @@ void send_flash_read_resource_response(am_boot_kft_command_dev_t *p_dev, uint32_
         sizeof(response_packet),
         KFT_PACKET_TYPE_COMMAND);
 
-    if (status != KFT_STATUS_SUCCESS)
-    {
+    if (status != KFT_STATUS_SUCCESS) {
         am_kprintf("Error: writePacket returned status 0x%x\r\n", status);
     }
 }
@@ -844,7 +844,7 @@ void send_flash_read_resource_response(am_boot_kft_command_dev_t *p_dev, uint32_
 void send_generic_response(am_boot_kft_command_dev_t *p_dev, uint32_t command_status, uint32_t command_tag)
 {
     generic_response_packet_t responsePacket;
-    responsePacket.command_packet.command_tag = KFT_COMMAND_TAG_GENERIC_RESPONSE;
+    responsePacket.command_packet.command_tag = AM_BOOT_KFT_COMMAND_TAG_GENERIC_RESPONSE;
     responsePacket.command_packet.flags = 0;
     responsePacket.command_packet.reserved = 0;
     responsePacket.command_packet.parameter_count = 2;
@@ -857,8 +857,7 @@ void send_generic_response(am_boot_kft_command_dev_t *p_dev, uint32_t command_st
         sizeof(responsePacket),
         KFT_PACKET_TYPE_COMMAND);
 
-    if (status != KFT_STATUS_SUCCESS)
-    {
+    if (status != KFT_STATUS_SUCCESS) {
         am_kprintf("Error: writePacket returned status 0x%x\r\n", status);
     }
 }

@@ -64,12 +64,12 @@
 <intAttribute key="org.eclipse.cdt.launch.ATTR_BUILD_BEFORE_LAUNCH_ATTR" value="0"/>
 <stringAttribute key="org.eclipse.cdt.launch.COREFILE_PATH" value=""/>
 <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_REGISTER_GROUPS" value=""/>
-<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Release\demo_zlg116__core_boot_kft_bootloader.elf"/>
-<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="demo_zlg116__core_boot_kft_bootloader"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value=".\Release\demo_am116_core_boot_kft_bootloader.elf"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="demo_am116_core_boot_kft_bootloader"/>
 <booleanAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_AUTO_ATTR" value="true"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1913533800.422754405"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/demo_zlg116__core_boot_kft_bootloader"/>
+<listEntry value="/demo_am116_core_boot_kft_bootloader"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="4"/>

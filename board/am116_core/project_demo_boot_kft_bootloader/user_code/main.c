@@ -37,6 +37,7 @@ int am_main (void)
     AM_DBG_INFO("Start up successful!\r\n");
 
     demo_am116_core_kft_bootloader_entry();
+    memcpy();
 
     while (1) {
 

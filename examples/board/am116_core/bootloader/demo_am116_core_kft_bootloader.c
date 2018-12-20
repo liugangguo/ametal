@@ -28,9 +28,10 @@
  * \endinternal
  */
 #include "zlg116_pin.h"
+#include "am_gpio.h"
 #include "am_boot.h"
 #include "am_boot_kft.h"
-#include "am_zlg116_inst_init.h"
+#include "am_bootconf_zlg116_kft.h"
 
 /** \brief ¹Ì¼þÉý¼¶Òý½Å */
 #define __ENABLE_PIN          (PIOA_8)

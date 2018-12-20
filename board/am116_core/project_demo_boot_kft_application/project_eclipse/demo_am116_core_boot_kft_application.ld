@@ -49,8 +49,6 @@ STACK_SIZE = 0x0400;             /*  stack size config   1k        */
  */
 MEMORY
 {
-   //FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 0x10000  /* 64K */
-   //RAM   (rwx) : ORIGIN = 0x20000000, LENGTH = 0x2000   /* 8K */
    FLASH (rx)  : ORIGIN = 0x08007000, LENGTH = 0x9000   /* 36K */
    RAM   (rwx) : ORIGIN = 0x200000C0, LENGTH = 0x1F40   
 } 

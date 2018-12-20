@@ -25,6 +25,7 @@
 #include "amhw_zlg_uart.h"
 #include "am_zlg116.h"
 #include "am_zlg116_inst_init.h"
+#include "am_bootconf_zlg116_kft.h"
 
 #define UART_CH       ZLG116_UART1_BASE  /**< \brief UARTÍ¨µÀ */
 #define UART_INT_NUM  INUM_UART1         /**< \brief UARTÖÐ¶ÏºÅ*/

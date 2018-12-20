@@ -44,7 +44,6 @@ typedef struct am_boot_flash_mem_dev {
  */
 am_boot_mem_handle_t am_boot_flash_mem_init(am_boot_flash_handle_t flash_handle);
 
-void am_boot_flash_mem_deinit(void);
 
 #ifdef __cplusplus
 }

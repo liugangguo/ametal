@@ -32,48 +32,50 @@
 
 typedef struct am_boot_kft_command_dev am_boot_kft_command_dev_t;
 
+
 /**
- * \brief 命令状态机状态
+ * \name 命令状态机状态
+ * @{
  */
-enum kft_command_state
-{
-    KFT_COMMAND_STATE_COMMAND_PHASE,   /** \BRIEF 命令阶段 */
-    KFT_COMMAND_STATE_DATA_PHASE       /** \brief 数据阶段 */
-};
+#define  AM_BOOT_KFT_COMMAND_STATE_COMMAND_PHASE  0   /** \BRIEF 命令阶段 */
+#define  AM_BOOT_KFT_COMMAND_STATE_DATA_PHASE     1   /** \brief 数据阶段 */
+/** @} */
+
 
 /**
  * \brief 命令处理程序条目的形式
  */
-typedef struct command_handler_entry
+typedef struct am_boot_kft_command_handler_entry
 {
+    /** \brief command dispose */
     void     (*pfn_handle_Command) (am_boot_kft_command_dev_t *p_dev,
                                     uint8_t                   *p_packet,
                                     uint32_t                   packet_length);
+    /** \brief date dispose */
     status_t (*pfn_handle_Data) (am_boot_kft_command_dev_t *p_dev,
                                  am_bool_t                 *p_has_more_data);
-} command_handler_entry_t;
+} am_boot_kft_command_handler_entry_t;
 
 
 /**
  * \brief 命令处理器数据格式
  */
-typedef struct command_processor_data
+typedef struct am_boot_kft_command_processor_data
 {
     int32_t  state;                    /** \brief 当前状态机状态  */
-    uint8_t *p_packet;                   /** \brief 指向正在处理的数据包的指针  */
-    uint32_t packet_length;             /** \brief 正在处理的包的长度  */
-    struct data_phase
-    {
-        uint8_t *p_data;                 /** \brief 数据阶段的数据  */
+    uint8_t *p_packet;                 /** \brief 指向正在处理的数据包的指针  */
+    uint32_t packet_length;            /** \brief 正在处理的包的长度  */
+    struct data_phase {
+        uint8_t *p_data;               /** \brief 数据阶段的数据  */
         uint32_t count;                /** \brief 剩余计数生产/消费  */
         uint32_t address;              /** \brief 数据阶段的地址  */
-        uint32_t data_bytes_available;   /** \brief 数据指针可用的字节数 */
-        uint8_t  command_tag;           /** \brief 运行数据阶段的命令标志  */
+        uint32_t data_bytes_available; /** \brief 数据指针可用的字节数 */
+        uint8_t  command_tag;          /** \brief 运行数据阶段的命令标志  */
         uint8_t  option;               /** \brief 特殊命令选项  */
     } data_phase;
     /** \brief 指向正在处理的数据包的树立程序表条目的指针  */
-    const command_handler_entry_t *p_handler_entry;
-}command_processor_data_t;
+    const am_boot_kft_command_handler_entry_t *p_handler_entry;
+}am_boot_kft_command_processor_data_t;
 
 struct am_boot_kft_command_funcs {
     status_t   (*pfn_pump)(void *p_arg);
@@ -87,13 +89,13 @@ typedef struct am_boot_kft_command_serv {
 typedef am_boot_kft_command_serv_t *am_boot_kft_command_handle_t;
 
 typedef struct am_boot_kft_command_dev {
-    am_boot_kft_command_serv_t    command_serv;
-    command_handler_entry_t      *p_handler_table;
-    command_processor_data_t      state_data;
-    am_boot_kft_packet_handle_t   packet_handle;
-    am_boot_kft_property_handle_t property_handle;
-    am_boot_mem_handle_t          memory_handle;
-    am_boot_flash_handle_t        flash_handle;
+    am_boot_kft_command_serv_t            command_serv;
+    am_boot_kft_command_handler_entry_t  *p_handler_table;
+    am_boot_kft_command_processor_data_t  state_data;
+    am_boot_kft_packet_handle_t           packet_handle;
+    am_boot_kft_property_handle_t         property_handle;
+    am_boot_mem_handle_t                  memory_handle;
+    am_boot_flash_handle_t                flash_handle;
 }am_boot_kft_command_dev_t;
 
 /**

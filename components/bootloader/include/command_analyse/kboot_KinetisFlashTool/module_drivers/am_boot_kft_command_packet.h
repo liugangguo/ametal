@@ -25,72 +25,81 @@
 #include "am_boot_kft_common.h"
 
 /**
- * \brief 命令/数据 包常量
+ * \name 命令/数据 包常量
+ * @{
  */
-enum kft_command_packet_constants
-{
-    KFT_MIN_PACKET_BUFFER_SIZE = 32,
-    KFT_DEFAULT_MAX_PACKET_SIZE = KFT_MIN_PACKET_BUFFER_SIZE,
-    /** \brief 属性可返回的最大字数，一个字是标题，一个参数保留给状态  */
-    KFT_MAX_PROPERTY_RETURN_VALUES = (KFT_MIN_PACKET_BUFFER_SIZE / sizeof(uint32_t)) - 2,
-    /** \brief 程序命令一次可写入最大字数，一个字是头 */
-    KFT_MAX_PROGRAM_ONCE_VALUES = (KFT_MIN_PACKET_BUFFER_SIZE / sizeof(uint32_t)) - 3,
-    /** \brief 非响应命令标记的数量 */
-    KFT_COMMMAND_TAG_COUNT = 12,
-};
+#define  AM_BOOT_KFT_MIN_PACKET_BUFFER_SIZE       32
+#define  AM_BOOT_KFT_DEFAULT_MAX_PACKET_SIZE      AM_BOOT_KFT_MIN_PACKET_BUFFER_SIZE
+/** \brief 属性可返回的最大字数，一个字是标题，一个参数保留给状态  */
+#define  AM_BOOT_KFT_MAX_PROPERTY_RETURN_VALUES ((AM_BOOT_KFT_MIN_PACKET_BUFFER_SIZE \
+                                                  / sizeof(uint32_t)) - 2)
+/** \brief 程序命令一次可写入最大字数，一个字是头 */
+#define  AM_BOOT_KFT_MAX_PROGRAM_ONCE_VALUES    ((AM_BOOT_KFT_MIN_PACKET_BUFFER_SIZE \
+                                                  / sizeof(uint32_t)) - 3)
+/** \brief 非响应命令标记的数量 */
+#define  AM_BOOT_KFT_COMMMAND_TAG_COUNT           12
+
+/** @} */
+
+
+/**
+ * \name Command packet flags
+ * @{
+ */
+#define  AM_BOOT_KFT_COMMAND_FLAG_NONE             0
+#define  AM_BOOT_KFT_COMMAND_FLAG_HAS_DATA_PHASE   1
+
+/** @} */
+//#define
+//#define
+
+/**
+ * \name Flash memory identifiers
+ * @{
+ */
+#define  AM_BOOT_KFT_FLASH_MEM_INTERNAL      0
+#define  AM_BOOT_KFT_FLASH_MEM_QUAD_SPI0     1
+#define  AM_BOOT_KFT_FLASH_MEM_EXECUTE_ONLY  0x10
+/** @} */
 
 /** \brief Commands codes */
 enum kft_command_tags
 {
-    KFT_COMMAND_TAG_GENERIC_RESPONSE             = 0xa0,
-    KFT_COMMAND_TAG_FLASH_ERASE_ALL              = 0x01,
-    KFT_COMMAND_TAG_FLASH_ERASE_REGION           = 0x02,
-    KFT_COMMAND_TAG_READ_MEMORY                  = 0x03,
-    KFT_COMMAND_TAG_READ_MEMORY_RESPONSE         = 0xa3,
-    KFT_COMMAND_TAG_WRITE_MEMORY                 = 0x04,
-    KFT_COMMAND_TAG_FILL_MEMORY                  = 0x05,
-    KFT_COMMAND_TAG_FLASH_SECURITY_DISABLE       = 0x06,
-    KFT_COMMAND_TAG_GET_PROPERTY                 = 0x07,
-    KFT_COMMAND_TAG_GET_PROPERTY_RESPONSE        = 0xa7,
-    KFT_COMMAND_TAG_RECEIVE_SB_FILE              = 0x08,
-    KFT_COMMAND_TAG_EXECUTE                      = 0x09,
-    KFT_COMMAND_TAG_CALL                         = 0x0a,
-    KFT_COMMAND_TAG_RESET                        = 0x0b,
-    KFT_COMMAND_TAG_SET_PROPERTY                 = 0x0c,
-    KFT_COMMAND_TAG_FLASH_ERASE_ALL_UNSECURE     = 0x0d,
-    KFT_COMMAND_TAG_FLASH_PROGRAM_ONCE           = 0x0e,
-    KFT_COMMAND_TAG_FLASH_READ_ONCE              = 0x0f,
-    KFT_COMMAND_TAG_FLASH_READ_ONCE_RESPONSE     = 0xaf,
-    KFT_COMMAND_TAG_FLASH_READ_RESOURCE          = 0x10,
-    KFT_COMMAND_TAG_FLASH_READ_RESOURCE_RESPONSE = 0xb0,
-    KFT_COMMAND_TAG_CONFIGURE_QUADSPI            = 0x11,
-    KFT_COMMAND_TAG_RELIABLE_UPDATE              = 0x12,
+    AM_BOOT_KFT_COMMAND_TAG_GENERIC_RESPONSE             = 0xa0,
+    AM_BOOT_KFT_COMMAND_TAG_FLASH_ERASE_ALL              = 0x01,
+    AM_BOOT_KFT_COMMAND_TAG_FLASH_ERASE_REGION           = 0x02,
+    AM_BOOT_KFT_COMMAND_TAG_READ_MEMORY                  = 0x03,
+    AM_BOOT_KFT_COMMAND_TAG_READ_MEMORY_RESPONSE         = 0xa3,
+    AM_BOOT_KFT_COMMAND_TAG_WRITE_MEMORY                 = 0x04,
+    AM_BOOT_KFT_COMMAND_TAG_FILL_MEMORY                  = 0x05,
+    AM_BOOT_KFT_COMMAND_TAG_FLASH_SECURITY_DISABLE       = 0x06,
+    AM_BOOT_KFT_COMMAND_TAG_GET_PROPERTY                 = 0x07,
+    AM_BOOT_KFT_COMMAND_TAG_GET_PROPERTY_RESPONSE        = 0xa7,
+    AM_BOOT_KFT_COMMAND_TAG_RECEIVE_SB_FILE              = 0x08,
+    AM_BOOT_KFT_COMMAND_TAG_EXECUTE                      = 0x09,
+    AM_BOOT_KFT_COMMAND_TAG_CALL                         = 0x0a,
+    AM_BOOT_KFT_COMMAND_TAG_RESET                        = 0x0b,
+    AM_BOOT_KFT_COMMAND_TAG_SET_PROPERTY                 = 0x0c,
+    AM_BOOT_KFT_COMMAND_TAG_FLASH_ERASE_ALL_UNSECURE     = 0x0d,
+    AM_BOOT_KFT_COMMAND_TAG_FLASH_PROGRAM_ONCE           = 0x0e,
+    AM_BOOT_KFT_COMMAND_TAG_FLASH_READ_ONCE              = 0x0f,
+    AM_BOOT_KFT_COMMAND_TAG_FLASH_READ_ONCE_RESPONSE     = 0xaf,
+    AM_BOOT_KFT_COMMAND_TAG_FLASH_READ_RESOURCE          = 0x10,
+    AM_BOOT_KFT_COMMAND_TAG_FLASH_READ_RESOURCE_RESPONSE = 0xb0,
+    AM_BOOT_KFT_COMMAND_TAG_CONFIGURE_QUADSPI            = 0x11,
+    AM_BOOT_KFT_COMMAND_TAG_RELIABLE_UPDATE              = 0x12,
+    /** \brief Reserved command tag for Bus Pal */
+    AM_BOOT_KFT_COMMAND_TAG_CONFIGURE_I2C         = 0xc1,
+    /** \brief Reserved command tag for Bus Pal */
+    AM_BOOT_KFT_COMMAND_TAG_CONFIGURE_SPI         = 0xc2,
+    /** \brief Reserved command tag for Bus Pal */
+    AM_BOOT_KFT_COMMAND_TAG_CONFIGURE_CAN         = 0xc3,
 
-    KFT_COMMAND_TAG_CONFIGURE_I2C                = 0xc1,  /** \brief Reserved command tag for Bus Pal */
-    KFT_COMMAND_TAG_CONFIGURE_SPI                = 0xc2,  /** \brief Reserved command tag for Bus Pal */
-    KFT_COMMAND_TAG_CONFIGURE_CAN                = 0xc3,  /** \brief Reserved command tag for Bus Pal */
-
-    KFT_FIRST_COMMAND_TAG                         = KFT_COMMAND_TAG_FLASH_ERASE_ALL,
+    AM_BOOT_KFT_FIRST_COMMAND_TAG = AM_BOOT_KFT_COMMAND_TAG_FLASH_ERASE_ALL,
     /** \brief Maximum linearly incrementing command tag value, excluding the response commands and bus pal commands */
-    KFT_LAST_COMMAND_TAG                          = KFT_COMMAND_TAG_RELIABLE_UPDATE,
+    AM_BOOT_KFT_LAST_COMMAND_TAG  = AM_BOOT_KFT_COMMAND_TAG_RELIABLE_UPDATE,
     /** \brief Mask for the high nibble of a command tag that identifies it as a response command. */
-    KFT_RESPONSE_COMMAND_HIGH_NIBBLE_MASK         = 0xa0
-};
-
-
-/** \brief Command packet flags */
-enum command_packet_flags
-{
-    KFT_COMMAND_FLAG_NONE = 0,
-    KFT_COMMAND_FLAG_HAS_DATA_PHASE = 1
-};
-
-/** \brief Flash memory identifiers */
-enum flash_mem_id
-{
-    KFT_FLASH_MEM_INTERNAL     = 0,
-    KFT_FLASH_MEM_QUAD_SPI0    = 1,
-    KFT_FLASH_MEM_EXECUTE_ONLY = 0x10
+    AM_BOOT_KFT_RESPONSE_COMMAND_HIGH_NIBBLE_MASK = 0xa0
 };
 
 /** \brief Command packet format */
@@ -140,14 +149,14 @@ typedef struct set_property_packet
     uint32_t         property_value; /** \brief Parameter 1: value to set */
 } set_property_packet_t;
 
-/**
- * \brief ReceiveSbFile packet format
- */
-typedef struct receive_Sb_file_packet
-{
-    command_packet_t command_packet; /** \brief header */
-    uint32_t         byte_count;     /** \brief Parameter 0: Number of bytes to receive */
-} receive_sb_file_packet_t;
+///**
+// * \brief ReceiveSbFile packet format
+// */
+//typedef struct receive_Sb_file_packet
+//{
+//    command_packet_t command_packet; /** \brief header */
+//    uint32_t         byte_count;     /** \brief Parameter 0: Number of bytes to receive */
+//} receive_sb_file_packet_t;
 
 /**
  * \brief WriteMemory packet format
@@ -210,28 +219,6 @@ typedef struct flash_security_disable_packet
 } flash_security_disable_packet_t;
 
 /**
- * \brief FlashProgramOnce packet format
- */
-typedef struct program_once_packet
-{
-    command_packet_t command_packet; /** \brief header */
-    uint32_t         index;          /** \brief Parameter 0: index of pragram once field */
-    uint32_t         byte_count;     /** \brief Parameter 1: number of bytes */
-    /** \brief Parameter 2: data to be programmed */
-    uint32_t         data[KFT_MAX_PROGRAM_ONCE_VALUES];
-} flash_program_once_packet_t;
-
-/**
- * \brief FlashReadOnce packet format
- */
-typedef struct read_once_packet
-{
-    command_packet_t command_packet; /** \brief header */
-    uint32_t         index;          /** \brief Parameter 0: index of pragram once field to be read */
-    uint32_t         byte_count;     /** \brief Parameter 1: number of bytes */
-} flash_read_once_packet_t;
-
-/**
  * \brief FlashReadResource packet format
  */
 typedef struct flash_read_resource_packet
@@ -241,66 +228,6 @@ typedef struct flash_read_resource_packet
     uint32_t         byte_count;     /** \brief Parameter 1: number of bytes */
     uint32_t         option;         /** \brief Parameter 2: option for  flash read resource command */
 } flash_read_resource_packet_t;
-
-/**
- * \brief ConfigureQuadSpi packet format
- */
-typedef struct configure_quad_spi_packet
-{
-    command_packet_t command_packet;      /** \brief header */
-    uint32_t         flash_mem_id;        /** \brief Parameter 0: quadspi ID */
-    uint32_t         config_block_address;/** \brief Parameter 1: address of config block to use */
-} configure_quadspi_packet_t;
-
-/**
- * \brief ReliableUpdate packet format
- */
-typedef struct reliable_update_packet
-{
-    command_packet_t command_packet; /** \brief header */
-
-    /** \brief Parameter 0: For software implementation ,
-     * this is backup app start address .
-     * Parameter 0: For hardware implementation , this
-     * is swap indicator address
-     * */
-    uint32_t         address;
-} reliable_update_packet_t;
-
-/**
- * \brief ConfigureI2c packet format
- */
-typedef struct configure_I2c_packet
-{
-    command_packet_t command_packet; /** \brief header */
-    uint32_t         address;        /** \brief Parameter 0: address */
-    uint32_t         speed;          /** \brief Parameter 1: spee */
-} configure_i2c_packet_t;
-
-
-
-/**
- * \brief ConfigureSpi packet format
- */
-typedef struct configure_spi_packet
-{
-    command_packet_t command_packet; /** \brief header */
-    uint32_t         speed_khz;      /** \brief Parameter 0: spped Khz */
-    uint32_t         polarity;       /** \brief Parameter 1: polarity */
-    uint32_t         phase;          /** \brief Parameter 2: phase */
-    uint32_t         direction;      /** \brief Parameter 3: directionpolarity */
-} configure_spi_packet_t;
-
-/**
- * \brief ConfigureCan packet format
- */
-typedef struct configure_can_packet
-{
-    command_packet_t command_packet; /** \brief header */
-    uint32_t         speed;          /** \brief Parameter 0: spped index */
-    uint32_t         txid;           /** \brief Parameter 1: txid */
-    uint32_t         rxid;           /** \brief Parameter 2: rxid */
-} configure_can_packet_t;
 
 /**
  * \brief  Generic response packet format
@@ -318,7 +245,7 @@ typedef struct get_property_response_packet
     command_packet_t command_packet;    /** \brief header */
     uint32_t         status;           /** \brief parameter 0 */
     /** \brief up to 6 other parameters*/
-    uint32_t         property_value[KFT_MAX_PROGRAM_ONCE_VALUES];
+    uint32_t         property_value[AM_BOOT_KFT_MAX_PROGRAM_ONCE_VALUES];
 } get_property_response_packet_t;
 
 /**
@@ -339,9 +266,8 @@ typedef struct flash_readOnce_response_packet
     command_packet_t command_packet;                    /** \brief header */
     uint32_t         status;                            /** \brief parameter 0 */
     uint32_t         byte_count;                        /** \brief parameter 1 */
-    uint32_t         data[KFT_MAX_PROGRAM_ONCE_VALUES]; /** \brief parameter 2 */
+    uint32_t         data[AM_BOOT_KFT_MAX_PROGRAM_ONCE_VALUES]; /** \brief parameter 2 */
 } flash_read_once_response_packet_t;
-/** \brief  */
 
 /**
  * \brief Flash Read Resource response packet format.

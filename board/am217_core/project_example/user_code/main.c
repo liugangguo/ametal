@@ -44,12 +44,12 @@
 int am_main (void)
 {
     AM_DBG_INFO("Start up successful!\r\n");
-
+#if 0
     am_uart_handle_t uart;
     uart = am_zlg217_uart1_inst_init();
     am_debug_init(uart, 115200);
 
-#if 1
+
     am_gpio_pin_cfg(__ENABLE_PIN, AM_GPIO_INPUT | AM_GPIO_PULLUP);
 
     am_zlg217_std_boot_inst_init();

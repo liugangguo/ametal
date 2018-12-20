@@ -34,9 +34,9 @@
  */
 enum kft_property_errors
 {
-    KFT_STATUS_UNKNOWN_PROPERTY       = MAKE_STATUS(KFT_STATUS_GROUP_PROPERTY_STORE, 0),
-    KFT_STATUS_READONLY_PROPERTY      = MAKE_STATUS(KFT_STATUS_GROUP_PROPERTY_STORE, 1),
-    KFT_STATUS_INVALID_PROPERTY_VALUE = MAKE_STATUS(KFT_STATUS_GROUP_PROPERTY_STORE, 2)
+    KFT_STATUS_UNKNOWN_PROPERTY       = AM_BOOT_KFT_MAKE_STATUS(KFT_STATUS_GROUP_PROPERTY_STORE, 0),
+    KFT_STATUS_READONLY_PROPERTY      = AM_BOOT_KFT_MAKE_STATUS(KFT_STATUS_GROUP_PROPERTY_STORE, 1),
+    KFT_STATUS_INVALID_PROPERTY_VALUE = AM_BOOT_KFT_MAKE_STATUS(KFT_STATUS_GROUP_PROPERTY_STORE, 2)
 };
 
 /**
@@ -86,78 +86,78 @@ enum kft_memorymap_constants
     KFT_INDEX_RAM = 1,
 };
 
-/**
- * \brief  Format of bootloader configuration data on Flash
- */
-typedef struct bootloader_configuration_data
-{
-    /** \brief [00:03] Tag value used to validate the bootloader
-     *  configuration data. Must be set to 'kcfg'.
-     */
-    uint32_t  tag;
-
-    /** \brief [04:07] */
-    uint32_t  crc_start_address;
-
-    /** \brief [08:0b] */
-    uint32_t  crc_byte_count;
-
-    /** \brief [0c:0f] */
-    uint32_t  crc_expected_value;
-
-    /** \brief [10:10] */
-    uint8_t   enabled_peripherals;
-
-    /** \brief [11:11] */
-    uint8_t   i2c_slave_address;
-
-    /** \brief [12:13] Timeout in milliseconds for peripheral detection before jumping */
-    uint16_t  peripheral_detection_timeout_ms;
-
-    /** \brief [14:15] */
-    uint16_t  usb_vid;
-
-    /** \brief [16:17] */
-    uint16_t  usb_pid;
-
-    /** \brief [18:1b]  */
-    uint32_t  usb_strings_pointer;
-
-    /** \brief [1c:1c] High Speed and other clock options*/
-    uint8_t   clock_flags;
-
-    /** \brief [1d:1d] One's complement of clock divider, zero divider is divide by 1 */
-    uint8_t   clock_divider;
-
-    /** \brief [1e:1e] One's complemnt of direct boot flag, 0xFE represents direct boot */
-    uint8_t   boot_Flags;
-
-    /** \brief [1f:1f] Reserved, set to 0xFF */
-    uint8_t   pad0;
-
-    /** \brief [20:23] Holds a pointer value to the MMCAU configuration */
-    uint32_t  mmcau_config_pointer;
-
-    /** \brief [24:27] Holds a pointer value to the key blob array used to configure OTFAD */
-    uint32_t  key_blob_pointer;
-
-    /** \brief [28:28] reserved */
-    uint8_t   pad1;
-    /** \brief [29:29] ClkSel[1], PropSeg[3], SpeedIndex[4] */
-    uint8_t   can_config1;
-
-    /** \brief [2a:2b] Pdiv[8], Pseg1[3], Pseg2[3],  rjw[2] */
-    uint16_t  can_config2;
-
-    /** \brief [2c:2d] txId */
-    uint16_t  can_tx_id;
-
-    /** \brief [2e:2f] rxId */
-    uint16_t  can_rx_id;
-
-    /** \brief [30:33] QSPI config block pointer */
-    uint32_t  qspi_config_block_pointer;
-} bootloader_configuration_data_t;
+///**
+// * \brief  Format of bootloader configuration data on Flash
+// */
+//typedef struct bootloader_configuration_data
+//{
+//    /** \brief [00:03] Tag value used to validate the bootloader
+//     *  configuration data. Must be set to 'kcfg'.
+//     */
+//    uint32_t  tag;
+//
+//    /** \brief [04:07] */
+//    uint32_t  crc_start_address;
+//
+//    /** \brief [08:0b] */
+//    uint32_t  crc_byte_count;
+//
+//    /** \brief [0c:0f] */
+//    uint32_t  crc_expected_value;
+//
+//    /** \brief [10:10] */
+//    uint8_t   enabled_peripherals;
+//
+//    /** \brief [11:11] */
+//    uint8_t   i2c_slave_address;
+//
+//    /** \brief [12:13] Timeout in milliseconds for peripheral detection before jumping */
+//    uint16_t  peripheral_detection_timeout_ms;
+//
+//    /** \brief [14:15] */
+//    uint16_t  usb_vid;
+//
+//    /** \brief [16:17] */
+//    uint16_t  usb_pid;
+//
+//    /** \brief [18:1b]  */
+//    uint32_t  usb_strings_pointer;
+//
+//    /** \brief [1c:1c] High Speed and other clock options*/
+//    uint8_t   clock_flags;
+//
+//    /** \brief [1d:1d] One's complement of clock divider, zero divider is divide by 1 */
+//    uint8_t   clock_divider;
+//
+//    /** \brief [1e:1e] One's complemnt of direct boot flag, 0xFE represents direct boot */
+//    uint8_t   boot_Flags;
+//
+//    /** \brief [1f:1f] Reserved, set to 0xFF */
+//    uint8_t   pad0;
+//
+//    /** \brief [20:23] Holds a pointer value to the MMCAU configuration */
+//    uint32_t  mmcau_config_pointer;
+//
+//    /** \brief [24:27] Holds a pointer value to the key blob array used to configure OTFAD */
+//    uint32_t  key_blob_pointer;
+//
+//    /** \brief [28:28] reserved */
+//    uint8_t   pad1;
+//    /** \brief [29:29] ClkSel[1], PropSeg[3], SpeedIndex[4] */
+//    uint8_t   can_config1;
+//
+//    /** \brief [2a:2b] Pdiv[8], Pseg1[3], Pseg2[3],  rjw[2] */
+//    uint16_t  can_config2;
+//
+//    /** \brief [2c:2d] txId */
+//    uint16_t  can_tx_id;
+//
+//    /** \brief [2e:2f] rxId */
+//    uint16_t  can_rx_id;
+//
+//    /** \brief [30:33] QSPI config block pointer */
+//    uint32_t  qspi_config_block_pointer;
+//} bootloader_configuration_data_t;
 
 /**
  * \brief Structure of a reserved regions entry
@@ -226,7 +226,7 @@ typedef struct property_store
     reserved_region_t               reserved_regions[KFT_PROPERTY_RESERVED_REGIONS_COUNT];
 
     /** \brief Configuration data from flash address 0x3c0-0x3ff in sector 0 (64 bytes max) */
-    bootloader_configuration_data_t configuration_data;
+    //bootloader_configuration_data_t configuration_data;
 
     /** \brief Status of reliable update */
     uint32_t                        reliable_update_status;

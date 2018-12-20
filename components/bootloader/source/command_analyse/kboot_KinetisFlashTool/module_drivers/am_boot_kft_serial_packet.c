@@ -239,7 +239,7 @@ void serial_packet_abort(void *p_arg)
 
 uint32_t serial_packet_get_max_packet_size(void *p_arg)
 {
-    return KFT_MIN_PACKET_BUFFER_SIZE;
+    return AM_BOOT_KFT_MIN_PACKET_BUFFER_SIZE;
 }
 
 // See serial_packet.h for documentation on this function.

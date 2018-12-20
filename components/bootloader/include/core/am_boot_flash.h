@@ -57,8 +57,8 @@ struct am_boot_flash_drv_funcs {
     /**< \brief 获取flash的信息 */
     void (*pfn_flash_info_get) (void     *p_drv,am_boot_flash_info_t  **p_info );
 
-    /**< \brief 擦除全部的flash */
-    int  (*pfn_flash_erase_all)(void     *p_drv);
+    /**< \brief 擦出整个flash */
+    int (*pfn_flash_erase_all)(void      *p_drv);
 };
 
 typedef struct am_boot_flash_serv {
@@ -102,7 +102,6 @@ int am_boot_flash_erase_region(am_boot_flash_handle_t handle,
  * \retval AM_ERROR 传入的参数有误
  * \retval >0       出错扇区号
  */
-
 am_static_inline
 int am_boot_flash_program(am_boot_flash_handle_t handle,
                           uint32_t               dst_addr,
@@ -132,15 +131,20 @@ void am_boot_flash_info_get(am_boot_flash_handle_t  handle,
     } 
 }
 
+/**
+ * \brief 擦除整个flash
+ *
+ * \retval AM_OK :成功
+ */
 am_static_inline
 int am_boot_flash_erase_all(am_boot_flash_handle_t handle)
 {
     if(handle != NULL &&
        handle->p_funcs != NULL &&
        handle->p_funcs->pfn_flash_erase_all != NULL) {
-        handle->p_funcs->pfn_flash_erase_all(handle->p_drv);
+        return handle->p_funcs->pfn_flash_erase_all(handle->p_drv);
     }
-    return -AM_EINVAL;
+    return AM_ERROR;
 }
 
 #ifdef __cplusplus

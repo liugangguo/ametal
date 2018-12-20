@@ -33,7 +33,7 @@
 #include "am_vdebug.h"
 
 /** \brief Construct a status code value from a group and code number */
-#define MAKE_STATUS(group, code) ((((group)*100) + (code)))
+#define AM_BOOT_KFT_MAKE_STATUS(group, code) ((((group)*100) + (code)))
 
 /**
  * \brief Status group numbers
@@ -49,9 +49,9 @@ enum status_groups
  */
 enum generic_status
 {
-    KFT_STATUS_SUCCESS                 = MAKE_STATUS(KFT_STATUS_GROUP_GENERIC, 0),
-    KFT_STATUS_FAIL                    = MAKE_STATUS(KFT_STATUS_GROUP_GENERIC, 1),
-    KFT_STATUS_INVALID_ARGUMENT        = MAKE_STATUS(KFT_STATUS_GROUP_GENERIC, 2),
+    KFT_STATUS_SUCCESS                 = AM_BOOT_KFT_MAKE_STATUS(KFT_STATUS_GROUP_GENERIC, 0),
+    KFT_STATUS_FAIL                    = AM_BOOT_KFT_MAKE_STATUS(KFT_STATUS_GROUP_GENERIC, 1),
+    KFT_STATUS_INVALID_ARGUMENT        = AM_BOOT_KFT_MAKE_STATUS(KFT_STATUS_GROUP_GENERIC, 2),
 };
 
 /**

@@ -113,11 +113,13 @@ void am_boot_base_mem_info_get(am_boot_mem_info_t **pp_mem_info)
  * \note bootloader在跳转到应用代码前，必须调用此接口，
  *       在bootloader中申请的资源或者初始化的某些外设都应主动释放和解初始化，避免对应用程序造成影响。
 
- * \retval 无
+ * \retval AM_OK : 成功
  */
-void am_boot_source_release(void)
+int am_boot_source_release(void)
 {
     am_arm_nvic_deinit();
+
+    return AM_OK;
 }
 
 /**
