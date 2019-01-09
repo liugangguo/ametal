@@ -19,8 +19,8 @@
  * - 1.00 17-09-18  sdq, first implementation
  * \endinternal
  */
-#ifndef __AMHW_ZLG217_USB_H
-#define __AMHW_ZLG217_USB_H
+#ifndef __AMHW_ZLG217_USBD_H
+#define __AMHW_ZLG217_USBD_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,18 +28,18 @@ extern "C" {
 
 #include "am_common.h"
 #include "am_types.h"
-#include "amhw_zlg217_periph_map.h"
+#include "zlg217_periph_map.h"
 
 /**
  * \addtogroup amhw_zlg217_if_usbd
- * \copydoc amhw_zlg217_usbd.h
+ * \copydoc ZLG217_USBd.h
  * @{
  */
 
 /**
  *  \brief USB 寄存器结构体定义
  */
-typedef struct amhe_zlg217_usb{
+typedef struct amhw_zlg217_usb{
     __IO  uint16_t top;              /* 中断状态寄存器，偏移地址0x00 */
           uint16_t reserve0;         /* 保留位 */
     __IO  uint16_t int_state;        /* 中断状态寄存器，偏移地址0x04 */
@@ -96,31 +96,31 @@ typedef struct amhe_zlg217_usb{
     __IO  uint16_t ep_halt;                /* 端点暂存寄存器，偏移地址0x188 */
           uint16_t reserve22[27];          /* 保留位 */
     __IO  uint16_t power;                  /* 功耗寄存器，偏移地址0x1c0 */
-}amhw_zlg217_usb_t;
+}amhw_zlg217_usbd_t;
 
 /*******************  Bit definition for USB_TOP register  *******************/
-#define  __USB_TOP_SPEED        0
-#define  __USB_TOP_CONNECT      1
-#define  __USB_TOP_RESET        3
-#define  __USB_TOP_SUSPEND      4
-#define  __USB_TOP_DP_DM_STATE  5
-#define  __USB_TOP_ACTIVE       7
+#define  AMHW_ZLG217_USB_TOP_SPEED        0
+#define  AMHW_ZLG217_USB_TOP_CONNECT      1
+#define  AMHW_ZLG217_USB_TOP_RESET        3
+#define  AMHW_ZLG217_USB_TOP_SUSPEND      4
+#define  AMHW_ZLG217_USB_TOP_DP_DM_STATE  5
+#define  AMHW_ZLG217_USB_TOP_ACTIVE       7
 
 /**************************  USB_TOP Configuration  ***************************/
-#define  __USB_SPEED            (1UL << __USB_TOP_SPEED)
-#define  __USB_CONNECT          (1UL << __USB_TOP_CONNECT)
-#define  __USB_RESET            (1UL << __USB_TOP_RESET)
-#define  __USB_SUSPEND          (1UL << __USB_TOP_SUSPEND)
-#define  __USB_DP_DM_STATE      (3UL << __USB_TOP_DP_DM_STATE)
-#define  __USB_ACTIVE           (1UL << __USB_TOP_ACTIVE)
+#define  AMHW_USB_SPEED            (1UL << AMHW_ZLG217_USB_TOP_SPEED)
+#define  AMHW_USB_CONNECT          (1UL << AMHW_ZLG217_USB_TOP_CONNECT)
+#define  AMHW_USB_RESET            (1UL << AMHW_ZLG217_USB_TOP_RESET)
+#define  AMHW_USB_SUSPEND          (1UL << AMHW_ZLG217_USB_TOP_SUSPEND)
+#define  AMHW_USB_DP_DM_STATE      (3UL << AMHW_ZLG217_USB_TOP_DP_DM_STATE)
+#define  AMHW_USB_ACTIVE           (1UL << AMHW_ZLG217_USB_TOP_ACTIVE)
 
 /**
  * \brief USB速率枚举
  */
 typedef enum {
-    AMHW_ZLG217_USB_SPEED_FULL,   /* 全速传输 */
-    AMHW_ZLG217_USB_SPEED_LOW     /* 低速传输 */
-}amhw_zlg217_usb_speed_t;
+    ZLG217_USB_SPEED_FULL,   /* 全速传输 */
+    ZLG217_USB_SPEED_LOW     /* 低速传输 */
+}ZLG217_USB_speed_t;
 
 /**
  *  \brief 设置usb速率函数
@@ -130,12 +130,12 @@ typedef enum {
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_usb_speed_set (amhw_zlg217_usb_speed_t speed)
+void amhw_zlg217_usbd_speed_set (ZLG217_USB_speed_t speed)
 {
-    if (speed == AMHW_ZLG217_USB_SPEED_FULL)
-        AMHW_ZLG217_USB->top &= (~__USB_SPEED);
-    else if (speed == AMHW_ZLG217_USB_SPEED_LOW)
-        AMHW_ZLG217_USB->top |= (__USB_SPEED);
+    if (speed == ZLG217_USB_SPEED_FULL)
+        ZLG217_USB->top &= (~AMHW_USB_SPEED);
+    else if (speed == ZLG217_USB_SPEED_LOW)
+        ZLG217_USB->top |= (AMHW_USB_SPEED);
 }
 
 /**
@@ -144,18 +144,18 @@ void amhw_zlg217_usb_speed_set (amhw_zlg217_usb_speed_t speed)
  *  \return usb速率
  */
 am_static_inline
-uint16_t amhw_zlg217_usb_speed_get (void)
+uint16_t amhw_zlg217_usbd_speed_get (void)
 {
-    return ((AMHW_ZLG217_USB->top & __USB_SPEED) >> __USB_TOP_SPEED);
+    return ((ZLG217_USB->top & AMHW_USB_SPEED) >> AMHW_ZLG217_USB_TOP_SPEED);
 }
 
 /**
  * \brief USB连接状态枚举
  */
 typedef enum {
-    AMHW_ZLG217_USB_DISCONNECT,   /* 断开连接 */
-    AMHW_ZLG217_USB_CONNECT       /* 连接 */
-}amhw_zlg217_usb_connect_t;
+    ZLG217_USB_DISCONNECT,   /* 断开连接 */
+    ZLG217_USB_CONNECT       /* 连接 */
+}ZLG217_USB_connect_t;
 
 /**
  *  \brief 设置usb连接状态函数
@@ -165,12 +165,12 @@ typedef enum {
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_usb_connect_set (amhw_zlg217_usb_connect_t connect)
+void amhw_zlg217_usbd_connect_set (ZLG217_USB_connect_t connect)
 {
-    if (connect == AMHW_ZLG217_USB_DISCONNECT)
-        AMHW_ZLG217_USB->top &= (~__USB_CONNECT);
-    else if (connect == AMHW_ZLG217_USB_CONNECT)
-        AMHW_ZLG217_USB->top |= (__USB_CONNECT);
+    if (connect == ZLG217_USB_DISCONNECT)
+        ZLG217_USB->top &= (~AMHW_USB_CONNECT);
+    else if (connect == ZLG217_USB_CONNECT)
+        ZLG217_USB->top |= (AMHW_USB_CONNECT);
 }
 
 /**
@@ -179,18 +179,18 @@ void amhw_zlg217_usb_connect_set (amhw_zlg217_usb_connect_t connect)
  *  \return usb连接状态
  */
 am_static_inline
-uint16_t amhw_zlg217_usb_connect_get (void)
+uint16_t amhw_zlg217_usbd_connect_get (void)
 {
-    return ((AMHW_ZLG217_USB->top & __USB_CONNECT) >> __USB_TOP_CONNECT);
+    return ((ZLG217_USB->top & AMHW_USB_CONNECT) >> AMHW_ZLG217_USB_TOP_CONNECT);
 }
 
 /**
  * \brief USB复位状态枚举
  */
 typedef enum {
-    AMHW_ZLG217_USB_NORESET,   /* 不复位 */
-    AMHW_ZLG217_USB_RESET      /* 复位 */
-}amhw_zlg217_usb_reset_t;
+    ZLG217_USB_NORESET,   /* 不复位 */
+    ZLG217_USB_RESET      /* 复位 */
+}ZLG217_USB_reset_t;
 
 /**
  *  \brief 设置usb复位函数
@@ -200,12 +200,12 @@ typedef enum {
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_usb_reset_set (amhw_zlg217_usb_reset_t reset)
+void amhw_zlg217_usbd_reset_set (ZLG217_USB_reset_t reset)
 {
-    if(reset == AMHW_ZLG217_USB_NORESET)
-        AMHW_ZLG217_USB->top &= (~__USB_RESET);
-    else if(reset == AMHW_ZLG217_USB_RESET)
-        AMHW_ZLG217_USB->top |= (__USB_RESET);
+    if(reset == ZLG217_USB_NORESET)
+        ZLG217_USB->top &= (~AMHW_USB_RESET);
+    else if(reset == ZLG217_USB_RESET)
+        ZLG217_USB->top |= (AMHW_USB_RESET);
 }
 
 /**
@@ -214,18 +214,18 @@ void amhw_zlg217_usb_reset_set (amhw_zlg217_usb_reset_t reset)
  *  \return usb复位状态
  */
 am_static_inline
-uint16_t amhw_zlg217_usb_reset_get (void)
+uint16_t amhw_zlg217_usbd_reset_get (void)
 {
-    return ((AMHW_ZLG217_USB->top & __USB_RESET) >> __USB_TOP_RESET);
+    return ((ZLG217_USB->top & AMHW_USB_RESET) >> AMHW_ZLG217_USB_TOP_RESET);
 }
 
 /**
  * \brief USB suspend状态枚举
  */
 typedef enum {
-    AMHW_ZLG217_USB_SUSPEND_WORK,     /* 工作状态 */
-    AMHW_ZLG217_USB_SUSPEND_PENDING   /* 挂起状态 */
-}amhw_zlg217_usb_suspend_t;
+    ZLG217_USB_SUSPEND_WORK,     /* 工作状态 */
+    ZLG217_USB_SUSPEND_PENDING   /* 挂起状态 */
+}ZLG217_USB_suspend_t;
 
 /**
  *  \brief 获得usb suspend状态函数
@@ -233,9 +233,9 @@ typedef enum {
  *  \return usb suspend状态
  */
 am_static_inline
-uint16_t amhw_zlg217_usb_suspend_get (void)
+uint16_t amhw_zlg217_usbd_suspend_get (void)
 {
-    return ((AMHW_ZLG217_USB->top & __USB_SUSPEND) >> __USB_TOP_SUSPEND);
+    return ((ZLG217_USB->top & AMHW_USB_SUSPEND) >> AMHW_ZLG217_USB_TOP_SUSPEND);
 }
 
 /**
@@ -244,18 +244,18 @@ uint16_t amhw_zlg217_usb_suspend_get (void)
  *  \return usb dp/dm状态
  */
 am_static_inline
-uint16_t amhw_zlg217_usb_dp_dm_get (void)
+uint16_t amhw_zlg217_usbd_dp_dm_get (void)
 {
-    return ((AMHW_ZLG217_USB->top & __USB_DP_DM_STATE) >> __USB_TOP_DP_DM_STATE);
+    return ((ZLG217_USB->top & AMHW_USB_DP_DM_STATE) >> AMHW_ZLG217_USB_TOP_DP_DM_STATE);
 }
 
 /**
  * \brief USB 总线活跃状态
  */
 typedef enum {
-    AMHW_ZLG217_USB_INACTIVE,     /* 总线不活跃 */
-    AMHW_ZLG217_USB_ACTIVE        /* 总线活跃 */
-}amhw_zlg217_usb_active_t;
+    ZLG217_USB_INACTIVE,     /* 总线不活跃 */
+    ZLG217_USB_ACTIVE        /* 总线活跃 */
+}ZLG217_USB_active_t;
 
 /**
  *  \brief 设置usb总线活跃状态函数
@@ -265,12 +265,12 @@ typedef enum {
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_usb_active_set(amhw_zlg217_usb_active_t active)
+void amhw_zlg217_usbd_active_set(ZLG217_USB_active_t active)
 {
-    if (active == AMHW_ZLG217_USB_INACTIVE)
-        AMHW_ZLG217_USB->top &= (~__USB_ACTIVE);
-    else if (active == AMHW_ZLG217_USB_ACTIVE)
-        AMHW_ZLG217_USB->top |= (__USB_ACTIVE);
+    if (active == ZLG217_USB_INACTIVE)
+        ZLG217_USB->top &= (~AMHW_USB_ACTIVE);
+    else if (active == ZLG217_USB_ACTIVE)
+        ZLG217_USB->top |= (AMHW_USB_ACTIVE);
 }
 
 /**
@@ -279,9 +279,9 @@ void amhw_zlg217_usb_active_set(amhw_zlg217_usb_active_t active)
  *  \return usb 总线活跃状态
  */
 am_static_inline
-uint16_t amhw_zlg217_usb_active_get (void)
+uint16_t amhw_zlg217_usbd_active_get (void)
 {
-    return ((AMHW_ZLG217_USB->top & __USB_ACTIVE) >> __USB_TOP_ACTIVE);
+    return ((ZLG217_USB->top & AMHW_USB_ACTIVE) >> AMHW_ZLG217_USB_TOP_ACTIVE);
 }
 
 /***********************  USB_INT_STATE Configuration  ************************/
@@ -299,9 +299,9 @@ uint16_t amhw_zlg217_usb_active_get (void)
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_usb_int_state_clear (uint16_t state)
+void amhw_zlg217_usbd_int_state_clear (uint16_t state)
 {
-    AMHW_ZLG217_USB->int_state |= (state & AMHW_ZLG217_USB_INT_STATE_ALL);
+    ZLG217_USB->int_state |= (state & AMHW_ZLG217_USB_INT_STATE_ALL);
 }
 
 /**
@@ -310,9 +310,9 @@ void amhw_zlg217_usb_int_state_clear (uint16_t state)
  *  \return usb 中断状态寄存器状态
  */
 am_static_inline
-uint16_t amhw_zlg217_usb_int_state_get (void)
+uint16_t amhw_zlg217_usbd_int_state_get (void)
 {
-    return AMHW_ZLG217_USB->int_state;
+    return ZLG217_USB->int_state;
 }
 
 /************************  EP_INT_STATE Configuration  ************************/
@@ -329,9 +329,9 @@ uint16_t amhw_zlg217_usb_int_state_get (void)
  *  \return usb 中断状态寄存器状态
  */
 am_static_inline
-uint16_t amhw_zlg217_ep_int_state_get (void)
+uint16_t amhw_zlg217_usbd_ep_int_state_get (void)
 {
-    return AMHW_ZLG217_USB->ep_int_state;
+    return ZLG217_USB->ep_int_state;
 }
 
 /**
@@ -340,9 +340,9 @@ uint16_t amhw_zlg217_ep_int_state_get (void)
  *  \param[in] ep 要清除的端点
  */
 am_static_inline
-uint16_t amhw_zlg217_ep_int_state_clear (uint16_t ep)
+uint16_t amhw_zlg217_usbd_ep_int_state_clear (uint16_t ep)
 {
-    return AMHW_ZLG217_USB->ep_int_state |= ep;
+    return ZLG217_USB->ep_int_state |= ep;
 }
 
 /************************  EP0_INT_STATE Configuration  ***********************/
@@ -362,9 +362,9 @@ uint16_t amhw_zlg217_ep_int_state_clear (uint16_t ep)
  *  \return usb 中断状态寄存器状态
  */
 am_static_inline
-uint16_t amhw_zlg217_ep0_int_state_get (void)
+uint16_t amhw_zlg217_usbd_ep0_int_state_get (void)
 {
-    return AMHW_ZLG217_USB->ep0_int_state;
+    return ZLG217_USB->ep0_int_state;
 }
 
 /**
@@ -375,9 +375,9 @@ uint16_t amhw_zlg217_ep0_int_state_get (void)
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_ep0_int_state_clear (uint16_t state)
+void amhw_zlg217_usbd_ep0_int_state_clear (uint16_t state)
 {
-    AMHW_ZLG217_USB->ep0_int_state |= state;
+    ZLG217_USB->ep0_int_state |= state;
 }
 
 /************************  USB_INT_EN Configuration  ***********************/
@@ -396,9 +396,9 @@ void amhw_zlg217_ep0_int_state_clear (uint16_t state)
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_usb_int_enable (uint16_t int_en)
+void amhw_zlg217_usbd_int_enable (uint16_t int_en)
 {
-    AMHW_ZLG217_USB->int_en |= int_en;
+    ZLG217_USB->int_en |= int_en;
 }
 
 /**
@@ -409,9 +409,9 @@ void amhw_zlg217_usb_int_enable (uint16_t int_en)
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_usb_int_disable (uint16_t int_dis)
+void amhw_zlg217_usbd_int_disable (uint16_t int_dis)
 {
-    AMHW_ZLG217_USB->int_en &= ~int_dis;
+    ZLG217_USB->int_en &= ~int_dis;
 }
 
 /**
@@ -420,9 +420,9 @@ void amhw_zlg217_usb_int_disable (uint16_t int_dis)
  *  \return usb 中断状态寄存器状态
  */
 am_static_inline
-uint16_t amhw_zlg217_usb_int_en_get (void)
+uint16_t amhw_zlg217_usbd_int_en_get (void)
 {
-    return AMHW_ZLG217_USB->int_en;
+    return ZLG217_USB->int_en;
 }
 
 /**************************  EP_INT_EN Configuration  ************************/
@@ -439,9 +439,9 @@ uint16_t amhw_zlg217_usb_int_en_get (void)
  *  \return usb 端点中断使能寄存器状态
  */
 am_static_inline
-uint16_t amhw_zlg217_ep_int_en_get (void)
+uint16_t amhw_zlg217_usbd_ep_int_en_get (void)
 {
-    return AMHW_ZLG217_USB->ep_int_en;
+    return ZLG217_USB->ep_int_en;
 }
 
 /**
@@ -450,9 +450,9 @@ uint16_t amhw_zlg217_ep_int_en_get (void)
  *  \brief epx  要使能的端点
  */
 am_static_inline
-void amhw_zlg217_ep_int_enable (uint16_t epx)
+void amhw_zlg217_usbd_ep_int_enable (uint16_t epx)
 {
-    AMHW_ZLG217_USB->ep_int_en |= epx;
+    ZLG217_USB->ep_int_en |= epx;
 }
 
 /**
@@ -461,9 +461,9 @@ void amhw_zlg217_ep_int_enable (uint16_t epx)
  *  \brief epx  要禁能的端点
  */
 am_static_inline
-void amhw_zlg217_ep_int_disable (uint16_t epx)
+void amhw_zlg217_usbd_ep_int_disable (uint16_t epx)
 {
-    AMHW_ZLG217_USB->ep_int_en &= ~epx;
+    ZLG217_USB->ep_int_en &= ~epx;
 }
 
 /**************************  EP0_INT_EN Configuration  ************************/
@@ -483,9 +483,9 @@ void amhw_zlg217_ep_int_disable (uint16_t epx)
  *  \return usb 端点0中断使能寄存器状态
  */
 am_static_inline
-uint16_t amhw_zlg217_ep0_int_en_get (void)
+uint16_t amhw_zlg217_usbd_ep0_int_en_get (void)
 {
-    return AMHW_ZLG217_USB->ep0_int_en;
+    return ZLG217_USB->ep0_int_en;
 }
 
 /**
@@ -494,9 +494,9 @@ uint16_t amhw_zlg217_ep0_int_en_get (void)
  *  \param   enable  要使能的中断类型
  */
 am_static_inline
-void amhw_zlg217_ep0_int_enable (uint16_t enable)
+void amhw_zlg217_usbd_ep0_int_enable (uint16_t enable)
 {
-    AMHW_ZLG217_USB->ep0_int_en |= enable;
+    ZLG217_USB->ep0_int_en |= enable;
 }
 
 /**
@@ -505,9 +505,9 @@ void amhw_zlg217_ep0_int_enable (uint16_t enable)
  *  \param   disable  要禁能的中断类型
  */
 am_static_inline
-void amhw_zlg217_ep0_int_disable (uint16_t disable)
+void amhw_zlg217_usbd_ep0_int_disable (uint16_t disable)
 {
-    AMHW_ZLG217_USB->ep0_int_en &= ~disable;
+    ZLG217_USB->ep0_int_en &= ~disable;
 }
 
 /*************************  EPX_INT_STATE Configuration  **********************/
@@ -524,11 +524,11 @@ void amhw_zlg217_ep0_int_disable (uint16_t disable)
  * \brief USB 端点
  */
 typedef enum {
-    AMHW_ZLG217_USB_EP1,
-    AMHW_ZLG217_USB_EP2,
-    AMHW_ZLG217_USB_EP3,
-    AMHW_ZLG217_USB_EP4
-}amhw_zlg217_usb_epx_t;
+    ZLG217_USB_EP1,
+    ZLG217_USB_EP2,
+    ZLG217_USB_EP3,
+    ZLG217_USB_EP4
+}ZLG217_USB_epx_t;
 
 /**
  *  \brief 获得usb端点X中断状态
@@ -538,9 +538,9 @@ typedef enum {
  *  \return usb 端点X中断使能寄存器状态
  */
 am_static_inline
-uint16_t amhw_zlg217_epx_int_state_get (amhw_zlg217_usb_epx_t epx)
+uint16_t amhw_zlg217_usbd_epx_int_state_get (ZLG217_USB_epx_t epx)
 {
-    return AMHW_ZLG217_USB->epx_int_state_arr[epx].epx_int_state;
+    return ZLG217_USB->epx_int_state_arr[epx].epx_int_state;
 }
 
 /**
@@ -551,10 +551,10 @@ uint16_t amhw_zlg217_epx_int_state_get (amhw_zlg217_usb_epx_t epx)
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_epx_int_state_clear (amhw_zlg217_usb_epx_t epx,
+void amhw_zlg217_usbd_epx_int_state_clear (ZLG217_USB_epx_t epx,
                                       uint16_t clear)
 {
-    AMHW_ZLG217_USB->epx_int_state_arr[epx].epx_int_state |= clear;
+    ZLG217_USB->epx_int_state_arr[epx].epx_int_state |= clear;
 }
 
 /**************************  EPX_INT_EN Configuration  ************************/
@@ -575,9 +575,9 @@ void amhw_zlg217_epx_int_state_clear (amhw_zlg217_usb_epx_t epx,
  *  \return usb 端点X中断使能寄存器状态
  */
 am_static_inline
-uint16_t amhw_zlg217_epx_int_en_get (amhw_zlg217_usb_epx_t epx)
+uint16_t amhw_zlg217_usbd_epx_int_en_get (ZLG217_USB_epx_t epx)
 {
-    return AMHW_ZLG217_USB->epx_int_en_arr[epx].epx_int_en;
+    return ZLG217_USB->epx_int_en_arr[epx].epx_int_en;
 }
 
 /**
@@ -588,10 +588,10 @@ uint16_t amhw_zlg217_epx_int_en_get (amhw_zlg217_usb_epx_t epx)
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_epx_int_enable (amhw_zlg217_usb_epx_t epx,
+void amhw_zlg217_usbd_epx_int_enable (ZLG217_USB_epx_t epx,
                                  uint16_t enable)
 {
-    AMHW_ZLG217_USB->epx_int_en_arr[epx].epx_int_en |= enable;
+    ZLG217_USB->epx_int_en_arr[epx].epx_int_en |= enable;
 }
 
 /**
@@ -602,14 +602,14 @@ void amhw_zlg217_epx_int_enable (amhw_zlg217_usb_epx_t epx,
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_epx_int_disable (amhw_zlg217_usb_epx_t epx,
+void amhw_zlg217_usbd_epx_int_disable (ZLG217_USB_epx_t epx,
                                   uint16_t disable)
 {
-    AMHW_ZLG217_USB->epx_int_en_arr[epx].epx_int_en &= ~disable;
+    ZLG217_USB->epx_int_en_arr[epx].epx_int_en &= ~disable;
 }
 
 /***************************  USB_ADDR Configuration  *************************/
-#define __USB_ADDR_MASK     0X7F
+#define AMHW_ZLG217_USBD_ADDR_MASK     0X7F
 /**
  *  \brief 设置USB的地址
  *
@@ -618,9 +618,9 @@ void amhw_zlg217_epx_int_disable (amhw_zlg217_usb_epx_t epx,
  *  \return usb 端点X中断使能寄存器状态
  */
 am_static_inline
-uint16_t amhw_zlg217_usb_addr_set (uint8_t addr)
+uint16_t amhw_zlg217_usbd_addr_set (uint8_t addr)
 {
-    return AMHW_ZLG217_USB->addr = (addr & __USB_ADDR_MASK);
+    return ZLG217_USB->addr = (addr & AMHW_ZLG217_USBD_ADDR_MASK);
 }
 
 /**
@@ -629,9 +629,9 @@ uint16_t amhw_zlg217_usb_addr_set (uint8_t addr)
  *  \return usb USB地址
  */
 am_static_inline
-uint16_t amhw_zlg217_usb_addr_get (void)
+uint16_t amhw_zlg217_usbd_addr_get (void)
 {
-    return AMHW_ZLG217_USB->addr;
+    return ZLG217_USB->addr;
 }
 
 /******************************  EP_EN Configuration  *************************/
@@ -648,9 +648,9 @@ uint16_t amhw_zlg217_usb_addr_get (void)
  *  \return usb USB端点使能寄存器状态
  */
 am_static_inline
-uint16_t amhw_zlg217_ep_en_get (void)
+uint16_t amhw_zlg217_usbd_ep_en_get (void)
 {
-    return AMHW_ZLG217_USB->ep_en;
+    return ZLG217_USB->ep_en;
 }
 
 /**
@@ -661,9 +661,9 @@ uint16_t amhw_zlg217_ep_en_get (void)
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_usb_ep_enable (uint16_t enable)
+void amhw_zlg217_usbd_ep_enable (uint16_t enable)
 {
-    AMHW_ZLG217_USB->ep_en |= enable;
+    ZLG217_USB->ep_en |= enable;
 }
 
 /**
@@ -674,9 +674,9 @@ void amhw_zlg217_usb_ep_enable (uint16_t enable)
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_usb_ep_disable (uint16_t disable)
+void amhw_zlg217_usbd_ep_disable (uint16_t disable)
 {
-    AMHW_ZLG217_USB->ep_en &= ~disable;
+    ZLG217_USB->ep_en &= ~disable;
 }
 
 /****************************  TOG_CTRL Configuration  ************************/
@@ -702,10 +702,10 @@ void amhw_zlg217_usb_ep_disable (uint16_t disable)
  *  \note 端点号不可按位或，端点号范围为1~4代表端点1~4
  */
 am_static_inline
-void amhw_zlg217_usb_dtog_data0 (uint16_t ep)
+void amhw_zlg217_usbd_dtog_data0 (uint16_t ep)
 {
     if (ep >= 1 && ep <= 4) {
-        AMHW_ZLG217_USB->tog_crl1_4 &=  ~(1 << ((ep - 1) * 2));
+        ZLG217_USB->tog_crl1_4 &=  ~(1 << ((ep - 1) * 2));
     }
 }
 
@@ -717,10 +717,10 @@ void amhw_zlg217_usb_dtog_data0 (uint16_t ep)
  *  \note 端点号不可按位或，端点号范围为1~4代表端点1~4
  */
 am_static_inline
-void amhw_zlg217_usb_dtog_data1 (uint16_t ep)
+void amhw_zlg217_usbd_dtog_data1 (uint16_t ep)
 {
     if (ep >= 1 && ep <= 4) {
-        AMHW_ZLG217_USB->tog_crl1_4 |=  (1 << ((ep - 1) * 2));
+        ZLG217_USB->tog_crl1_4 |=  (1 << ((ep - 1) * 2));
     }
 }
 
@@ -730,9 +730,9 @@ void amhw_zlg217_usb_dtog_data1 (uint16_t ep)
  *  \return usb USB端点数据翻转使能状态
  */
 am_static_inline
-uint16_t amhw_zlg217_usb_dtog_get (void)
+uint16_t amhw_zlg217_usbd_dtog_get (void)
 {
-    return AMHW_ZLG217_USB->tog_crl1_4 & AMHW_ZLG217_USB_DTOG_MASK;
+    return ZLG217_USB->tog_crl1_4 & AMHW_ZLG217_USB_DTOG_MASK;
 }
 
 /**
@@ -743,10 +743,10 @@ uint16_t amhw_zlg217_usb_dtog_get (void)
  *  \note 端点号不可按位或，端点号范围为1~4代表端点1~4
  */
 am_static_inline
-void amhw_zlg217_usb_dtog_enable (uint16_t ep)
+void amhw_zlg217_usbd_dtog_enable (uint16_t ep)
 {
     if (ep >= 1 && ep <= 4) {
-        AMHW_ZLG217_USB->tog_crl1_4 |=  (1 << ((ep - 1) * 2 + 1));
+        ZLG217_USB->tog_crl1_4 |=  (1 << ((ep - 1) * 2 + 1));
     }
 }
 
@@ -758,10 +758,10 @@ void amhw_zlg217_usb_dtog_enable (uint16_t ep)
  *  \note 端点号不可按位或，端点号范围为1~4代表端点1~4
  */
 am_static_inline
-void amhw_zlg217_usb_dtog_disable (uint16_t ep)
+void amhw_zlg217_usbd_dtog_disable (uint16_t ep)
 {
     if (ep >= 1 && ep <= 4) {
-        AMHW_ZLG217_USB->tog_crl1_4 &=  ~(1 << ((ep - 1) * 2 + 1));
+        ZLG217_USB->tog_crl1_4 &=  ~(1 << ((ep - 1) * 2 + 1));
     }
 }
 
@@ -774,12 +774,12 @@ void amhw_zlg217_usb_dtog_disable (uint16_t ep)
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_usb_setupdata_get (uint8_t *p_data)
+void amhw_zlg217_usbd_setupdata_get (uint8_t *p_data)
 {
     int i = 0;
 
     for (i = 0; i < 8; i++) {
-        p_data[i] = AMHW_ZLG217_USB->stupx_arr[i].stupx;
+        p_data[i] = ZLG217_USB->stupx_arr[i].stupx;
     }
 }
 
@@ -795,12 +795,12 @@ void amhw_zlg217_usb_setupdata_get (uint8_t *p_data)
  *  \note 最大可以设置64字节
  */
 am_static_inline
-void amhw_zlg217_usb_packet_size_set (uint8_t size)
+void amhw_zlg217_usbd_packet_size_set (uint8_t size)
 {
     if (size > 64)
         size = 64;
 
-    AMHW_ZLG217_USB->packet_size = size;
+    ZLG217_USB->packet_size = size;
 }
 
 /**
@@ -809,9 +809,9 @@ void amhw_zlg217_usb_packet_size_set (uint8_t size)
  *  \return USB传输包的大小
  */
 am_static_inline
-uint8_t amhw_zlg217_usb_packet_size_get (void)
+uint8_t amhw_zlg217_usbd_packet_size_get (void)
 {
-    return AMHW_ZLG217_USB->packet_size;
+    return ZLG217_USB->packet_size;
 }
 
 /***************************  EPX_AVAIL Configuration  ************************/
@@ -819,12 +819,12 @@ uint8_t amhw_zlg217_usb_packet_size_get (void)
  * \brief USB 端点
  */
 typedef enum {
-    AMHW_ZLG217_USB_EPX0,
-    AMHW_ZLG217_USB_EPX1,
-    AMHW_ZLG217_USB_EPX2,
-    AMHW_ZLG217_USB_EPX3,
-    AMHW_ZLG217_USB_EPX4
-}amhw_zlg217_usb_epx2_t;  /* 和amhw_zlg217_usb_epx_t 区分 */
+    ZLG217_USB_EPX0,
+    ZLG217_USB_EPX1,
+    ZLG217_USB_EPX2,
+    ZLG217_USB_EPX3,
+    ZLG217_USB_EPX4
+}ZLG217_USB_epx2_t;  /* 和ZLG217_USB_epx_t 区分 */
 
 /**
  *  \brief 获得USB端点X FIFO有效数据个数
@@ -832,9 +832,9 @@ typedef enum {
  *  \return USB端点X FIFO有效数据个数
  */
 am_static_inline
-uint8_t amhw_zlg217_usb_epx_avail_size_get (amhw_zlg217_usb_epx2_t epx)
+uint8_t amhw_zlg217_usbd_epx_avail_size_get (ZLG217_USB_epx2_t epx)
 {
-    return AMHW_ZLG217_USB->epx_avail_arr[epx].epx_avai;
+    return ZLG217_USB->epx_avail_arr[epx].epx_avai;
 }
 
 /****************************  EPX_CTRL Configuration  ************************/
@@ -851,10 +851,10 @@ uint8_t amhw_zlg217_usb_epx_avail_size_get (amhw_zlg217_usb_epx2_t epx)
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_usb_epx_transfer (amhw_zlg217_usb_epx2_t epx,
+void amhw_zlg217_usbd_epx_transfer (ZLG217_USB_epx2_t epx,
                                    uint8_t count)
 {
-    AMHW_ZLG217_USB->epx_ctrl_arr[epx].epx_ctrl = AMHW_ZLG217_USB_EPX_TRANEN | count;
+    ZLG217_USB->epx_ctrl_arr[epx].epx_ctrl = AMHW_ZLG217_USB_EPX_TRANEN | count;
 }
 
 /**
@@ -865,9 +865,9 @@ void amhw_zlg217_usb_epx_transfer (amhw_zlg217_usb_epx2_t epx,
  *  \return 传输完成返回1，未完成返回0
  */
 am_static_inline
-uint8_t amhw_zlg217_usb_transfer_end(amhw_zlg217_usb_epx2_t epx)
+uint8_t amhw_zlg217_usbd_transfer_end(ZLG217_USB_epx2_t epx)
 {
-    if (AMHW_ZLG217_USB->epx_ctrl_arr[epx].epx_ctrl & AMHW_ZLG217_USB_EPX_TRANEN)
+    if (ZLG217_USB->epx_ctrl_arr[epx].epx_ctrl & AMHW_ZLG217_USB_EPX_TRANEN)
         return 0;
     return 1;
 }
@@ -882,10 +882,10 @@ uint8_t amhw_zlg217_usb_transfer_end(amhw_zlg217_usb_epx2_t epx)
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_usb_epx_fifo_write (amhw_zlg217_usb_epx2_t epx,
+void amhw_zlg217_usbd_epx_fifo_write (ZLG217_USB_epx2_t epx,
                                      uint8_t data)
 {
-    AMHW_ZLG217_USB->epx_fifo_arr[epx].epx_fifo = data;
+    ZLG217_USB->epx_fifo_arr[epx].epx_fifo = data;
 }
 
 /**
@@ -896,9 +896,9 @@ void amhw_zlg217_usb_epx_fifo_write (amhw_zlg217_usb_epx2_t epx,
  *  \return fifo中的数据
  */
 am_static_inline
-uint8_t amhw_zlg217_usb_epx_fifo_read (amhw_zlg217_usb_epx2_t epx)
+uint8_t amhw_zlg217_usbd_epx_fifo_read (ZLG217_USB_epx2_t epx)
 {
-    return AMHW_ZLG217_USB->epx_fifo_arr[epx].epx_fifo;
+    return ZLG217_USB->epx_fifo_arr[epx].epx_fifo;
 }
 
 /*****************************  EP_DMA Configuration  *************************/
@@ -914,9 +914,9 @@ uint8_t amhw_zlg217_usb_epx_fifo_read (amhw_zlg217_usb_epx2_t epx)
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_usb_ep_dma_enable (uint16_t dma_epx)
+void amhw_zlg217_usbd_ep_dma_enable (uint16_t dma_epx)
 {
-    AMHW_ZLG217_USB->ep_dma |= dma_epx;
+    ZLG217_USB->ep_dma |= dma_epx;
 }
 
 /**
@@ -927,9 +927,9 @@ void amhw_zlg217_usb_ep_dma_enable (uint16_t dma_epx)
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_usb_ep_dma_disable (uint16_t dma_epx)
+void amhw_zlg217_usbd_ep_dma_disable (uint16_t dma_epx)
 {
-    AMHW_ZLG217_USB->ep_dma &= ~dma_epx;
+    ZLG217_USB->ep_dma &= ~dma_epx;
 }
 
 /**
@@ -938,9 +938,9 @@ void amhw_zlg217_usb_ep_dma_disable (uint16_t dma_epx)
  *  \return 无
  */
 am_static_inline
-uint8_t amhw_zlg217_usb_ep_dma_get (void)
+uint8_t amhw_zlg217_usbd_ep_dma_get (void)
 {
-    return AMHW_ZLG217_USB->ep_dma;
+    return ZLG217_USB->ep_dma;
 }
 
 /*****************************  EP_HALT Configuration  ************************/
@@ -961,9 +961,9 @@ uint8_t amhw_zlg217_usb_ep_dma_get (void)
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_usb_ep_halt_set (uint16_t halt)
+void amhw_zlg217_usbd_ep_halt_set (uint16_t halt)
 {
-    AMHW_ZLG217_USB->ep_halt |= halt;
+    ZLG217_USB->ep_halt |= halt;
 }
 
 /**
@@ -974,9 +974,9 @@ void amhw_zlg217_usb_ep_halt_set (uint16_t halt)
  *  \return 无
  */
 am_static_inline
-void amhw_zlg217_usb_ep_halt_reset (uint16_t halt)
+void amhw_zlg217_usbd_ep_halt_reset (uint16_t halt)
 {
-    AMHW_ZLG217_USB->ep_halt &= ~halt;
+    ZLG217_USB->ep_halt &= ~halt;
 }
 
 /**
@@ -985,9 +985,9 @@ void amhw_zlg217_usb_ep_halt_reset (uint16_t halt)
  *  \return 端点暂停状态
  */
 am_static_inline
-uint16_t amhw_zlg217_usb_ep_halt_get (void)
+uint16_t amhw_zlg217_usbd_ep_halt_get (void)
 {
-    return AMHW_ZLG217_USB->ep_halt;
+    return ZLG217_USB->ep_halt;
 }
 
 /*****************************  USB_POWER Configuration  **********************/
@@ -1012,9 +1012,9 @@ uint16_t amhw_zlg217_usb_ep_halt_get (void)
  *  \retval 返回1表示控制器处于正常工作模式，返回0表示控制器处于挂起模式
  */
 am_static_inline
-void amhw_zlg217_usb_susp_set (uint16_t susp)
+void amhw_zlg217_usbd_susp_set (uint16_t susp)
 {
-    AMHW_ZLG217_USB->power |= (susp & (~AMHW_ZLG217_USB_POWER_WKUP));
+    ZLG217_USB->power |= (susp & (~AMHW_ZLG217_USB_POWER_WKUP));
 }
 
 /**
@@ -1023,22 +1023,22 @@ void amhw_zlg217_usb_susp_set (uint16_t susp)
  *  \retval 返回的内容包含挂起是否使能以及挂起状态
  */
 am_static_inline
-uint16_t amhw_zlg217_usb_susp_get (void)
+uint16_t amhw_zlg217_usbd_susp_get (void)
 {
-    return (AMHW_ZLG217_USB->power & ~AMHW_ZLG217_USB_POWER_WKUP);
+    return (ZLG217_USB->power & ~AMHW_ZLG217_USB_POWER_WKUP);
 }
 
 /**
  *  \brief 将控制器从挂起状态唤醒
  */
 am_static_inline
-void amhw_zlg217_usb_wakeup (void)
+void amhw_zlg217_usbd_wakeup (void)
 {
-    AMHW_ZLG217_USB->power |= AMHW_ZLG217_USB_POWER_WKUP;
+    ZLG217_USB->power |= AMHW_ZLG217_USB_POWER_WKUP;
 }
 
 /**
- * @}if_amhw_zlg217_usbd
+ * @}if_ZLG217_USBd
  */
 
 #ifdef __cplusplus

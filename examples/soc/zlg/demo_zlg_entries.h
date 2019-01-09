@@ -358,6 +358,7 @@ void demo_zlg_hw_wwdg_entry (amhw_zlg_wwdg_t *p_hw_wwdg,
                              uint32_t         time_out_ms,
                              uint32_t         feed_time_ms);
 
+
 #ifdef __cplusplus
 }
 #endif

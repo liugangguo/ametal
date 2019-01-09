@@ -1,0 +1,263 @@
+/*******************************************************************************
+*                                 AMetal
+*                       ---------------------------
+*                       innovating embedded systems
+*
+* Copyright (c) 2001-2015 Guangzhou ZHIYUAN Electronics Stock Co., Ltd.
+* All rights reserved.
+*
+* Contact information:
+* web site:    http://www.zlg.cn/
+* e-mail:      ametal.support@zlg.cn
+*******************************************************************************/
+
+/**
+ * \file
+ * \brief zlg217 USB_MSC 用户配置文件
+ * \sa am_zlg217_hwconfig_usb_msc.c
+ *
+ * \internal
+ * \par Modification history
+ * - 1.00 18-10-29  enf, first implementation.
+ * \endinternal
+ */
+
+#include "ametal.h"
+#include "am_clk.h"
+#include "am_gpio.h"
+#include "am_usbd_msc.h"
+#include "am_zlg217.h"
+#include "am_zlg217_usbd.h"
+#include "amhw_zlg217_usbd.h"
+#include "am_zlg217_inst_init.h"
+/**
+ * \addtogroup am_zlg217_if_hwconfig_src_usb_msc
+ * \copydoc am_zlg217_hwconfig_usb_msc.c
+ * @{
+ */
+
+#define __USBD_MSC_CONFIGURE_INDEX               (1U)
+#define __USBD_MSC_INTERFACE_COUNT               (1U)
+#define __USBD_MSC_INTERFACE_INDEX               (0U)
+#define __USBD_CONFIGURATION_COUNT               (1U)
+
+
+/* 设备描述符 */
+static uint8_t __g_usb_msc_desc_dev[AM_USB_DESCRIPTOR_LENGTH_DEVICE]  = {
+    AM_USB_DESCRIPTOR_LENGTH_DEVICE,       /* 设备描述符的字节数 */
+    AM_USB_DESCRIPTOR_TYPE_DEVICE,         /* 设备描述符类型编号，固定为0x01 */
+	0x10, 0x01,                            /* USB版本 USB1.1 */
+
+	AM_USBD_CLASS,                         /* 通信类 */
+	AM_USBD_SUBCLASS,                      /* 设备子类 */
+	AM_USBD_PROTOCOL,                      /* 协议码 */
+	AM_USBD_MAX_EP_DATA_CNT,               /* 端点0的最大包大小 */
+
+    /**
+     * 厂商编号。需要向USB协会申请，如果作为学习使用可以随便选一个已经注册过的，
+     * 但是作为产品发布的话就必须写自己公司的厂商编号，以免侵权，此处填了一个没有在USB协会注册的编号
+     */
+    0x95, 0x41,
+    0x15, 0x65, /* 产品编号 */
+    AM_USB_SHORT_GET_LOW(AM_USBD_DEMO_BCD_VERSION),
+    AM_USB_SHORT_GET_HIGH(AM_USBD_DEMO_BCD_VERSION), /* 设备出厂编号 */
+    0x01,       /* 描述厂商的字符串索引 */
+    0x02,       /* 描述产品的字符串索引 */
+    0x03,       /* 描述设备序列号的字符串索引 */
+	__USBD_CONFIGURATION_COUNT,       /* 配置的数量（只能有一个） */
+};
+
+/* 配置描述符及其下级描述符（不能越过上级描述符直接得到下级描述符） */
+static uint8_t __g_usb_msc_desc_conf[AM_USB_DESCRIPTOR_LENGTH_CONFIGURE +
+                                     AM_USB_DESCRIPTOR_LENGTH_INTERFACE +
+                                     AM_USB_DESCRIPTOR_LENGTH_ENDPOINT  +
+                                     AM_USB_DESCRIPTOR_LENGTH_ENDPOINT ] = {
+    /* 配置描述符 */
+    AM_USB_DESCRIPTOR_LENGTH_CONFIGURE,        /* 配置描述符字节数 */
+    AM_USB_DESCRIPTOR_TYPE_CONFIGURE,          /* 配置描述符类型编号，固定为0x02 */
+    AM_USB_SHORT_GET_LOW(sizeof(__g_usb_msc_desc_conf)),
+    AM_USB_SHORT_GET_HIGH(sizeof(__g_usb_msc_desc_conf)),/* 配置描述符及下属描述符的总长度 */
+    __USBD_MSC_INTERFACE_COUNT,       /* 接口描述符个数 */
+    __USBD_MSC_CONFIGURE_INDEX,       /* 配置值 */
+    0x00,       /* 描述该配置的字符串索引 */
+
+	/* 设备属性：总线供电，不支持远程唤醒 */
+	(AM_USBD_CONFIG_SELF_POWER  | AM_USBD_CONFIG_NOT_REMOTE_WAKEUP),
+    AM_USBD_MAX_POWER,                  /* 从总线获取的最大电流：100mA， 2mA一个单位 */
+
+    /* 接口描述符 */
+    AM_USB_DESCRIPTOR_LENGTH_INTERFACE,        /* 接口描述符字节数 */
+    AM_USB_DESCRIPTOR_TYPE_INTERFACE,          /* 接口描述符类型编号，固定为0x04 */
+	__USBD_MSC_INTERFACE_INDEX,            /* 该接口编号 */
+    0x00,       /* 可选设置的索引值（该接口的备用编号） */
+	AM_USBD_PRINTER_ENDPOINT_COUNT,         /* 该接口使用的端点数（不包括端点0） */
+	AM_USBD_CONFIG_MSC_CLASS_CODE,          /* MSC_CLASS类 */
+	AM_USBD_MSC_SUBCLASS,       /* msc子类型 */
+	AM_USBD_MSC_PROTOCOL,       /* msc协议类型 */
+    0x00,       /* 描述该接口的字符串索引 */
+
+    /* 输入端点描述符 */
+    AM_USB_DESCRIPTOR_LENGTH_ENDPOINT,       /* 端点描述符字节数 */
+    AM_USB_DESCRIPTOR_TYPE_ENDPOINT,         /* 端点描述符类型编号，固定为0x05 */
+    (AM_USBD_MSC_BULK_IN_ENDPOINT | (AM_USB_IN << AM_USB_REQUEST_TYPE_DIR_SHIFT)),
+	AM_USB_ENDPOINT_BULK,       /* 端点属性 02表示批量  */
+
+    AM_USB_SHORT_GET_LOW(AM_USBD_MAX_EP_DATA_CNT),
+    AM_USB_SHORT_GET_HIGH(AM_USBD_MAX_EP_DATA_CNT), /* 端点一次性收发的最大包大小 */
+
+    0x0A,       /* 主机查询端点时的时间间隔：10ms  */
+
+    /* 输出端点描述符 */
+    AM_USB_DESCRIPTOR_LENGTH_ENDPOINT,       /* 端点描述符字节数 */
+    AM_USB_DESCRIPTOR_TYPE_ENDPOINT,        /* 端点描述符类型编号，固定为0x05 */
+
+    /* 端点地址及输出属性 */
+    (AM_USBD_MSC_BULK_OUT_ENDPOINT | (AM_USB_OUT << AM_USB_REQUEST_TYPE_DIR_SHIFT)),
+
+	AM_USB_ENDPOINT_BULK,        /* 端点属性 */
+
+    AM_USB_SHORT_GET_LOW(AM_USBD_MAX_EP_DATA_CNT),
+    AM_USB_SHORT_GET_HIGH(AM_USBD_MAX_EP_DATA_CNT), /* 端点一次性收发的最大包大小 */
+
+    0x0A        /* 主机查询端点时的时间间隔 10ms */
+};
+
+/**< \brief 描述产品的字符串描述符 */
+static uint8_t __g_usb_msc_desc_str_iproduct[16] = {
+    sizeof(__g_usb_msc_desc_str_iproduct),       /* 字符串描述符字节数 */
+    AM_USB_DESCRIPTOR_TYPE_STRING,                  /* 字符串描述符类型编号，固定为0x03 */
+
+	 0x55, 0x00, /* U */
+	 0x42, 0x00, /* S */
+	 0x53, 0x00, /* B */
+     0x21, 0x6a, /* 模 */
+     0xdf, 0x62, /* 拟 */
+     0x55, 0x00, /* U */
+     0xd8, 0x76  /* 盘 */
+};
+
+/**< \brief 语言ID字符串描述符 */
+/**< \brief 这里使用美式英语，不使用简体中文的原因是如果使用简体中文，则主机不会向从机要字符串描述符 */
+/**< \brief 美式英语的语言ID为0x0409，简体中文的语言ID为0x0804，注意大小端。 */
+static uint8_t __g_usb_msc_desc_str_language_id[4] = {
+    sizeof(__g_usb_msc_desc_str_language_id),       /* 字符串描述符字节数 */
+    AM_USB_DESCRIPTOR_TYPE_STRING,       /* 字符串描述符类型编号，固定为0x03 */
+    0x04,
+    0x08,       /* 简体中文 */
+};
+
+/**< \brief 描述厂商的字符串描述符 */
+static uint8_t __g_usb_msc_desc_str_imanufacturer[22] = {
+    sizeof(__g_usb_msc_desc_str_imanufacturer),       /* 字符串描述符字节数 */
+    AM_USB_DESCRIPTOR_TYPE_STRING,       /* 字符串描述符类型编号，固定为0x03 */
+    0x7f, 0x5e, /* 广 */
+    0xde, 0x5d, /* 州 */
+    0xf4, 0x81, /* 致 */
+    0xdc, 0x8f, /* 远 */
+    0x35, 0x75, /* 电 */
+    0x50, 0x5b, /* 子 */
+    0x09, 0x67, /* 有 */
+    0x50, 0x96, /* 限 */
+    0x6c, 0x51, /* 公 */
+    0xf8, 0x53, /* 司 */
+};
+
+/**< \brief 描述设备序列号的字符串描述符 */
+static uint8_t __g_usb_msc_desc_str_iserialnumber[22] = {
+    sizeof(__g_usb_msc_desc_str_iserialnumber),    /* 字符串描述符字节数 */
+    AM_USB_DESCRIPTOR_TYPE_STRING,                    /* 字符串描述符类型编号，固定为0x03 */
+    0x32, 0x00, /* 2 */
+    0x30, 0x00, /* 0 */
+    0x31, 0x00, /* 1 */
+    0x38, 0x00, /* 8 */
+    0x2d, 0x00, /* - */
+    0x31, 0x00, /* 1 */
+    0x30, 0x00, /* 0 */
+    0x2d, 0x00, /* - */
+    0x32, 0x00, /* 2 */
+    0x29, 0x00, /* 9 */
+};
+
+
+// 高8位为描述符类型 第八位为描述符编号
+static const am_usbd_descriptor_t __g_usb_msc_descriptor[] = {
+    {0x0100, sizeof(__g_usb_msc_desc_dev), __g_usb_msc_desc_dev},     /* 设备描述符 */
+    {0x0200, sizeof(__g_usb_msc_desc_conf), __g_usb_msc_desc_conf},   /* 配置描述符及其下级描述符 */
+    {0x0300, sizeof(__g_usb_msc_desc_str_language_id), __g_usb_msc_desc_str_language_id},       /* 字符串描述符0，描述语言id */
+    {0x0301, sizeof(__g_usb_msc_desc_str_imanufacturer), __g_usb_msc_desc_str_imanufacturer},   /* 字符串描述符1，描述厂商 */
+    {0x0302, sizeof(__g_usb_msc_desc_str_iproduct), __g_usb_msc_desc_str_iproduct},             /* 字符串描述符2，描述产品 */
+    {0x0303, sizeof(__g_usb_msc_desc_str_iserialnumber), __g_usb_msc_desc_str_iserialnumber},   /* 字符串描述符3，描述设备序列号 */
+};
+
+/**
+ * \brief 平台初始化
+ */
+static void __usb_msc_init (void) {
+    /* 使能时钟 */
+    am_clk_enable(CLK_USB);
+    am_clk_enable(CLK_IOPA);
+    am_clk_enable(CLK_AFIO);
+
+    /* 配置PIOA_11 PIOA_12为USB功能   */
+    am_gpio_pin_cfg(PIOA_11, PIOA_11_USBDM);
+    am_gpio_pin_cfg(PIOA_12, PIOA_12_USBDP);
+}
+
+/**
+ * \brief 平台去初始化
+ */
+static void __usb_msc_deinit (void) {
+    amhw_zlg217_usbd_connect_set(ZLG217_USB_DISCONNECT);   /* 断开连接 */
+
+    am_clk_disable(CLK_USB);    /* 禁能USB时钟 */
+}
+
+static const am_usbd_devinfo_t __g_usbd_msc_info = {
+	    __g_usb_msc_descriptor,                                                 /* 描述符地址 */
+	    sizeof(__g_usb_msc_descriptor) / sizeof(__g_usb_msc_descriptor[0]),     /* 描述符个数 */
+};
+
+/**< \brief 定义USB设备信息 */
+static const am_zlg227_usbd_devinfo_t  __g_zlg227_usbd_msc_info = {
+    ZLG217_USB_BASE,                                                      /* 寄存器基地址 */
+    INUM_USB,                                                               /* 中断号 */
+    __usb_msc_init,                                                         /* 平台初始化 */
+    __usb_msc_deinit,                                                       /* 平台去初始化 */
+	&__g_usbd_msc_info,
+};
+
+static am_usbd_msc_t      __g_usb_msc_dev;
+
+static am_zlg227_usbd_dev_t  __g_zlg_usbd_msc;
+
+static uint8_t __g_data_buf[AM_USBD_MAX_EP_DATA_CNT * 8];
+
+static const am_usbd_msc_diskinfo_t __g_usbd_msc_disk_info = {
+		AM_USBD_MSC_DISD_SIZE,
+		AM_USBD_MSC_SECTOR_SIZE,
+		AM_USBD_MSC_DISD_SIZE / AM_USBD_MSC_SECTOR_SIZE,
+		(AM_USBD_MSC_DISD_SIZE / 256 / 1024 + 1) * 512,
+		(AM_USBD_MSC_DISD_SIZE / 256 / 1024 * 2 + 1) * 512,
+		(AM_USBD_MSC_DISD_SIZE / 256 / 1024 * 2 + 17) * 512,
+		__g_data_buf,
+};
+
+/** \brief usb_msc实例初始化，获得usb_msc标准服务句柄 */
+am_usbd_msc_handle am_zlg217_usb_msc_inst_init (void)
+{
+    return am_usbd_msc_init(&__g_usb_msc_dev,
+    						&__g_usbd_msc_disk_info,
+							am_zlg227_usbd_init(&__g_zlg_usbd_msc, &__g_zlg227_usbd_msc_info));
+}
+
+/** \brief usb_msc解初始化，获得usb_msc标准服务句柄 */
+void am_mzlg217_usb_msc_inst_deinit (void)
+{
+    am_zlg217_usb_msc_deinit(&__g_usb_msc_dev);
+}
+
+/**
+ * @}
+ */
+
+/* end of file */

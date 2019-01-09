@@ -421,6 +421,33 @@ void demo_zlg_hw_adc_int_entry (amhw_zlg_adc_t *p_hw_adc,
                                 int             int_num,
                                 int             chan,
                                 uint32_t        vref_mv);
+
+/**
+ * \brief usb device msc  例程
+ *
+ * \param 无
+ *
+ * \return 无
+ */
+void demo_zlg217_usbd_msc_entry (void);
+	
+/**
+ * \brief usb device printer  数据流量计数例程
+ *
+ * \param 无
+ *
+ * \return 无
+ */
+void demo_zlg217_usbd_printer_entry (void);
+
+/**
+ * \brief usb device printer  数据流量计数例程
+ *
+ * \param 无
+ *
+ * \return 无
+ */
+void demo_zlg217_usbd_printer_counter_entry (void);
 /**
  * \brief gpio 例程
  */

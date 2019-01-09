@@ -147,7 +147,7 @@ extern "C" {
 #define ZLG217_CAN     ((amhw_zlg217_can_t       *)ZLG217_CAN_BASE)
 
 /** \brief USB控制器寄存器块指针 */
-#define ZLG217_USB     ((amhw_zlg217_usb_t       *)ZLG217_USB_BASE)
+#define ZLG217_USB     ((amhw_zlg217_usbd_t      *)ZLG217_USB_BASE)
 
 /** \brief 外部中断(事件)控制器EXTI寄存器块指针 */
 #define ZLG217_EXTI    ((amhw_zlg217_exti_t      *)ZLG217_EXTI_BASE)
