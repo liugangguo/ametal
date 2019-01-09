@@ -24,6 +24,18 @@
 #define __AM_BOOT_FIRMWARE_H
 
 #include "ametal.h"
+/**
+ * \brief bootloader接收固件头部数据
+ */
+typedef struct am_boot_firmware_verify_info {
+
+    /** \brief 固件长度 */
+    uint32_t len;
+
+    /** \brief 固件校验码 */
+    uint32_t verify_value;
+
+} am_boot_firmware_verify_info_t;
 
 struct am_boot_firmware_drv_funcs {
     /**< \brief 固件存储开始驱动函数*/
@@ -34,6 +46,9 @@ struct am_boot_firmware_drv_funcs {
 
     /**< \brief 固件存储结束驱动函数*/
     int (*pfn_store_final)(void *p_drv);
+
+    /**< \brief 固件校验*/
+    int(*pfn_verify)(void *p_drv, am_boot_firmware_verify_info_t *p_verify_info);
 };
 
 /**< \brief 固件存储标准服务 */
@@ -101,6 +116,19 @@ int am_boot_firmware_store_final(am_boot_firmware_handle_t handle)
 {
     return handle->pfn_funcs->pfn_store_final(handle->p_drv);
 }
+
+/**
+ * \brief 固件校验
+ *
+ * \retval AM_ERROR 出错
+ * \retval AM_OK    成功
+ */
+am_static_inline
+int am_boot_firmware_verify(am_boot_firmware_handle_t handle, am_boot_firmware_verify_info_t *p_verify_info)
+{
+    return handle->pfn_funcs->pfn_verify(handle->p_drv, p_verify_info);
+}
+
 
 #endif /* __AM_BOOT_FIRMWARE_H */
 

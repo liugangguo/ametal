@@ -22,17 +22,26 @@
 #include "am_zlg116_boot.h"
 #include "am_zlg116.h"
 #include "am_arm_nvic.h"
+#include "am_int.h"
+#include "am_zlg_flash.h"
 
 static am_zlg116_boot_dev_t *__gp_boot_dev = NULL;
+static int __boot_source_release(void);
+static int __boot_update_flag_get_and_dispose (void);
 /**
  * \brief 判断应用代码是否可执行
  */
-am_bool_t am_boot_app_is_ready(uint32_t app_start_addr)
+am_bool_t am_boot_app_is_ready(void)
 {
     if(__gp_boot_dev == NULL) {
         return AM_FALSE;
     }
 
+    if(AM_OK != __boot_update_flag_get_and_dispose()) {
+        return AM_FALSE;
+    }
+
+    uint32_t app_start_addr = __gp_boot_dev->p_devinfo->app_start_addr;
     if ((!app_start_addr) || (app_start_addr == 0xffffffff)) {
         return AM_FALSE;
     }
@@ -45,8 +54,7 @@ am_bool_t am_boot_app_is_ready(uint32_t app_start_addr)
 
     if(app_start_addr < flash_start_addr || app_start_addr > flash_end_adrr) {
         return AM_FALSE;
-    }
-    else {
+    } else {
         if((*(uint32_t *)app_start_addr) > (ram_start_addr + ram_size )||
            (*(uint32_t *)app_start_addr) < ram_start_addr) {
             return AM_FALSE;
@@ -57,20 +65,20 @@ am_bool_t am_boot_app_is_ready(uint32_t app_start_addr)
 /**
  * \brief 跳转到应用代码
  */
-int am_boot_go_application(uint32_t app_start_addr)
+int am_boot_go_application(void)
 {
     if(__gp_boot_dev == NULL) {
         return -AM_ERROR;
     }
+
+    uint32_t app_start_addr = __gp_boot_dev->p_devinfo->app_start_addr;
     uint32_t stack_pointer = *(uint32_t *)app_start_addr;
 
     void (*farewell_bootloader)(void);
 
-    if(AM_TRUE != am_boot_app_is_ready(app_start_addr)) {
-        return AM_ERROR;
-    }
-
     farewell_bootloader = (void (*)(void))(*(uint32_t *)(app_start_addr + 4));
+
+   __boot_source_release();
 
     /* 设置栈指针 */
     __set_MSP(stack_pointer);
@@ -78,7 +86,6 @@ int am_boot_go_application(uint32_t app_start_addr)
 
     /* 跳转到应用代码 */
     farewell_bootloader();
-
     /*如果正常跳转，代码不会执行到这里*/
     return -AM_ERROR;
 }
@@ -86,25 +93,94 @@ int am_boot_go_application(uint32_t app_start_addr)
 /**
  * \brief 系统重启
  */
-void am_boot_reset()
+void am_boot_reset(void)
 {
     if(__gp_boot_dev == NULL) {
         return;
     }
     NVIC_SystemReset();
 }
-/**
- * \brief 获取基本的内存信息的信息
- * \param[in] mem_info : 传入存放获取后的信息
 
- * \retval 无
+/**
+ * \brief 双区bootloader标志设置
+ *
+ * \param[in] flags 标志
+ * AM_BOOTLOADER_FLAG_APP    双区用户程序有效
+ * AM_BOOTLOADER_FLAG_UPDATE 双区升级程序有效
+ * AM_BOOTLOADER_FLAG_NO     双区无代码
+ *
+ * \retval AM_OK 成功
  */
-void am_boot_base_mem_info_get(am_boot_mem_info_t **pp_mem_info)
+int am_boot_update_flag_set(uint32_t flag)
 {
+    int ret = 0;
     if(__gp_boot_dev == NULL) {
-        return;
+        return -AM_ERROR;
     }
-    *pp_mem_info = &__gp_boot_dev->mem_info;
+
+    ret = am_boot_flash_erase_region(__gp_boot_dev->flash_handle,
+                                     __gp_boot_dev->p_devinfo->update_flag_addr,
+                                     1024);
+    if(ret != AM_OK) {
+        return AM_ERROR;
+    }
+
+    ret = am_boot_flash_program(__gp_boot_dev->flash_handle,
+                                __gp_boot_dev->p_devinfo->update_flag_addr,
+                                (uint8_t *)&flag,
+                                 4);
+    if(ret != AM_OK) {
+        return AM_ERROR;
+    }
+
+    return AM_OK;
+}
+
+/**
+ * \brief 双区bootloader标志获取并做相应处理
+ *
+ */
+static int __boot_update_flag_get_and_dispose ()
+{
+    uint32_t flags;
+    uint16_t i = 0, ret;
+    if(__gp_boot_dev == NULL) {
+        return -AM_ERROR;
+    }
+
+   uint32_t addr = (uint32_t)__gp_boot_dev->p_devinfo->update_flag_addr;
+
+   flags = *(uint32_t *)(addr);
+
+   if (flags == AM_BOOTLOADER_FLAG_APP) {
+       return AM_OK;
+   } else if(flags == AM_BOOTLOADER_FLAG_UPDATE) {
+       for(i = 0; i < __gp_boot_dev->p_devinfo->app_region_sector_count; i++) {
+           am_boot_flash_erase_region(
+               __gp_boot_dev->flash_handle,
+               __gp_boot_dev->p_devinfo->app_start_addr + i * 1024,
+               1024);
+       }
+
+       for (i = 0 ; i < __gp_boot_dev->p_devinfo->app_region_sector_count ; i++) {
+
+           ret = am_boot_flash_program(
+               __gp_boot_dev->flash_handle,
+               __gp_boot_dev->p_devinfo->app_start_addr + i * 1024,
+               (uint8_t *)(i * 1024 + __gp_boot_dev->p_devinfo->update_start_addr) ,
+               1024);
+
+           if (ret != AM_OK) {
+               am_kprintf("bootloader : firmware update error\r\n");
+               return AM_ERROR;
+           }
+       }
+       am_boot_update_flag_set(AM_BOOTLOADER_FLAG_APP);
+   } else {
+       return AM_ERROR;
+   }
+
+   return AM_OK;
 }
 
 /**
@@ -115,10 +191,10 @@ void am_boot_base_mem_info_get(am_boot_mem_info_t **pp_mem_info)
 
  * \retval AM_OK : 成功
  */
-int am_boot_source_release(void)
+static int __boot_source_release(void)
 {
     am_arm_nvic_deinit();
-
+    __disable_irq();
     return AM_OK;
 }
 
@@ -126,23 +202,18 @@ int am_boot_source_release(void)
  * \brief BootLoader初始化函数
  */
 int am_zlg116_boot_init(am_zlg116_boot_dev_t     *p_dev,
-                        am_zlg116_boot_devinfo_t *p_devinfo)
+                        am_zlg116_boot_devinfo_t *p_devinfo,
+                        am_boot_flash_handle_t    flash_handle)
 {
     if(p_devinfo == NULL || p_dev == NULL) {
-        return -AM_ENXIO;;
+        return -AM_ENXIO;
     }
-
-    p_dev->p_devinfo          = p_devinfo;
-
-    p_dev->mem_info.flash_size       = p_devinfo->flash_size;
-    p_dev->mem_info.flash_start_addr = p_devinfo->flash_start_addr;
-    p_dev->mem_info.ram_size         = p_devinfo->ram_size;
-    p_dev->mem_info.ram_start_addr   = p_devinfo->ram_start_addr;
+    p_dev->flash_handle = flash_handle;
+    p_dev->p_devinfo    = p_devinfo;
 
     __gp_boot_dev = p_dev;
 
     return AM_OK;
 }
-
 
 /* end of file */

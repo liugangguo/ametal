@@ -38,13 +38,18 @@ int am_boot_kft_init(am_boot_kft_dev_t      *p_dev,
     if(p_devinfo == NULL || p_dev == NULL) {
         return -AM_ENXIO;
     }
-
     p_dev->p_dev_info = p_devinfo;
 
     am_boot_mem_handle_t memory_handle = am_boot_flash_mem_init(flash_handle);
+    am_boot_kft_property_devinfo_t porperty_devifo;
+    porperty_devifo.app_start_addr   = p_devinfo->app_start_addr;
+    porperty_devifo.flash_size       = p_devinfo->flash_size;
+    porperty_devifo.flash_start_addr = p_devinfo->flash_start_addr;
+    porperty_devifo.ram_size         = p_devinfo->ram_size;
+    porperty_devifo.ram_start_addr   = p_devinfo->ram_start_addr;
 
     am_boot_kft_property_handle_t  property_handle = am_boot_kft_property_init(
-        flash_handle, p_dev->p_dev_info->app_vector_tab_start_addr);
+        flash_handle, &porperty_devifo);
 
     am_boot_kft_packet_handle_t packet_handle = am_boot_kft_packet_init(serial_handle);
 

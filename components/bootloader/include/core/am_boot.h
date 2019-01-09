@@ -28,13 +28,12 @@ extern "C" {
 #endif
 #include "ametal.h"
 
-typedef struct am_boot_mem_info {
-    uint32_t  flash_start_addr;    /**< \brief flash的起始地址*/
-    uint32_t  flash_size;          /**< \brief flash的大小 */
-
-    uint32_t  ram_start_addr;      /**< \brief ram起始地址 */
-    uint32_t  ram_size;            /**< \brief ram的大小 */
-}am_boot_mem_info_t;
+/** \brief 双区用户程序有效 */
+#define AM_BOOTLOADER_FLAG_APP     (0x12345678)  //305419896
+/** \brief 双区升级程序有效 */
+#define AM_BOOTLOADER_FLAG_UPDATE  (0x87654321)  //2271560481
+/** \brief 双区无代码 */
+#define AM_BOOTLOADER_FLAG_NO      (0xFFFFFFFF)
 
 
 /**
@@ -44,16 +43,15 @@ typedef struct am_boot_mem_info {
  * 
  * \retval  无
  */ 
-am_bool_t am_boot_app_is_ready(uint32_t app_start_addr);
+am_bool_t am_boot_app_is_ready(void);
 
 /**
  * \brief 跳转到应用代码代码
  *
- * \param[in] app_start_addr : 应用代码首地址
  *
- * \retval AM_ERROR 跳转出错或者参数传入不合法
+ * \retval AM_ERROR 跳转出错或跳转目的地址有误
  */
-int am_boot_go_application(uint32_t app_start_addr);
+int am_boot_go_application(void);
 
 /**
  * \brief 系统软件重启
@@ -62,23 +60,19 @@ int am_boot_go_application(uint32_t app_start_addr);
  */
 void am_boot_reset(void);
 
-/**
- * \brief 获取基本的内存信息的信息
- * \param[in] mem_info : 传入存放获取后的信息
-
- * \retval 无
- */
-void am_boot_base_mem_info_get(am_boot_mem_info_t **pp_mem_info);
 
 /**
- * \brief 释放系统资源
+ * \brief 双区bootloader标志设置
  *
- * \note bootloader在跳转到应用代码前，必须调用此接口，
- *       在bootloader中申请的资源或者初始化的某些外设都应主动释放和解初始化，避免对应用程序造成影响。
-
- * \retval AM_OK : 成功
+ * \param[in] flags 标志
+ * AM_BOOTLOADER_FLAGS_APP    双区用户程序有效
+ * AM_BOOTLOADER_FLAGS_UPDATE 双区升级程序有效
+ * AM_BOOTLOADER_FLAGS_NO     双区无代码
+ *
+ * \retval AM_OK 成功
  */
-int am_boot_source_release(void);
+int am_boot_update_flag_set(uint32_t flag);
+
 
 #ifdef __cplusplus
 }

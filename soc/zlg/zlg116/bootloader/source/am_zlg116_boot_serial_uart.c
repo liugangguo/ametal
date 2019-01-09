@@ -25,7 +25,7 @@
 #include "amhw_zlg_uart.h"
 #include "am_zlg116.h"
 #include "am_zlg116_inst_init.h"
-#include "am_bootconf_zlg116_kft.h"
+#include "am_bootconf_zlg116.h"
 
 #define UART_CH       ZLG116_UART1_BASE  /**< \brief UART通道 */
 #define UART_INT_NUM  INUM_UART1         /**< \brief UART中断号*/
@@ -64,7 +64,7 @@ static void __uart_irq_handler(void *p_arg)
     }
 }
 
- static void __zlg116_uart_int_init()
+static void __zlg116_uart_int_init()
 {
     /* 使能RDRF接收准中断 */
     amhw_zlg_uart_int_enable((amhw_zlg_uart_t *)UART_CH, AMHW_ZLG_UART_INT_RX_VAL_ENABLE);
@@ -100,8 +100,7 @@ am_boot_serial_handle_t am_zlg116_boot_serial_uart_init(am_boot_autobaud_handle_
 
                 if(baund <= 7200 && baund > 3000) {
                     baund = 4800;
-                }
-                else if(baund <=384000  && baund > 192000) {
+                } else if(baund <=384000  && baund > 192000) {
                     baund = 256000;
                 }
 

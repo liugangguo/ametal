@@ -25,8 +25,14 @@
 
 #include "am_boot.h"
 #include "amhw_zlg_flash.h"
+#include "am_boot_flash.h"
 
 typedef struct am_zlg116_boot_devinfo {
+    uint32_t  app_start_addr;      /**< \brief 应用代码区起始地址*/
+    uint32_t  update_start_addr;   /**< \brief 升级区起始地址*/
+    uint32_t  update_flag_addr;    /**< \brief 升级标志的存放地址，一般是放在应用代码区起始地址的前4字节*/
+    /**< \brief 应用代码占用的扇区数，升级区占用的扇区数相同*/
+    uint32_t  app_region_sector_count;
     uint32_t  flash_start_addr;    /**< \brief flash的起始地址*/
     uint32_t  flash_size;          /**< \brief flash的大小 */
 
@@ -40,8 +46,7 @@ typedef struct am_zlg116_boot_devinfo {
 
 typedef struct am_zlg116_boot_dev {
     am_zlg116_boot_devinfo_t *p_devinfo;
-    am_boot_mem_info_t        mem_info;
-    amhw_zlg_flash_t          amhw_zlg_flash;   /**< \brief flash寄存器结构体 */
+    am_boot_flash_handle_t    flash_handle;   /**< \brief flash操作句柄 */
 
 }am_zlg116_boot_dev_t;
 
@@ -54,7 +59,8 @@ typedef struct am_zlg116_boot_dev {
  * \return BootLoader标准服务操作句柄，值为NULL时表明初始化失败
  */
 int am_zlg116_boot_init(am_zlg116_boot_dev_t      *p_dev,
-                        am_zlg116_boot_devinfo_t *p_devinfo);
+                        am_zlg116_boot_devinfo_t  *p_devinfo,
+                        am_boot_flash_handle_t     flash_handle);
 
 
 #endif /* __AM_ZLG116_BOOT_H */

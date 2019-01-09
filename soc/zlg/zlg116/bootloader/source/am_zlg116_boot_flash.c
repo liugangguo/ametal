@@ -54,13 +54,12 @@ static int __boot_flash_erase_region(void     *p_drv,
     uint32_t erase_sector_count = 0;
     if((length & (sector_size - 1)) != 0) {
         erase_sector_count = length / sector_size + 1;
-    }
-    else {
+    } else {
         erase_sector_count = length / sector_size;
     }
 
      uint32_t flash_addr_end = p_dev->flash_info.flash_start_addr + \
-         p_dev->flash_info.flash_size - 1;
+         p_dev->flash_info.flash_size;
 
      if ((start_addr + length) > flash_addr_end) {
          return AM_ERROR;
@@ -131,8 +130,7 @@ static int __boot_flash_program(void      *p_drv,
     if(left_size != 0) {
         if((left_size & (sizeof(uint32_t) - 1)) != 0) {
             program_size = left_size / sizeof(uint32_t) + 1;
-        }
-        else {
+        } else {
             program_size = left_size / sizeof(uint32_t);
         }
         key = am_int_cpu_lock();
@@ -183,12 +181,5 @@ am_boot_flash_handle_t am_zlg116_boot_flash_init(am_zlg116_boot_flash_dev_t     
     return &p_dev->flash_serv;
 }
 
-/**
- * \brief BootLoader flash解初始化函数
- */
-void am_zlg116_boot_flash_deinit(am_zlg116_boot_flash_dev_t *p_dev)
-{
-
-}
 /* end of file */
 

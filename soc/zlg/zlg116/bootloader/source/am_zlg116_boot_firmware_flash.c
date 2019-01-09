@@ -26,7 +26,7 @@
 static int __firmware_flash_start(void *p_drv, uint32_t firmware_size);
 static int __firmware_flash_bytes(void *p_drv, uint8_t *p_data, uint32_t firmware_size);
 static int __firmware_flash_final(void *p_drv);
-
+static int __firmware_verify(void *p_drv, am_boot_firmware_verify_info_t *p_verify_info);
 /**
  * \brief BootLoader 固件存放到flash的标准接口的实现
  */
@@ -34,6 +34,7 @@ static struct am_boot_firmware_drv_funcs __g_firmware_flash_drv_funcs = {
     __firmware_flash_start,
     __firmware_flash_bytes,
     __firmware_flash_final,
+    __firmware_verify,
 };
 
 /**
@@ -77,7 +78,7 @@ static int __firmware_flash_start (void *p_drv, uint32_t firmware_size)
     uint32_t erase_size;
     if( p_dev->firmware_size_is_unknow == AM_TRUE) {
         erase_size = flash_info->flash_sector_size;
-    }else {
+    } else {
         erase_size = firmware_size;
     }
     ret = p_dev->flash_handle->p_funcs->pfn_flash_erase_region(
@@ -136,8 +137,7 @@ static int __firmware_flash_bytes (void *p_drv, uint8_t *p_data, uint32_t firmwa
             uint32_t erase_sector_count;
             if(add_len & (flash_info->flash_sector_size - 1)) {
                 erase_sector_count = add_len / flash_info->flash_sector_size;
-            }
-            else {
+            } else {
                 erase_sector_count = add_len / flash_info->flash_sector_size - 1;
             }
 
@@ -218,6 +218,33 @@ static int __firmware_flash_final(void *p_drv)
     p_dev->curr_program_flash_addr = p_dev->firmware_dst_addr;
 
     return AM_OK;
+}
+
+/**
+ * \brief 固件简单校验
+ */
+static int __firmware_verify(void *p_drv, am_boot_firmware_verify_info_t *p_verify_info)
+{
+    am_zlg116_boot_firmware_flash_dev_t *p_dev = (am_zlg116_boot_firmware_flash_dev_t *)p_drv;
+    uint8_t *p_flash = (uint8_t *)p_dev->firmware_dst_addr;
+
+    uint32_t verify = 0, i = 0;
+
+    if (NULL == p_verify_info) {
+        return -AM_ERROR;
+    }
+
+    for (i = 0 ; i < p_verify_info->len ; i++) {
+
+        verify += p_flash[i];
+
+    }
+
+    if (verify == p_verify_info->verify_value) {
+        return AM_OK;
+    } else {
+        return -AM_ERROR;
+    }
 }
 
 /**
