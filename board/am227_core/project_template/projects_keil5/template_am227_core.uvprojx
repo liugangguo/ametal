@@ -1247,9 +1247,9 @@
           <GroupName>usbd</GroupName>
           <Files>
             <File>
-              <FileName>libam_usbd.lib</FileName>
+              <FileName>am_usbd_release.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\..\components\usb\libam_usbd.lib</FilePath>
+              <FilePath>..\..\..\..\components\usb\am_usbd_release.lib</FilePath>
             </File>
           </Files>
         </Group>
@@ -2496,9 +2496,9 @@
           <GroupName>usbd</GroupName>
           <Files>
             <File>
-              <FileName>libam_usbd.lib</FileName>
+              <FileName>am_usbd_release.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\..\..\components\usb\libam_usbd.lib</FilePath>
+              <FilePath>..\..\..\..\components\usb\am_usbd_release.lib</FilePath>
             </File>
           </Files>
         </Group>

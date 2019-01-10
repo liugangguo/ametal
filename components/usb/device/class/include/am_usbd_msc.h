@@ -13,11 +13,11 @@
 
 /**
  * \file
- * \brief USBD MSC
+ * \brief USBD PRINTER include file
  *
  * \internal
  * \par Modification history
- * - 1.00 16-9-27  bob, first implementation.
+ * - 1.00 18-12-27  adw, first implementation.
  * \endinternal
  */
 
@@ -27,7 +27,7 @@
  *
  * \internal
  * \par Modification History
- * - 1.00 16-9-27  bob, first implementation.
+ * - 1.00 18-12-27  adw, first implementation.
  * \endinternal
  */
 

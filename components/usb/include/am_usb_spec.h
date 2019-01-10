@@ -1,10 +1,21 @@
+/*******************************************************************************
+*                                 AMetal
+*                       ----------------------------
+*                       innovating embedded platform
+*
+* Copyright (c) 2001-2018 Guangzhou ZHIYUAN Electronics Co., Ltd.
+* All rights reserved.
+*
+* Contact information:
+* web site:    http://www.zlg.cn/
+*******************************************************************************/
 /**
  * \file
  * \brief     USB
  *
  * \internal
  * \par Modification History
- * - 1.00 16-9-27  bob, first implementation.
+ * - 1.00 18-12-27  adw, first implementation.
  * \endinternal
  */
 

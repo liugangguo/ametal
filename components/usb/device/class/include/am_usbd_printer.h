@@ -13,42 +13,12 @@
 
 /**
  * \file
- * \brief USBD PRINTER
+ * \brief USBD PRINTER include file
  *
  * \internal
  * \par Modification history
- * - 1.00 16-9-27  bob, first implementation.
+ * - 1.00 18-12-27  adw, first implementation.
  * \endinternal
- */
-
-/*
- * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * o Redistributions of source code must retain the above copyright notice, this list
- *   of conditions and the following disclaimer.
- *
- * o Redistributions in binary form must reproduce the above copyright notice, this
- *   list of conditions and the following disclaimer in the documentation and/or
- *   other materials provided with the distribution.
- *
- * o Neither the name of Freescale Semiconductor, Inc. nor the names of its
- *   contributors may be used to endorse or promote products derived from this
- *   software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
- * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #ifndef __AM_USBD_PRINTER_H
@@ -97,9 +67,12 @@
  * API
  ******************************************************************************/
 
+/** \brief 主机输入端点*/
 #define AM_USBD_PRINTER_BULK_EP_IN                      (1U)
+
+/** \brief 主机输出端点 */
 #define AM_USBD_PRINTER_BULK_EP_OUT                     (2U)
-#define AM_USBD_PRINTER_ENDPOINT_COUNT                  (2U)
+
 
 
 #if defined(__cplusplus)
@@ -135,6 +108,7 @@ typedef struct _usbd_printer {
 } am_usbd_printer_t;
 
 
+/** \brief 定义打印机函数句柄 */
 typedef am_usbd_printer_t  *am_usbd_printer_handle;
 
 
@@ -150,7 +124,7 @@ typedef am_usbd_printer_t  *am_usbd_printer_handle;
  */
 am_usb_status_t am_usbd_printer_recv_request_callback(am_usbd_printer_handle  handle,
                                                       am_printer_recv_cb_t    pfn_cb,
-                                                      void                    *p_arg);
+                                                      void                   *p_arg);
 
 /**
  * \brief 打印机发送请求回调函数设置
@@ -167,13 +141,17 @@ am_usb_status_t am_usbd_printer_send_request_callback(am_usbd_printer_handle han
 
 
 /**
- * \brief 打印机厂商请求回调函数设置
+ * \brief 打印机厂商请求回调函数设置(具体指令由驱动决定（厂商决定）)
+ *
  * \param[in] handle : usb device 打印机句柄
  * \param[in] pfn_cb : 打印机发送请求回调函数
  * \param[in] p_arg  : 打印机发送请求回调函数参数
  *
  * \retval AM_USB_STATUS_SUCCESS         设置成功
  *         AM_USB_STATUS_INVALID_HANDLE  无效的句柄
+ *
+ * \note 在回调函数中，及主机发送厂商请求，使用打印机发送函数时（am_usbd_printer_send）,该发送函数的第二
+ *       个参数固定为0.
  */
 am_usb_status_t am_usbd_printer_vendor_request_callback(am_usbd_printer_handle handle,
                                                         am_vendor_request_t    pfn_cb,
@@ -182,6 +160,7 @@ am_usb_status_t am_usbd_printer_vendor_request_callback(am_usbd_printer_handle h
  * \brief 打印机发送函数
  *
  * \param[in] handle    : 打印机handle
+ * \param[in] ep        : 选择端点(输出端点还是控制端点)
  * \param[in] p_buff    : 待发送的buff
  * \param[in] length    : 待发送的数据长度
  *
@@ -190,8 +169,13 @@ am_usb_status_t am_usbd_printer_vendor_request_callback(am_usbd_printer_handle h
  * \retval  AM_USB_STATUS_INVALID_REQUEST       USB 响应错误
  * \retval  AM_USB_STATUS_INVALID_HANDLE        无效的句柄
  * \retval  AM_USB_STATUS_INVALID_PARAMETER     参数错误
+ *
+ * \note 该函数一般使用在厂商请求，或者主机请求端点接收数据时(主机接收)。
+ *       在厂商请求中使用该发送函数，函数中的第二个参数，即端点地址必须为0;
+ *       在发送请求中断中使用发送函数,这里的第二个参数就为用户定义的发送数据端点号.
  */
 am_usb_status_t am_usbd_printer_send(am_usbd_printer_handle handle,
+                                     uint8_t                ep,
                                      uint8_t               *p_buff,
                                      uint32_t               length);
 

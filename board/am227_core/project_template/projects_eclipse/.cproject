@@ -167,8 +167,8 @@
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.nostart.1532393853" name="Do not use standard start files (-nostartfiles)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.nostart" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.usenewlibnano.1346330969" name="Use newlib-nano (--specs=nano.specs)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.usenewlibnano" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.libs.0000000000" name="Libraries (-l)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.libs" useByScannerDiscovery="false" valueType="libs">
+									<listOptionValue builtIn="false" value="am_usbd_debug"/>
 									<listOptionValue builtIn="false" value="am_fm175xx_zlg116"/>
-									<listOptionValue builtIn="false" value="am_usbd"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker.input.430537863" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -381,7 +381,7 @@
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.usenewlibnano.934483089" name="Use newlib-nano (--specs=nano.specs)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.usenewlibnano" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.libs.218790126" name="Libraries (-l)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.libs" useByScannerDiscovery="false" valueType="libs">
 									<listOptionValue builtIn="false" value="am_fm175xx_zlg116"/>
-									<listOptionValue builtIn="false" value="am_usbd"/>
+									<listOptionValue builtIn="false" value="am_usbd_release"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker.input.1742976682" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

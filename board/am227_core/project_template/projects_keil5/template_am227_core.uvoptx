@@ -1646,7 +1646,7 @@
 
   <Group>
     <GroupName>user_code</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1666,7 +1666,7 @@
 
   <Group>
     <GroupName>user_config</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -2261,8 +2261,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\..\components\usb\libam_usbd.lib</PathWithFileName>
-      <FilenameWithoutPath>libam_usbd.lib</FilenameWithoutPath>
+      <PathWithFileName>..\..\..\..\components\usb\am_usbd_release.lib</PathWithFileName>
+      <FilenameWithoutPath>am_usbd_release.lib</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

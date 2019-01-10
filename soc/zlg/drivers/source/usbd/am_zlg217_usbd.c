@@ -623,12 +623,11 @@ static void __ctrl_deal_handle (am_zlg227_usbd_dev_t *p_dev)
         if(p_dev->device.class_req.pfn_class != NULL) {
             (p_dev->device.class_req.pfn_class)(p_dev->device.class_req.p_arg, p_dev->device.setup_data.b_request);
         }
-            //am_usbd_class_request(&(p_dev->device), p_dev->device.usbd_type, p_dev->device.setup_data.b_request);
 
     } else if ((p_dev->device.setup_data.bm_request_type & AM_USB_REQUEST_TYPE_TYPE_MASK)
             == AM_USB_REQUEST_TYPE_TYPE_VENDOR) {
         if(p_dev->device.vendor_req.pfn_vendor != NULL) {
-        	(p_dev->device.vendor_req.pfn_vendor)(p_dev->device.vendor_req.p_arg);
+        	(p_dev->device.vendor_req.pfn_vendor)(p_dev->device.vendor_req.p_arg, p_dev->device.setup_data.b_request);
         }
     }
 }
@@ -682,7 +681,7 @@ static void __usb_setup_handle (am_zlg227_usbd_dev_t *p_dev)
         /* ³§ÉÌÇëÇó */
         case 2:
             if(p_dev->device.vendor_req.pfn_vendor != NULL) {
-            	(p_dev->device.vendor_req.pfn_vendor)(p_dev->device.vendor_req.p_arg);
+            	(p_dev->device.vendor_req.pfn_vendor)(p_dev->device.vendor_req.p_arg, p_dev->device.setup_data.b_request);
             }
             break;
 

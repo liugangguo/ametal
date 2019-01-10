@@ -13,51 +13,54 @@
 
 /**
  * \file
- * \brief ZM516X 模块搜索例程，通过标准接口实现
+ * \brief USB printer_counter 例程
  *
  * - 实验现象：
- *
+ * 1.将USB 电缆的 DN 接AM227_core 板 的引脚PA11, DP接core 板PA12， 将USB的另端点接入PC机。
+ * 2.给板子烧录该例程，等待3秒(程序中有3秒延时，为了模拟USB拔出过程)，3秒后pc机会提示安装驱动，
+ *   这里默认安装windows 通用打印机驱动，详细可看驱动安装说明文档，如果用户想要用自己的驱动，可以自行更新。
+ * 3.在电脑桌面新建一个txt文件，输入字符串,之后点击文件打印，即在串口中可以看到文件内容，最后会显示该次传输数据量
+ *   及其所耗时间。
  *
  * \par 源代码
- * \snippet demo_usbd_printer.c src_usbd_printer
+ * \snippet demo_usbd_printer_counter.c src_usbd_printer_counter
  *
  * \internal
  * \par Modification History
- * - 1.00 18-01-15  pea, first implementation
+ * - 1.00 19-1-09  adw, first implementation
  * \endinternal
  */
 
 /**
- * \addtogroup demo_if_usbd_printer
- * \copydoc demo_usbd_printer.c
+ * \addtogroup demo_if_usbd_printer_counter
+ * \copydoc demo_usbd_printer_counter.c
  */
 
 /** [src_usbd_printer] */
 #include "ametal.h"
-#include "am_softimer.h"
-#include "am_wait.h"
+#include "string.h"
 #include "am_int.h"
 #include "am_delay.h"
+#include "am_vdebug.h"
+#include "am_rngbuf.h"
+#include "am_softimer.h"
 #include "am_zlg217_usbd.h"
 #include "am_usbd_printer.h"
-#include "am_vdebug.h"
 #include "am_zlg217_inst_init.h"
-#include "am_rngbuf.h"
-#include "am_int.h"
-#include "string.h"
+#include "demo_am217_core_entries.h"
 
-#define __RNG_BUFF_SIZE    256
+#define __RNG_BUFF_SIZE    256                      /**< \brief 缓冲区大小. */
 
-static char __g_rng_buff[__RNG_BUFF_SIZE] = {0};
+static char __g_rng_buff[__RNG_BUFF_SIZE]   = {0};  /**< \brief 环形缓冲区buff*/
 
-static char __g_buff[__RNG_BUFF_SIZE] = {0};
+static char __g_read_buff[__RNG_BUFF_SIZE]  = {0};  /**< \brief 数据读取buff*/
 
-static struct am_rngbuf __g_rngbuff;  // 定义一个环形缓冲区实例
+static struct am_rngbuf __g_rngbuff; /**< \brief 定义一个环形缓冲区实例*/
 
-static uint32_t __g_data_len  = 0;  /**< \brief 一次主机发送的的数据长度. */
-static uint32_t __g_timeout   = 0;  /**< \brief 中断超时状态*/
-static uint32_t __g_clock     = 0;  /**< \brief 定时器计数值,ms级别. */
-static uint8_t  __g_int_state = 0;  /**< \brief 中断状态*/
+static uint32_t __g_data_len  = 0;   /**< \brief 一次主机发送的的数据长度. */
+static uint32_t __g_timeout   = 0;   /**< \brief 中断超时状态*/
+static uint32_t __g_clock     = 0;   /**< \brief 定时器计数值,ms级别. */
+static uint8_t  __g_int_state = 0;   /**< \brief 中断状态*/
 
 /**
  * \brief 打印机接收中断请求回调函数
@@ -71,8 +74,7 @@ static void __printer_recv_callback(void *p_arg, uint8_t *p_data, uint8_t len)
     __g_data_len += len;  /* 长度. */
     __g_timeout   = 0;    /* 归零超时时间*/
     __g_int_state = 1;    /* 中断状态标志*/
-	  am_rngbuf_put(&__g_rngbuff, (char *)p_data, len);
-    //am_kprintf("%s", p_data);  
+    am_rngbuf_put(&__g_rngbuff, (char *)p_data, len);  /* 填充环形缓冲区*/
 }
 
 /**
@@ -82,10 +84,11 @@ static void __printer_recv_callback(void *p_arg, uint8_t *p_data, uint8_t len)
  */
 static void __printer_send_callback(void *p_arg)
 {
-//    uint8_t data[] = "ZLG printer demo test string";
-//    am_usbd_printer_handle handle = (am_usbd_printer_handle)p_arg;
+    //该函数为打印机发送请求,即主机有请求USB device 发送数据(定义的端点数据)时，就会进入该函数
+    uint8_t data[] = "ZLG printer demo test string";
+    am_usbd_printer_handle handle = (am_usbd_printer_handle)p_arg;
 
-//    am_usbd_printer_send(handle, data, sizeof(data));
+    am_usbd_printer_send(handle, AM_USBD_PRINTER_BULK_EP_IN, data, sizeof(data));
 }
 
 /**
@@ -120,20 +123,20 @@ static void  __softimer_callback_func(void * p_arg)
 }
 
 /**
- * \brief 例程入口
+ * \brief usb device printer 流量计数例程入口
  */
 void demo_zlg217_usbd_printer_counter_entry (void)
 {
-		uint32_t key = 0;
+    uint32_t key = 0;
     am_kprintf("printer counter demo\n");
 
     am_mdelay(3000);                                  /* 模拟USB设备拔出的动作 */
     am_softimer_t soft_time;                          /* 软件定时器handle*/
     am_usbd_printer_handle handle = NULL;
 
-		  /* 初始化环形缓冲区*/
-	  am_rngbuf_init(&__g_rngbuff, __g_rng_buff, __RNG_BUFF_SIZE);
-	
+    /* 初始化环形缓冲区*/
+    am_rngbuf_init(&__g_rngbuff, __g_rng_buff, __RNG_BUFF_SIZE);
+
     /* 初始化软件定时器. */
     am_softimer_init(&soft_time, __softimer_callback_func, handle);
     am_softimer_start(&soft_time, 1);                 /* 开始软件定时器布局 1ms*/
@@ -145,17 +148,19 @@ void demo_zlg217_usbd_printer_counter_entry (void)
     am_usbd_printer_send_request_callback(handle, __printer_send_callback, handle);
 
     while (1) {
-				if (!am_rngbuf_isempty(&__g_rngbuff)) {
-						key = am_int_cpu_lock();
-						am_rngbuf_get(&__g_rngbuff, __g_buff, __RNG_BUFF_SIZE);
-						
-						am_kprintf("%s", __g_buff);
-						
-						memset(__g_buff, 0, __RNG_BUFF_SIZE);
-						am_int_cpu_unlock(key);
-					}			
+
+        /* 如果环形缓冲区不为空，处理数据*/
+        if (!am_rngbuf_isempty(&__g_rngbuff)) {
+            key = am_int_cpu_lock();
+            am_rngbuf_get(&__g_rngbuff, __g_read_buff, __RNG_BUFF_SIZE);
+
+            am_kprintf("%s", __g_read_buff);
+
+            memset(__g_read_buff, 0, __RNG_BUFF_SIZE);
+            am_int_cpu_unlock(key);
+        }
     }
 }
-/** [src_usbd_printer] */
+/** [src_usbd_printer_counter] */
 
 /* end of file */

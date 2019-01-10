@@ -100,7 +100,7 @@ typedef am_usb_status_t (*am_usbd_control_t)(am_usbd_ctrl_handle_t handle,
 typedef am_usb_status_t (*am_usbd_ep_callback_t)(void *p_arg);
 
 /* 厂商请求回调函数类型.*/
-typedef void (*am_vendor_request_t)(void *p_arg);
+typedef void (*am_vendor_request_t)(void *p_arg, uint8_t b_requrest);
 
 /* 类请求回调函数类型.*/
 typedef void (*am_class_request_t)(void *p_arg, uint8_t b_requrest);
@@ -214,7 +214,7 @@ am_usb_status_t am_usbd_init(am_usbd_dev_t  *p_dev)
 }
 
 /**
- * \brief 初始化 USB
+ * \brief USB 数据发送
  *
  * \param[in] handle                  usb设备句柄
  *

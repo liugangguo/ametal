@@ -51,7 +51,7 @@
 /** \brief 端点buff最大只支持64 */
 #define AM_USBD_PRINTER_BUFFER_SIZE                   (64U)
 
-#define __USBD_CONFIGURATION_COUNT              (1U)
+#define __USBD_CONFIGURATION_COUNT                    (1U)
 
 
 
