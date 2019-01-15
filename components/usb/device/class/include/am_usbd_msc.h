@@ -76,13 +76,12 @@ extern "C" {
 
 #define AM_USBD_MSC_DISD_SIZE             (256 * 1024)
 #define AM_USBD_MSC_SECTOR_SIZE           (512)     /**< \brief 扇区大小 */
-#define AM_USBD_MSC_RAMDISK_SIZE          (15*1024) /**< \brief 放FAT表及用户数据*/
+#define AM_USBD_MSC_RAMDISK_SIZE          (10*1024) /**< \brief 放FAT表及用户数据*/
 #define AM_USBD_MSC_USE_DATE_OFST         (2048)    /**< \brief 用户数据在FAT数据区偏移位置 */
 #define AM_USBD_MSC_FAT1_OFST             (512)     /**< \brief FAT1在FAT表中的偏移位置 */
 
 #define AM_USBD_MSC_BULK_IN_ENDPOINT      (1) /**< \brief USB 批量输入端点 */
 #define AM_USBD_MSC_BULK_OUT_ENDPOINT     (2) /**< \brief USB 批量输出端点 */
-#define AM_USBD_PRINTER_ENDPOINT_COUNT    (2U)
 
 
 /**< \brief CBW 标识符 */

@@ -81,7 +81,18 @@ static void __printer_send_callback(void *p_arg)
     am_usbd_printer_send(handle, AM_USBD_PRINTER_BULK_EP_IN, data, sizeof(data));
 }
 
+static void __printer_vandor_callback(void *p_arg, uint8_t b_request)
+{
+    uint8_t data[] = "ZLG";
+    uint8_t data1[] = "zhiyuan";
+	am_usbd_printer_handle handle = (am_usbd_printer_handle)p_arg;
+	if (b_request == 1) {
+		am_usbd_printer_send(handle, 0, data, sizeof(data));
+	} else if (b_request == 2) {
+		am_usbd_printer_send(handle, 0, data1, sizeof(data1));
+	}
 
+}
 /**
  * \brief 例程入口
  */
@@ -101,6 +112,8 @@ void demo_zlg217_usbd_printer_entry (void)
     /* 定义软件定时器接收和发送请求回调函数*/
     am_usbd_printer_recv_request_callback(handle, __printer_recv_callback, handle);
     am_usbd_printer_send_request_callback(handle, __printer_send_callback, handle);
+
+    am_usbd_printer_vendor_request_callback(handle, __printer_vandor_callback, handle);
 
     while (1) {
         /* 如果环形缓冲区不为空，处理数据*/

@@ -46,7 +46,7 @@ void demo_zlg217_usbd_msc_entry (void)
 
     am_usbd_msc_handle usbd_handle;
 
-    AM_DBG_INFO("Start up successful!\r\n");
+    AM_DBG_INFO("MSC demo!\r\n");
     /* 复位后延时一段时间，模拟USB设备拔出的动作 */
     am_mdelay(3000);
 

@@ -33,29 +33,34 @@ extern "C" {
  ******************************************************************************/
 
 /* USB speed */
-#define AM_USB_SPEED_FULL (0x00U)
-#define AM_USB_SPEED_LOW  (0x01U)
-#define AM_USB_SPEED_HIGH (0x02U)
+#define AM_USB_SPEED_FULL (0x00U)    /**< brief 全速*/
+#define AM_USB_SPEED_LOW  (0x01U)    /**< brief 低速*/
+#define AM_USB_SPEED_HIGH (0x02U)    /**< brief 高速*/
 
 /* USB 端点类型
  * @{
  */
-#define AM_USB_ENDPOINT_CONTROL                      (0x00U)
-#define AM_USB_ENDPOINT_ISOCHRONOUS                  (0x01U)
-#define AM_USB_ENDPOINT_BULK                         (0x02U)
-#define AM_USB_ENDPOINT_INTERRUPT                    (0x03U)
+#define AM_USB_ENDPOINT_CONTROL                      (0x00U) /**< \brief 控制传输*/
+#define AM_USB_ENDPOINT_ISOCHRONOUS                  (0x01U) /**< \brief 等时传输*/
+#define AM_USB_ENDPOINT_BULK                         (0x02U) /**< \brief 批量传输*/
+#define AM_USB_ENDPOINT_INTERRUPT                    (0x03U) /**< \brief 中断传输*/
 /*}@*/
 
 /* USB传输方向 */
-#define AM_USB_OUT   (0U)
-#define AM_USB_IN    (1U)
+#define AM_USB_OUT   (0U) /**< \brief USB host 输出*/
+#define AM_USB_IN    (1U) /**< \brief USB host 输入*/
 
 /* USB 各描述符长度 */
-#define AM_USB_DESCRIPTOR_LENGTH_DEVICE              (0x12U)
-#define AM_USB_DESCRIPTOR_LENGTH_CONFIGURE           (0x09U)
-#define AM_USB_DESCRIPTOR_LENGTH_INTERFACE           (0x09U)
-#define AM_USB_DESCRIPTOR_LENGTH_ENDPOINT            (0x07U)
-#define AM_USB_DESCRIPTOR_LENGTH_DEVICE_QUALITIER    (0x0AU)
+#define AM_USB_DESC_LENGTH_DEVICE              (0x12U) /**< \brief 设备描述符长度*/
+#define AM_USB_DESC_LENGTH_CONFIGURE           (0x09U) /**< \brief 配置描述符长度*/
+#define AM_USB_DESC_LENGTH_INTERFACE           (0x09U) /**< \brief 接口描述符长度*/
+#define AM_USB_DESC_LENGTH_ENDPOINT            (0x07U) /**< \brief 端点描述符长度*/
+#define AM_USB_DESC_LENGTH_DEVICE_QUALITIER    (0x0AU) /**< \brief 限定描述符长度*/
+/** \brief 配置描述符极下属描述符长度*/
+#define AM_USB_DESC_LENGTH_ALL(x)        \
+		(AM_USB_DESC_LENGTH_CONFIGURE +  \
+		 AM_USB_DESC_LENGTH_INTERFACE +  \
+		 (x * AM_USB_DESC_LENGTH_ENDPOINT))
 
 /* USB 描述符类型 */
 #define AM_USB_DESCRIPTOR_TYPE_DEVICE                (0x01U)        /* 设备描述符. */

@@ -139,7 +139,7 @@ typedef struct am_usbd_ep_status {
 typedef struct am_usbd_descriptor {
     uint16_t  desc_wValue;             /* 高8位为描述符类型，低8位为描述符编号 */
     uint16_t  desc_size;               /* 描述符大小 */
-    uint8_t  *p_desc;                  /* 描述符内容 */
+    const uint8_t  *p_desc;                  /* 描述符内容 */
 }am_usbd_descriptor_t;
 
 #ifdef __cplusplus

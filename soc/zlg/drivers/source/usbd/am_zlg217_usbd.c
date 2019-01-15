@@ -38,8 +38,8 @@
  *
  * \note 配置描述符的下级描述符不能通过此法获得
  */
-static uint8_t * __find_desc_by_wValue1 (const am_zlg227_usbd_dev_t *p_dev,
-                                         uint16_t                 w_value)
+static const uint8_t * __find_desc_by_wValue1 (am_zlg227_usbd_dev_t    *p_dev,
+                                               uint16_t                 w_value)
 {
     int i;
 
@@ -299,6 +299,7 @@ static am_usb_status_t __usb_device_send (am_usbd_ctrl_handle_t handle,
         while (!amhw_zlg217_usbd_transfer_end((ZLG217_USB_epx2_t)endpoint));
         amhw_zlg217_usbd_epx_transfer((ZLG217_USB_epx2_t)endpoint, 0);
     } else {
+
         while (length) {        /* 如果一次不能完全传输则分多次传输 */
             if (length > AM_USBD_MAX_EP_DATA_CNT) {
                 send_once_size = AM_USBD_MAX_EP_DATA_CNT;
@@ -622,12 +623,14 @@ static void __ctrl_deal_handle (am_zlg227_usbd_dev_t *p_dev)
 
         if(p_dev->device.class_req.pfn_class != NULL) {
             (p_dev->device.class_req.pfn_class)(p_dev->device.class_req.p_arg, p_dev->device.setup_data.b_request);
+        	p_dev->device.running_ctrl_state = AM_USBD_CTRL_IDLE;
         }
 
     } else if ((p_dev->device.setup_data.bm_request_type & AM_USB_REQUEST_TYPE_TYPE_MASK)
             == AM_USB_REQUEST_TYPE_TYPE_VENDOR) {
         if(p_dev->device.vendor_req.pfn_vendor != NULL) {
         	(p_dev->device.vendor_req.pfn_vendor)(p_dev->device.vendor_req.p_arg, p_dev->device.setup_data.b_request);
+        	p_dev->device.running_ctrl_state = AM_USBD_CTRL_IDLE;
         }
     }
 }
@@ -661,7 +664,8 @@ static void __usb_setup_handle (am_zlg227_usbd_dev_t *p_dev)
 
         /* 标准请求类型 */
         case 0:
-#ifdef USB_DEBUG
+#if 0
+        am_kprintf("type %02x\r\n", p_dev->device.setup_data.bm_request_type);
         am_kprintf("标准输入/输出请求 %02x\r\n", p_dev->device.setup_data.b_request);
 #endif
             // 合法请求判断
@@ -675,6 +679,7 @@ static void __usb_setup_handle (am_zlg227_usbd_dev_t *p_dev)
         	if(p_dev->device.class_req.pfn_class != NULL) {
         	    (p_dev->device.class_req.pfn_class)(p_dev->device.class_req.p_arg, p_dev->device.setup_data.b_request);
         	}
+        	p_dev->device.running_ctrl_state = AM_USBD_CTRL_IDLE;
         	//am_usbd_class_request(&(p_dev->device), p_dev->device.usbd_type, p_dev->device.setup_data.b_request);
         	break;
 
@@ -683,6 +688,7 @@ static void __usb_setup_handle (am_zlg227_usbd_dev_t *p_dev)
             if(p_dev->device.vendor_req.pfn_vendor != NULL) {
             	(p_dev->device.vendor_req.pfn_vendor)(p_dev->device.vendor_req.p_arg, p_dev->device.setup_data.b_request);
             }
+            p_dev->device.running_ctrl_state = AM_USBD_CTRL_IDLE;
             break;
 
         default:
@@ -736,6 +742,7 @@ static void __usb_device_interrupt_endpoint (am_zlg227_usbd_dev_t *p_dev)
             p_dev->ep_int_type_union.ep_int_type_field[0].out_nack) {
         }
 
+        // 执行端点0中断回调函数
         if (p_dev->device.endpoint_info[0].pfn_callback != NULL) {
         	(p_dev->device.endpoint_info[0].pfn_callback)(p_dev->device.endpoint_info[0].p_arg);
         }
@@ -754,6 +761,9 @@ static void __usb_device_interrupt_endpoint (am_zlg227_usbd_dev_t *p_dev)
                 ep_int_type = amhw_zlg217_usbd_epx_int_state_get((ZLG217_USB_epx_t)(i - 1));
                 amhw_zlg217_usbd_epx_int_state_clear((ZLG217_USB_epx_t)(i - 1), ep_int_type);
                 p_dev->ep_int_type_union.ep_int_type[i] = ep_int_type;
+
+                //am_kprintf(":%d,data:%x\n", i, amhw_zlg217_usbd_epx_fifo_read(i));
+
 
                 if (p_dev->device.endpoint_info[i].pfn_callback != NULL) {
                 	(p_dev->device.endpoint_info[i].pfn_callback)(p_dev->device.endpoint_info[i].p_arg);

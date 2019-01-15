@@ -37,6 +37,8 @@ extern "C" {
 #define AM_USB_MAKE_VERSION(major, minor, bugfix) \
                      (((major) << 16) | ((minor) << 8) | (bugfix))
 
+#define AM_USB_VERSION              (0x0200)
+
 /** \brief USB´íÎóÂë */
 typedef enum am_usb_status {
     AM_USB_STATUS_SUCCESS = 0x00U,              /**< \brief Success */
