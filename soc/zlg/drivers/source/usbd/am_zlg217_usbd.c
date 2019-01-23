@@ -38,14 +38,14 @@
  *
  * \note 配置描述符的下级描述符不能通过此法获得
  */
-static const uint8_t * __find_desc_by_wValue1 (am_zlg227_usbd_dev_t    *p_dev,
-                                               uint16_t                 w_value)
+static uint8_t * __find_desc_by_wValue1 (const am_zlg227_usbd_dev_t *p_dev,
+                                         uint16_t                 w_value)
 {
     int i;
 
     for (i = 0; i < p_dev->p_info->p_devinfo->descriptor_num; i++) {
         if (w_value == p_dev->p_info->p_devinfo->p_descriptor[i].desc_wValue) {
-            return p_dev->p_info->p_devinfo->p_descriptor[i].p_desc;
+            return (uint8_t *)(p_dev->p_info->p_devinfo->p_descriptor[i].p_desc);
         }
     }
     return NULL;
@@ -62,7 +62,7 @@ static const uint8_t * __find_desc_by_wValue1 (am_zlg227_usbd_dev_t    *p_dev,
  *       epInit->endpoint_address的值必须相等，才能进行初始化。
  */
 static am_usb_status_t __usb_device_endpoint_init (am_zlg227_usbd_dev_t       *p_dev,
-                                                  am_usbd_endpoint_init_t *epinit)
+                                                  am_usbd_endpoint_init_t     *epinit)
 {
     uint16_t max_packet_size = epinit->max_packet_size;
     uint8_t  endpoint = (epinit->endpoint_address & AM_USBD_ENDPOINT_NUMBER_MASK);
@@ -154,7 +154,7 @@ static am_usb_status_t __usb_device_endpoint_unstall (am_zlg227_usbd_dev_t *p_de
 /**
  * \brief 初始化USB设备
  */
-static am_usb_status_t __usb_device_init (am_usbd_ctrl_handle_t handle)
+static am_usb_status_t __usb_device_init (am_usbd_handle_t handle)
 {
     int i = 0;
     am_usbd_endpoint_init_t endpoint;
@@ -241,7 +241,7 @@ static am_usb_status_t __usb_device_init (am_usbd_ctrl_handle_t handle)
  *
  * \retval USB错误码
  */
-static am_usb_status_t __usb_device_deinit (am_usbd_ctrl_handle_t handle)
+static am_usb_status_t __usb_device_deinit (am_usbd_handle_t handle)
 {
     am_zlg227_usbd_dev_t *p_dev = (am_zlg227_usbd_dev_t *)handle;
 
@@ -282,10 +282,10 @@ static am_usb_status_t __usb_device_deinit (am_usbd_ctrl_handle_t handle)
  *
  * \retval USB错误码
  */
-static am_usb_status_t __usb_device_send (am_usbd_ctrl_handle_t handle,
-                                          uint8_t                   endpoint_address,
-                                          uint8_t                  *buffer,
-                                          uint32_t                  length)
+static am_usb_status_t __usb_device_send (am_usbd_handle_t handle,
+                                          uint8_t          endpoint_address,
+                                          uint8_t         *buffer,
+                                          uint32_t         length)
 {
     //am_zlg_usbd_dev_t *p_dev = (am_zlg_usbd_dev_t *)handle;
     uint32_t send_once_size = 0;
@@ -299,7 +299,6 @@ static am_usb_status_t __usb_device_send (am_usbd_ctrl_handle_t handle,
         while (!amhw_zlg217_usbd_transfer_end((ZLG217_USB_epx2_t)endpoint));
         amhw_zlg217_usbd_epx_transfer((ZLG217_USB_epx2_t)endpoint, 0);
     } else {
-
         while (length) {        /* 如果一次不能完全传输则分多次传输 */
             if (length > AM_USBD_MAX_EP_DATA_CNT) {
                 send_once_size = AM_USBD_MAX_EP_DATA_CNT;
@@ -327,7 +326,7 @@ static am_usb_status_t __usb_device_send (am_usbd_ctrl_handle_t handle,
 /**
  * \brief 端点0发送空包
  */
-static void __ep0_send_empty_packet (am_usbd_ctrl_handle_t handle)
+static void __ep0_send_empty_packet (am_usbd_handle_t handle)
 {
     am_zlg227_usbd_dev_t *p_dev = (am_zlg227_usbd_dev_t *)handle;
     switch (p_dev->device.running_ctrl_state) {
@@ -362,7 +361,7 @@ static void __ep0_send_empty_packet (am_usbd_ctrl_handle_t handle)
  *       如果fifo中有数据并且数据个数等于指定的数据长度，则返回AM_USB_STATUS_SUCCESS并填充缓冲区。
  *       如果fifo中有数据并且数据个数大于指定的数据长度，则返回AM_USB_STATUS_SUCCESS并填充指定的数据长度。
  */
-static am_usb_status_t __usb_device_recv (am_usbd_ctrl_handle_t handle,
+static am_usb_status_t __usb_device_recv (am_usbd_handle_t handle,
                                           uint8_t                   endpoint_address,
                                           uint8_t                  *buffer,
                                           uint32_t                  length)
@@ -374,8 +373,8 @@ static am_usb_status_t __usb_device_recv (am_usbd_ctrl_handle_t handle,
     uint8_t avali_data_cnt = 0;     /* fifo中有效数据个数 */
 
     /* 接收数据的端点方向必须是OUT_OUT */
-    if ((endpoint_address & AM_USB_DESCRIPTOR_ENDPOINT_ADDRESS_DIRECTION_MASK) !=
-            AM_USB_DESCRIPTOR_ENDPOINT_ADDRESS_DIRECTION_OUT)
+    if ((endpoint_address & AM_USB_DESC_ENDPOINT_ADDR_DIR_MASK) !=
+            AM_USB_DESC_ENDPOINT_ADDR_DIR_OUT)
         return AM_USB_STATUS_INVALID_REQUEST;
 
     if (endpoint >= AM_USBD_MAX_EP_CNT)
@@ -410,7 +409,7 @@ static am_usb_status_t __usb_device_recv (am_usbd_ctrl_handle_t handle,
  *
  * \retval USB错误码
  */
-static am_usb_status_t __usb_device_cancel (am_usbd_ctrl_handle_t handle,
+static am_usb_status_t __usb_device_cancel (am_usbd_handle_t handle,
                                             uint8_t                   endpoint_addr)
 {
 
@@ -473,7 +472,7 @@ static void __usb_device_setdefault_state(am_zlg227_usbd_dev_t *p_dev)
  *
  * \retval USB错误码
  */
-static am_usb_status_t __usb_device_control(am_usbd_ctrl_handle_t handle,
+static am_usb_status_t __usb_device_control(am_usbd_handle_t handle,
                                             am_usbd_control_type_t    type,
                                             void                     *param)
 {
@@ -600,9 +599,9 @@ static const am_usbd_interface_t __g_usb_device_interface = {
  */
 static void __ctrl_deal_handle (am_zlg227_usbd_dev_t *p_dev)
 {
-    if((p_dev->device.setup_data.bm_request_type & AM_USB_REQUEST_TYPE_TYPE_MASK) ==    // 标准设备请求
-            AM_USB_REQUEST_TYPE_TYPE_STANDARD) {
-        if(p_dev->device.setup_data.b_request <= AM_USB_REQUEST_STANDARD_SYNCH_FRAME) {
+    if((p_dev->device.setup_data.bm_request_type & AM_USB_REQ_TYPE_TYPE_MASK) ==    // 标准设备请求
+            AM_USB_REQ_TYPE_TYPE_STANDARD) {
+        if(p_dev->device.setup_data.b_request <= AM_USB_REQ_STANDARD_SYNCH_FRAME) {
 #ifdef USB_DEBUG
             am_kprintf("事务处理 std %d ", p_dev->device.setup_data.b_request);
             am_kprintf("w_value : %x \r\n", p_dev->device.setup_data.w_value);
@@ -613,21 +612,22 @@ static void __ctrl_deal_handle (am_zlg227_usbd_dev_t *p_dev)
         }
 
     // 设备到主机 请求 发送空包
-    } else if ((p_dev->device.setup_data.bm_request_type & AM_USB_REQUEST_TYPE_DIR_MASK)
-             == AM_USB_REQUEST_TYPE_DIR_IN) {
+    } else if ((p_dev->device.setup_data.bm_request_type & AM_USB_REQ_TYPE_DIR_MASK)
+             == AM_USB_REQ_TYPE_DIR_IN) {
     	__ep0_send_empty_packet(p_dev);
 
         // 类设备请求
-    } else if ((p_dev->device.setup_data.bm_request_type & AM_USB_REQUEST_TYPE_TYPE_MASK)
-             == AM_USB_REQUEST_TYPE_TYPE_CLASS) {
+    } else if ((p_dev->device.setup_data.bm_request_type & AM_USB_REQ_TYPE_TYPE_MASK)
+             == AM_USB_REQ_TYPE_TYPE_CLASS) {
 
         if(p_dev->device.class_req.pfn_class != NULL) {
             (p_dev->device.class_req.pfn_class)(p_dev->device.class_req.p_arg, p_dev->device.setup_data.b_request);
-        	p_dev->device.running_ctrl_state = AM_USBD_CTRL_IDLE;
+            p_dev->device.running_ctrl_state = AM_USBD_CTRL_IDLE;
         }
+            //am_usbd_class_request(&(p_dev->device), p_dev->device.usbd_type, p_dev->device.setup_data.b_request);
 
-    } else if ((p_dev->device.setup_data.bm_request_type & AM_USB_REQUEST_TYPE_TYPE_MASK)
-            == AM_USB_REQUEST_TYPE_TYPE_VENDOR) {
+    } else if ((p_dev->device.setup_data.bm_request_type & AM_USB_REQ_TYPE_TYPE_MASK)
+            == AM_USB_REQ_TYPE_TYPE_VENDOR) {
         if(p_dev->device.vendor_req.pfn_vendor != NULL) {
         	(p_dev->device.vendor_req.pfn_vendor)(p_dev->device.vendor_req.p_arg, p_dev->device.setup_data.b_request);
         	p_dev->device.running_ctrl_state = AM_USBD_CTRL_IDLE;
@@ -640,8 +640,8 @@ static void __ctrl_deal_handle (am_zlg227_usbd_dev_t *p_dev)
  */
 static void __usb_in_handle(am_zlg227_usbd_dev_t *p_dev)
 {
-    if ((p_dev->device.setup_data.bm_request_type & AM_USB_REQUEST_TYPE_DIR_MASK) ==
-                                                 AM_USB_REQUEST_TYPE_DIR_IN) {
+    if ((p_dev->device.setup_data.bm_request_type & AM_USB_REQ_TYPE_DIR_MASK) ==
+                                                 AM_USB_REQ_TYPE_DIR_IN) {
         __ctrl_deal_handle(p_dev);
     } else {
         __ep0_send_empty_packet(p_dev);
@@ -665,11 +665,10 @@ static void __usb_setup_handle (am_zlg227_usbd_dev_t *p_dev)
         /* 标准请求类型 */
         case 0:
 #if 0
-        am_kprintf("type %02x\r\n", p_dev->device.setup_data.bm_request_type);
         am_kprintf("标准输入/输出请求 %02x\r\n", p_dev->device.setup_data.b_request);
 #endif
             // 合法请求判断
-            if (p_dev->device.setup_data.b_request <= AM_USB_REQUEST_STANDARD_SYNCH_FRAME) {
+            if (p_dev->device.setup_data.b_request <= AM_USB_REQ_STANDARD_SYNCH_FRAME) {
             	(p_dev->device.pfn_std_request[p_dev->device.setup_data.b_request])(&(p_dev->device));
             }
             break;
@@ -742,7 +741,6 @@ static void __usb_device_interrupt_endpoint (am_zlg227_usbd_dev_t *p_dev)
             p_dev->ep_int_type_union.ep_int_type_field[0].out_nack) {
         }
 
-        // 执行端点0中断回调函数
         if (p_dev->device.endpoint_info[0].pfn_callback != NULL) {
         	(p_dev->device.endpoint_info[0].pfn_callback)(p_dev->device.endpoint_info[0].p_arg);
         }
@@ -761,9 +759,6 @@ static void __usb_device_interrupt_endpoint (am_zlg227_usbd_dev_t *p_dev)
                 ep_int_type = amhw_zlg217_usbd_epx_int_state_get((ZLG217_USB_epx_t)(i - 1));
                 amhw_zlg217_usbd_epx_int_state_clear((ZLG217_USB_epx_t)(i - 1), ep_int_type);
                 p_dev->ep_int_type_union.ep_int_type[i] = ep_int_type;
-
-                //am_kprintf(":%d,data:%x\n", i, amhw_zlg217_usbd_epx_fifo_read(i));
-
 
                 if (p_dev->device.endpoint_info[i].pfn_callback != NULL) {
                 	(p_dev->device.endpoint_info[i].pfn_callback)(p_dev->device.endpoint_info[i].p_arg);
@@ -867,7 +862,7 @@ static am_err_t __init_ep_info (am_zlg227_usbd_dev_t *p_dev)
     uint8_t ret = 0;
 
     /* 获取配置描述符 */
-    p_tmp = __find_desc_by_wValue1(p_dev, (AM_USB_DESCRIPTOR_TYPE_CONFIGURE << 8) | 0);
+    p_tmp = __find_desc_by_wValue1(p_dev, (AM_USB_DESC_TYPE_CONFIGURE << 8) | 0);
     if (p_tmp == NULL)
         return AM_ERROR;
 
@@ -875,7 +870,7 @@ static am_err_t __init_ep_info (am_zlg227_usbd_dev_t *p_dev)
     p_desc_conf = (am_usb_descriptor_config_t *)p_tmp;       // 配置描述符
     p_tmp += sizeof(am_usb_descriptor_config_t);             // 配置描述符+ 偏移量 = 接口描述符
     /* 第一个描述符必须是配置描述符 */
-    if (p_desc_conf->b_descriptor_type != AM_USB_DESCRIPTOR_TYPE_CONFIGURE)
+    if (p_desc_conf->b_descriptor_type != AM_USB_DESC_TYPE_CONFIGURE)
         return -1;
 
     desc_size = (p_desc_conf->w_total_length[1] << 8) |
@@ -894,7 +889,7 @@ static am_err_t __init_ep_info (am_zlg227_usbd_dev_t *p_dev)
             return AM_ERROR;
 
         // 如果 不是接口描述符类
-        if (p_desc_if->b_descriptor_type != AM_USB_DESCRIPTOR_TYPE_INTERFACE)
+        if (p_desc_if->b_descriptor_type != AM_USB_DESC_TYPE_INTERFACE)
             return AM_ERROR;
 
         ep_cnt = p_desc_if->b_num_endpoints;    /* 端点个数 */
@@ -909,11 +904,11 @@ static am_err_t __init_ep_info (am_zlg227_usbd_dev_t *p_dev)
             if (p_tmp - (uint8_t *)p_desc_conf > desc_size)
                 return AM_ERROR;
 
-            if (p_desc_ep->b_descriptor_type != AM_USB_DESCRIPTOR_TYPE_ENDPOINT)
+            if (p_desc_ep->b_descriptor_type != AM_USB_DESC_TYPE_ENDPOINT)
                 return AM_ERROR;
 
             ep_num = p_desc_ep->b_endpoint_address &
-                                AM_USB_DESCRIPTOR_ENDPOINT_ADDRESS_NUMBER_MASK;
+                                AM_USB_DESC_ENDPOINT_ADDR_NUMBER_MASK;
 
             p_dev->device.endpoint_info[ep_num].inuse = 1;  // 表示端点被使用
             p_dev->device.endpoint_info[ep_num].ep_address = p_desc_ep->b_endpoint_address;
@@ -1011,8 +1006,6 @@ am_usbd_dev_t *am_zlg227_usbd_init (am_zlg227_usbd_dev_t           *p_dev,
     if (p_info->pfn_plfm_init) {
         p_info->pfn_plfm_init();
     }
-
-    am_usbd_init(&(p_dev->device));
 
     am_int_connect(p_info->inum, __usbd_isr_function, (void *)p_dev);
     am_int_enable(p_info->inum);

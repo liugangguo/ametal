@@ -57,12 +57,12 @@
               (AM_USBD_CONFIG_SELF_POWER | AM_USBD_CONFIG_NOT_REMOTE_WAKEUP)
 
 /**\brief USB端点描述符配置宏*/
-#define __USBD_PRINTER_ENDPOINT_IN                AM_USBD_MSC_BULK_IN_ENDPOINT  /**< \brief 输入端点号*/
+#define __USBD_PRINTER_ENDPOINT_IN                1  /**< \brief 输入端点号*/
 #define __USBD_PRINTER_ENDPOINT_IN_PACKSIZE       AM_USBD_MAX_EP_DATA_CNT       /**< \brief 端点包大小,设置为64*/
 #define __USBD_PRINTER_ENDPOINT_IN_ATTRIBUTE      AM_USB_ENDPOINT_BULK          /**< \brief 设置端点属性为批量传输*/
 #define __USBD_PRINTER_ENDPOINT_IN_QUERY_TIME    (0x06)                         /**< \brief 设置端点查询时间为10ms,单位为1ms*/
 
-#define __USBD_PRINTER_ENDPOINT_OUT               AM_USBD_MSC_BULK_OUT_ENDPOINT
+#define __USBD_PRINTER_ENDPOINT_OUT               2
 #define __USBD_PRINTER_ENDPOINT_OUT_PACKSIZE      AM_USBD_MAX_EP_DATA_CNT
 #define __USBD_PRINTER_ENDPOINT_OUT_ATTRIBUTE     AM_USB_ENDPOINT_BULK
 #define __USBD_PRINTER_ENDPOINT_OUT_QUERY_TIME   (0x06)
@@ -94,7 +94,7 @@ static uint8_t __g_printer_buff[AM_USBD_MAX_EP_DATA_CNT + 1] = {0};
 /* USB 设备描述符 */
 static const uint8_t __g_am_usbd_printer_desc_dev[AM_USB_DESC_LENGTH_DEVICE]  = {
     AM_USB_DESC_LENGTH_DEVICE,        /* 设备描述符的字节数 */
-    AM_USB_DESCRIPTOR_TYPE_DEVICE,          /* 设备描述符类型编号，固定为0x01 */
+    AM_USB_DESC_TYPE_DEVICE,          /* 设备描述符类型编号，固定为0x01 */
 
     /* USB版本 USB2.0 */
     AM_USB_SHORT_GET_LOW(AM_USB_VERSION), AM_USB_SHORT_GET_HIGH(AM_USB_VERSION),
@@ -124,7 +124,7 @@ static const uint8_t __g_am_usbd_printer_desc_dev[AM_USB_DESC_LENGTH_DEVICE]  = 
 static uint8_t __g_am_usbd_printer_desc_conf[AM_USB_DESC_LENGTH_ALL(__USBD_PRINTER_ENDPOINT_COUNT)] = {
     /* 配置描述符 */
     AM_USB_DESC_LENGTH_CONFIGURE,     /* 配置描述符字节数 */
-    AM_USB_DESCRIPTOR_TYPE_CONFIGURE,       /* 配置描述符类型编号，固定为0x02 */
+    AM_USB_DESC_TYPE_CONFIGURE,       /* 配置描述符类型编号，固定为0x02 */
 
     /* 配置描述符及下属描述符的总长度(配置描述符，接口描述符号，和两个端点描述符) */
     AM_USB_SHORT_GET_LOW(AM_USB_DESC_LENGTH_ALL(__USBD_PRINTER_ENDPOINT_COUNT)),
@@ -139,7 +139,7 @@ static uint8_t __g_am_usbd_printer_desc_conf[AM_USB_DESC_LENGTH_ALL(__USBD_PRINT
 
     /* 接口描述符 */
     AM_USB_DESC_LENGTH_INTERFACE,     /* 接口描述符字节数 */
-    AM_USB_DESCRIPTOR_TYPE_INTERFACE,       /* 接口描述符类型编号，固定为0x04 */
+    AM_USB_DESC_TYPE_INTERFACE,       /* 接口描述符类型编号，固定为0x04 */
     0x00,                                   /* 该接口编号 */
     0x00,                                   /* 可选设置的索引值（该接口的备用编号） */
     __USBD_PRINTER_ENDPOINT_COUNT,          /* 该接口使用的端点数（不包括端点0） */
@@ -150,10 +150,10 @@ static uint8_t __g_am_usbd_printer_desc_conf[AM_USB_DESC_LENGTH_ALL(__USBD_PRINT
 
     /* 输入端点描述符 */
     AM_USB_DESC_LENGTH_ENDPOINT,            /* 端点描述符字节数 */
-    AM_USB_DESCRIPTOR_TYPE_ENDPOINT,        /* 端点描述符类型编号，固定为0x05 */
+    AM_USB_DESC_TYPE_ENDPOINT,        /* 端点描述符类型编号，固定为0x05 */
 
     /* D7 1:USB_IN  0:USB_OUT D3:D0 端点号 */
-    (__USBD_PRINTER_ENDPOINT_IN | (AM_USB_IN << AM_USB_REQUEST_TYPE_DIR_SHIFT)),
+    (__USBD_PRINTER_ENDPOINT_IN | (AM_USB_IN << AM_USB_REQ_TYPE_DIR_SHIFT)),
     __USBD_PRINTER_ENDPOINT_IN_ATTRIBUTE,   /* 端点属性 02表示批量  */
 
     AM_USB_SHORT_GET_LOW(__USBD_PRINTER_ENDPOINT_IN_PACKSIZE),
@@ -163,10 +163,10 @@ static uint8_t __g_am_usbd_printer_desc_conf[AM_USB_DESC_LENGTH_ALL(__USBD_PRINT
 
     /* 输出端点描述符 */
     AM_USB_DESC_LENGTH_ENDPOINT,            /* 端点描述符字节数 */
-    AM_USB_DESCRIPTOR_TYPE_ENDPOINT,        /* 端点描述符类型编号，固定为0x05 */
+    AM_USB_DESC_TYPE_ENDPOINT,        /* 端点描述符类型编号，固定为0x05 */
 
     /* 端点地址及输出属性 */
-    (__USBD_PRINTER_ENDPOINT_OUT | (AM_USB_OUT << AM_USB_REQUEST_TYPE_DIR_SHIFT)),
+    (__USBD_PRINTER_ENDPOINT_OUT | (AM_USB_OUT << AM_USB_REQ_TYPE_DIR_SHIFT)),
 
     __USBD_PRINTER_ENDPOINT_OUT_ATTRIBUTE,  /* 端点属性 */
 
@@ -182,7 +182,7 @@ static uint8_t __g_am_usbd_printer_desc_conf[AM_USB_DESC_LENGTH_ALL(__USBD_PRINT
 /**< \brief 描述产品的字符串描述符 */
 static const uint8_t __g_am_usbd_printer_desc_str_iproduct[18] = {
     sizeof(__g_am_usbd_printer_desc_str_iproduct),       /* 字符串描述符字节数 */
-    AM_USB_DESCRIPTOR_TYPE_STRING,          /* 字符串描述符类型编号，固定为0x03 */
+    AM_USB_DESC_TYPE_STRING,          /* 字符串描述符类型编号，固定为0x03 */
 
      0x55, 0x00, /* U */
      0x42, 0x00, /* S */
@@ -199,7 +199,7 @@ static const uint8_t __g_am_usbd_printer_desc_str_iproduct[18] = {
 /**< \brief 美式英语的语言ID为0x0409，简体中文的语言ID为0x0804，注意大小端。 */
 static const uint8_t __g_am_usbd_printer_desc_str_language_id[4] = {
     sizeof(__g_am_usbd_printer_desc_str_language_id),       /* 字符串描述符字节数 */
-    AM_USB_DESCRIPTOR_TYPE_STRING,          /* 字符串描述符类型编号，固定为0x03 */
+    AM_USB_DESC_TYPE_STRING,          /* 字符串描述符类型编号，固定为0x03 */
     0x04,
     0x08,       /* 简体中文 */
 };
@@ -207,7 +207,7 @@ static const uint8_t __g_am_usbd_printer_desc_str_language_id[4] = {
 /**< \brief 描述厂商的字符串描述符 */
 static uint8_t __g_am_usbd_printer_desc_str_imanufacturer[22] = {
     sizeof(__g_am_usbd_printer_desc_str_imanufacturer),       /* 字符串描述符字节数 */
-    AM_USB_DESCRIPTOR_TYPE_STRING,          /* 字符串描述符类型编号，固定为0x03 */
+    AM_USB_DESC_TYPE_STRING,          /* 字符串描述符类型编号，固定为0x03 */
     0x7f, 0x5e, /* 广 */
     0xde, 0x5d, /* 州 */
     0xf4, 0x81, /* 致 */
@@ -227,35 +227,35 @@ static uint8_t __g_am_usbd_printer_desc_str_imanufacturer[22] = {
 static const am_usbd_descriptor_t __g_am_usbd_printer_descriptor[] = {
     /* 设备描述符 */
     {
-        (AM_USB_DESCRIPTOR_TYPE_DEVICE << 8) | (0x00),
+        (AM_USB_DESC_TYPE_DEVICE << 8) | (0x00),
         sizeof(__g_am_usbd_printer_desc_dev),
         __g_am_usbd_printer_desc_dev
     },
 
     /* 配置描述符及其下级描述符 */
     {
-        (AM_USB_DESCRIPTOR_TYPE_CONFIGURE << 8) | (0x00),
+        (AM_USB_DESC_TYPE_CONFIGURE << 8) | (0x00),
         sizeof(__g_am_usbd_printer_desc_conf),
         __g_am_usbd_printer_desc_conf
     },
 
     /* 字符串描述符0，描述语言id */
     {
-        (AM_USB_DESCRIPTOR_TYPE_STRING << 8) | (0x00),
+        (AM_USB_DESC_TYPE_STRING << 8) | (0x00),
         sizeof(__g_am_usbd_printer_desc_str_language_id),
         __g_am_usbd_printer_desc_str_language_id
     },
 
     /* 字符串描述符1，描述厂商 */
     {
-        (AM_USB_DESCRIPTOR_TYPE_STRING << 8) | __USBD_PRINTER_VENDOR_STRING_INDEX,
+        (AM_USB_DESC_TYPE_STRING << 8) | __USBD_PRINTER_VENDOR_STRING_INDEX,
         sizeof(__g_am_usbd_printer_desc_str_imanufacturer),
         __g_am_usbd_printer_desc_str_imanufacturer
     },
 
     /* 字符串描述符2，描述产品 */
     {
-        (AM_USB_DESCRIPTOR_TYPE_STRING << 8) | __USBD_PRINTER_PRODUCT_STRING_INDEX,
+        (AM_USB_DESC_TYPE_STRING << 8) | __USBD_PRINTER_PRODUCT_STRING_INDEX,
         sizeof(__g_am_usbd_printer_desc_str_iproduct),
         __g_am_usbd_printer_desc_str_iproduct
     },

@@ -43,11 +43,18 @@ extern "C" {
  * Definitions
  ******************************************************************************/
 
+/**< \brief 定义事务类型 */
+#define AM_USBD_CTRL_SETUP    0x00
+#define AM_USBD_CTRL_IN       0x01
+#define AM_USBD_CTRL_OUT      0x02
+#define AM_USBD_CTRL_IDLE     0xFF
+
+
 /** \brief 设备是否支持自供电 (0:不支持，1:支持)*/
 #define AM_USBD_CONFIG_SELF_POWER                ((0x80) | (1 << 6U))
 #define AM_USBD_CONFIG_NOT_SELF_POWER            ((0x80) | (0 << 6U))
 
-/** \brief 设备是否支持远程唤醒功能(0:不支持，   1:支持) */
+/** \brief 设备是否支持远程唤醒功能(0:不支持，1:支持) */
 #define AM_USBD_CONFIG_REMOTE_WAKEUP             ((0x80) | (1 << 5U))
 #define AM_USBD_CONFIG_NOT_REMOTE_WAKEUP         ((0x80) | (0 << 5U))
 

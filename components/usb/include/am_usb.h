@@ -33,11 +33,11 @@ extern "C" {
 /** \brief 定义USB协议栈修复版本号 */
 #define AM_USB_STACK_VERSION_BUGFIX (0U)
 
+#define AM_USB_VERSION              0x0101
+
 /** \brief USB 协议栈版本号掩码 */
 #define AM_USB_MAKE_VERSION(major, minor, bugfix) \
                      (((major) << 16) | ((minor) << 8) | (bugfix))
-
-#define AM_USB_VERSION              (0x0200)
 
 /** \brief USB错误码 */
 typedef enum am_usb_status {

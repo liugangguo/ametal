@@ -1,21 +1,10 @@
-/*******************************************************************************
-*                                 AMetal
-*                       ----------------------------
-*                       innovating embedded platform
-*
-* Copyright (c) 2001-2018 Guangzhou ZHIYUAN Electronics Co., Ltd.
-* All rights reserved.
-*
-* Contact information:
-* web site:    http://www.zlg.cn/
-*******************************************************************************/
 /**
  * \file
  * \brief     USB
  *
  * \internal
  * \par Modification History
- * - 1.00 18-12-27  adw, first implementation.
+ * - 1.00 16-9-27  bob, first implementation.
  * \endinternal
  */
 
@@ -203,12 +192,8 @@ extern int am_kprintf(const char  *fmt_s, ...);
         ((uint32_t)(((uint32_t)n[0] << 8U) | ((uint32_t)n[1] << 0U)))
 #endif
 
-/*
- * The following MACROs (USB_GLOBAL, USB_BDT, USB_RAM_ADDRESS_ALGINMENT_512) are only used for USB device stack.
- * The USB device global variables are put into the section m_usb_global or m_usb_bdt by using the MACRO
- * USB_GLOBAL and USB_BDT. In this way, the USB device global variables can be linked into USB dadicated RAM
- * by changing the linker file. This feature can only be enabled when the USB dadicated RAM is not less than 2K Bytes.
- */
+
+
 #if defined(__ICCARM__)
 
 #define USB_GLOBAL _Pragma("location = \"m_usb_global\"")

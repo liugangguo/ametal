@@ -13,18 +13,26 @@
 
 /**
  * \file
- * \brief usbd msc 例程，通过标准接口实现
+ * \brief USB模拟U盘例程，通过driver层的接口实现
+ *
+ * - 操作步骤：
+ *   1. 将USB连接上电脑后下载程序；
+ *   2. 在电脑上会显示出一个盘符；
  *
  * - 实验现象：
+ *   1. 打开盘符，可以看到里面有一个README.TXT文件。
+ *   2. 可以往U盘中里面拖动文件,串口会显示你拖动文件的信息。
  *
  * \note
+ *
+ *
  *
  * \par 源代码
  * \snippet demo_usbd_msc.c src_usbd_msc
  *
  * \internal
  * \par Modification History
- * - 1.00 18-01-15  pea, first implementation
+ * - 1.00 19-01-15  adw, first implementation
  * \endinternal
  */
 /**
@@ -36,6 +44,14 @@
 #include "am_zlg217_usbd.h"
 #include "am_usbd_msc.h"
 #include "am_zlg217_inst_init.h"
+
+static void __call_back(void *p_arg, uint8_t *p_buff, uint16_t len)
+{
+	uint8_t i = 0;
+    for(i = 0; i < len; i++) {
+        usb_echo("data[%02d] = 0x%02x\t",i, *(p_buff + i));
+    }
+}
 
 /**
  * \brief 例程入口
@@ -51,6 +67,8 @@ void demo_zlg217_usbd_msc_entry (void)
     am_mdelay(3000);
 
     usbd_handle = am_zlg217_usb_msc_inst_init();
+
+    am_usbd_msc_recv_callback(usbd_handle, __call_back, (void *)usbd_handle);
 
     while (1) {
 

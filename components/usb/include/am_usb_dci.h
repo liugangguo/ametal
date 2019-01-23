@@ -36,19 +36,6 @@ extern "C" {
  * @{
  */
 
-/** \brief Macro to define controller handle */
-#define am_usbd_ctrl_handle_t am_usbd_handle_t
-
-/**< \brief 定义事务类型 */
-#define AM_USBD_CTRL_SETUP    0x00
-#define AM_USBD_CTRL_IN       0x01
-#define AM_USBD_CTRL_OUT      0x02
-#define AM_USBD_CTRL_IDLE     0xFF
-
-
-typedef void * am_usbd_type_handle_t;
-
-
 /** \brief Control type for controller */
 typedef enum am_usbd_control_type {
     AM_USBD_CONTROL_RUN = 0U,            /**< \brief 使用设备 */
@@ -70,31 +57,31 @@ typedef enum am_usbd_control_type {
 } am_usbd_control_type_t;
 
 /** \brief 初始化 */
-typedef am_usb_status_t (*am_usbd_init_t)(am_usbd_ctrl_handle_t handle);
+typedef am_usb_status_t (*am_usbd_init_t)(am_usbd_handle_t handle);
 
 /** \brief 解初始化 */
-typedef am_usb_status_t (*am_usbd_deinit_t)(am_usbd_ctrl_handle_t handle);
+typedef am_usb_status_t (*am_usbd_deinit_t)(am_usbd_handle_t handle);
 
 /** \brief 发送函数 */
-typedef am_usb_status_t (*am_usbd_send_t)(am_usbd_ctrl_handle_t handle,
-                                         uint8_t                endpoint,
-                                         uint8_t               *p_buffer,
-                                         uint32_t               length);
+typedef am_usb_status_t (*am_usbd_send_t)(am_usbd_handle_t handle,
+                                         uint8_t           endpoint,
+                                         uint8_t          *p_buffer,
+                                         uint32_t          length);
 
 /** \brief 接收函数 */
-typedef am_usb_status_t (*am_usbd_recv_t)(am_usbd_ctrl_handle_t handle,
-                                         uint8_t                endpoint,
-                                         uint8_t               *p_buffer,
-                                         uint32_t               length);
+typedef am_usb_status_t (*am_usbd_recv_t)(am_usbd_handle_t handle,
+                                         uint8_t           endpoint,
+                                         uint8_t          *p_buffer,
+                                         uint32_t          length);
 
 /** \brief 取消 */
-typedef am_usb_status_t (*am_usbd_cancel_t)(am_usbd_ctrl_handle_t handle,
-                                           uint8_t                ep);
+typedef am_usb_status_t (*am_usbd_cancel_t)(am_usbd_handle_t handle,
+                                           uint8_t           endpoint);
 
 /** \brief 控制 */
-typedef am_usb_status_t (*am_usbd_control_t)(am_usbd_ctrl_handle_t handle,
-                                            am_usbd_control_type_t command,
-                                            void                  *p_param);
+typedef am_usb_status_t (*am_usbd_control_t)(am_usbd_handle_t       handle,
+                                             am_usbd_control_type_t command,
+                                             void                  *p_param);
 
 /** \brief 端点回调函数类型*/
 typedef am_usb_status_t (*am_usbd_ep_callback_t)(void *p_arg);
@@ -120,16 +107,12 @@ typedef struct am_usbd_interface {
 typedef struct am_usbd_ep_info {
     uint8_t                inuse;           /**< \brief 端点是否会被使用 */
     uint8_t                stalled;         /**< \brief 端点是否阻塞 */
-
     uint8_t                ep_address;      /**< \brief 端点地址（方向 + 端点号）*/
 
     /** \brief 端点传输类 型 (控制传输, 同步传输, 批量传输, 中断传输)*/
     uint8_t                transfer_type;   /**< \brief 端点数据类型*/
-
     uint8_t                val_length;      /**< \brief 端点有效数据长度*/
-
     uint16_t               max_packet_size; /**< \brief 端点一次性传输的最大包大小 */
-
     am_usbd_ep_callback_t  pfn_callback;    /**< \brief 端点回调函数指针 */
     void                  *p_arg;           /**< \brief 端点回调参数 */
 } am_usbd_ep_info_t;
@@ -167,7 +150,7 @@ struct am_usbd_dev {
 	 *
 	 *  保留底层控制器handle 为了上层接口调用，例如an_usbd_send函数
 	 */
-    am_usbd_ctrl_handle_t      ctrl_handle;
+	am_usbd_handle_t      ctrl_handle;
 
     uint8_t                    device_address; /**< \brief 设备地址 */
     uint8_t                    state;          /**< \brief 设备状态 */
@@ -214,7 +197,7 @@ am_usb_status_t am_usbd_init(am_usbd_dev_t  *p_dev)
 }
 
 /**
- * \brief USB 数据发送
+ * \brief 初始化 USB
  *
  * \param[in] handle                  usb设备句柄
  *
@@ -288,7 +271,13 @@ am_usb_status_t am_usbd_deinit(am_usbd_dev_t   *p_dev)
     return p_dev->p_interface->pfn_device_deinit(p_dev->ctrl_handle);
 }
 
-
+am_static_inline
+void am_usbd_protocol_stack_version(am_usb_version_t *p_usb)
+{
+	p_usb->major  = AM_USB_STACK_VERSION_MAJOR;
+	p_usb->minor  = AM_USB_STACK_VERSION_MINOR;
+	p_usb->bugfix = AM_USB_STACK_VERSION_BUGFIX;
+}
 /**
  * @}
  */

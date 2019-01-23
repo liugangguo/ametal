@@ -17,7 +17,7 @@
  *
  * \internal
  * \par Modification history
- * - 1.00 18-12-27  adw, first implementation.
+ * - 1.00 16-9-27  bob, first implementation.
  * \endinternal
  */
 
