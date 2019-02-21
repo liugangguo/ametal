@@ -47,7 +47,7 @@ extern "C" {
  */
 #if defined(KL16) || defined(KL26)
 #else
-#define KL26
+#define KL16
 #endif
 
 /** @} */

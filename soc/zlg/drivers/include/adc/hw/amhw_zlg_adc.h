@@ -643,15 +643,15 @@ void amhw_zlg_adc_input_chan_enable (amhw_zlg_adc_t  *p_hw_adc,
  * \brief ADC input channel disable
  *
  * \param[in] p_hw_adc   : The pointer to the structure ADC register
- * \param[in] flag       : see the filed of ADC input channel
+ * \param[in] chan       : see the filed of ADC input channel
  *
  * \return none
  */
 am_static_inline
 void amhw_zlg_adc_input_chan_disable (amhw_zlg_adc_t  *p_hw_adc,
-                                      uint32_t         flag)
+                                      uint32_t         chan)
 {
-    p_hw_adc->adchs &= ~flag;
+    p_hw_adc->adchs &= ~ (1 << chan);
 }
 
 /**

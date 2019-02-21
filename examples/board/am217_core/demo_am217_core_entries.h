@@ -30,9 +30,19 @@
 void demo_zlg217_core_hw_adc_int_entry (void);
 
 /**
+ * \brief ADC DMA 例程，通过 HW 层接口实现
+ */
+void demo_zlg217_core_hw_adc_dma_entry (void);
+
+/**
  * \brief ADC 例程，通过标准接口实现
  */
 void demo_zlg217_core_std_adc_entry (void);
+
+/**
+ * \brief 多通道ADC 例程，通过标准接口实现
+ */
+void demo_zlg217_core_std_multichan_adc_entry (void);
 
 /**
  * \brief 蜂鸣器例程，通过标准接口实现

@@ -116,7 +116,7 @@
  *
  * 默认使用TPM0_CH2 （PIOC_3）输出PWM （需要短接跳线帽 J7）
  */
-#define AM_CFG_BUZZER_ENABLE         1
+#define AM_CFG_BUZZER_ENABLE         0
 
 /**
  * \brief 如果为1，则初始化软件定时器

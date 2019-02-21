@@ -377,7 +377,6 @@ void amhw_lpc84x_clk_periph_enable (amhw_lpc84x_clk_periph_t clk)
 	} else {
 		AM_BIT_SET(LPC84X_SYSCON->sysahbclkctrl1, clk - 32);
 	}
-
 }
 
 /**

@@ -254,6 +254,7 @@ static int __fn_adc_stop (void *p_drv, int chan)
 
     amhw_zlg_adc_ctrl_reg_clr(p_hw_adc, AMHW_ZLG_ADC_INT_EN_MASK);
     amhw_zlg_adc_data_transfer_set(p_hw_adc,AMHW_ZLG_ADC_DATA_TRANSFER_END);
+    amhw_zlg_adc_input_chan_disable(p_hw_adc, chan);
 
     am_int_disable(p_dev->p_devinfo->inum);
 
