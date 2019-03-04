@@ -39,7 +39,7 @@
 /** [src_am159_core_std_gpio] */
 #include "ametal.h"
 #include "am_vdebug.h"
-#include "am_zlg116.h"
+#include "am_zmf159.h"
 #include "demo_std_entries.h"
 #include "demo_am159_core_entries.h"
 
