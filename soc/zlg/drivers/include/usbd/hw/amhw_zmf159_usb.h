@@ -40,9 +40,15 @@ extern "C" {
  *  \brief USB ¼Ä´æÆ÷½á¹¹Ìå¶¨Òå
  */
 typedef struct amhe_zmf159_usb{
-    __I  uint32_t reserve0[3];   /**< \brief ±£Áô  */
+    __IO uint32_t per_id;        //0x00
+    __IO uint32_t id_comp;
+    __IO uint32_t rev;
     __I  uint32_t add_info;      /**< \brief ADD_INFO Æ«ÒÆ£º0x0c */
-    __I  uint32_t reserve2[28];  /**< \brief ±£Áô  */
+    __IO uint32_t otg_int_stat;  //0x10
+    __IO uint32_t otg_int_en;    //0x14
+    __IO uint32_t otg_status;    //0x18
+    __IO uint32_t otg_ctrl;      //0x1c
+    __I  uint32_t reserve0[24];  /**< \brief ±£Áô  */
     __IO uint32_t int_stat;      /**< \brief ÖĞ¶Ï×´Ì¬¼Ä´æÆ÷ Æ«ÒÆ£º0x80 */
     __IO uint32_t int_enb;       /**< \brief ÖĞ¶ÏÊ¹ÄÜ¼Ä´æÆ÷ Æ«ÒÆ£º0x84 */
     __IO uint32_t err_stat;      /**< \brief ´íÎóÖĞ¶Ï¼Ä´æÆ÷ Æ«ÒÆ£º0x88 */
@@ -57,14 +63,14 @@ typedef struct amhe_zmf159_usb{
     __IO uint32_t sof_thld;      /**< \brief SOFãĞ´æÆ÷ Æ«ÒÆ£º0xac */
     __IO uint32_t bdt_page02;    /**< \brief bufferÃèÊöÒ³¼Ä´æÆ÷2 Æ«ÒÆ£º0xb0 */
     __IO uint32_t bdt_page03;    /**< \brief bufferÃèÊöÒ³¼Ä´æÆ÷3 Æ«ÒÆ£º0xb4 */
-    __I  uint32_t reserve17[2];  /**< \brief ±£Áô  */
-    __IO uint32_t endpt[16];     /**< \brief ¶Ëµã¿ØÖÆ¼Ä´æÆ÷ Æ«ÒÆ£º0xc0 ~ 0xfc */
+    __I  uint32_t reserve1[2];   /**< \brief ±£Áô  */
+    __IO uint32_t ep_ctl[16];    /**< \brief ¶Ëµã¿ØÖÆ¼Ä´æÆ÷ Æ«ÒÆ£º0xc0 ~ 0xfc */
 
 }amhw_zmf159_usb_t;
 
 typedef struct amhw_zmf159_bdt_data {
     __IO uint32_t format;
-    __IO uint32_t address;
+    __IO uint32_t adress;
 } amhw_zmf159_bdt_data_t;
 
 typedef struct amhw_zmf159_usb_bdt {
@@ -73,31 +79,29 @@ typedef struct amhw_zmf159_usb_bdt {
 } amhw_zmf159_usb_bdt_t;
 
 /**
- * \beief ÖĞ¶ÏÊ¹ÄÜ
+ * \beief ÖĞ¶Ï±êÖ¾
  */
-typedef enum amhw_zmf159_int_enb{
-    ZMF159_USB_RST   = 0,
-    ZMF159_ERROR,
-    ZMF159_SOF_TOK,
-    ZMF159_TOK_DNE,
-    ZMF159_SLEEP,
-    ZMF159_RESUME,
-    ZMF159_ATTACH,
-    ZMF159_STALL,
-} amhw_zmf159_int_enb_t;
+#define  ZMF159_USB_INT_STAT_RST       0x01
+#define  ZMF159_USB_INT_STAT_ERROR     0x02
+#define  ZMF159_USB_INT_STAT_SOF_TOK   0x04
+#define  ZMF159_USB_INT_STAT_TOK_DNE   0x08
+#define  ZMF159_USB_INT_STAT_SLEEP     0x10
+#define  ZMF159_USB_INT_STAT_RESUME    0x20
+#define  ZMF159_USB_INT_STAT_ATTACH    0x40
+#define  ZMF159_USB_INT_STAT_STALL     0x80
 
 /**
  * \beief CTRL¼Ä´æÆ÷ÉèÖÃ
  */
 typedef enum amhw_zmf159_ctrl{
     ZMF159_USB_EN   = 0,
-    ZMF159_ODD_RST,
-    ZMF159_RESUME,
-    ZMF159_TOK_DNE,
-    ZMF159_SLEEP,
-    ZMF159_RESUME,
-    ZMF159_ATTACH,
-    ZMF159_STALL,
+    ZMF159_USB_ODD_RST,
+    ZMF159_USB_RESUME,
+    ZMF159_USB_HOST_MODE_EN,
+    ZMF159_USB_RESET,
+    ZMF159_USB_TXD_SUSPEND_TOKBSY,
+    ZMF159_USB_SE0,
+    ZMF159_USB_SIE_RCV
 } amhw_zmf159_ctrl_t;
 
 /**
@@ -113,13 +117,24 @@ void amhw_zmf159_bdt_page_set (amhw_zmf159_usb_t *p_hw_usb,
 }
 
 /**
+ * \brief »ñÈ¡ÃèÊö·ûµØÖ·
+ */
+am_static_inline
+uint32_t amhw_zmf159_bdt_page_get (amhw_zmf159_usb_t *p_hw_usb)
+{
+    return (uint32_t)(p_hw_usb->bdt_page03 << 24) |
+                     (p_hw_usb->bdt_page02 << 16) |
+                     ((p_hw_usb->bdt_page01 >> 1) << 9);
+}
+
+/**
  * \brief ÉèÖÃUSBµØÖ·
  */
 am_static_inline
 void amhw_zmf159_addr_set (amhw_zmf159_usb_t *p_hw_usb,
                            uint8_t            usb_addr)
 {
-    p_hw_usb->addr = (p_hw_usb->addr & ~0xef) | (usb_addr & 0xef);
+    p_hw_usb->addr = (usb_addr & 0xef);
 }
 
 /**
@@ -127,59 +142,110 @@ void amhw_zmf159_addr_set (amhw_zmf159_usb_t *p_hw_usb,
  */
 am_static_inline
 void amhw_zmf159_ctrl_set (amhw_zmf159_usb_t *p_hw_usb,
-                           amhw_zmf159_ctrl_t ctrl,
-                           am_bool_t          flag)
+                           amhw_zmf159_ctrl_t ctrl)
 {
-    (flag) ? (p_hw_usb->ctl |= (1 << ctrl)) : (p_hw_usb->ctl &= ~(1 << ctrl));
+    p_hw_usb->ctl |= 1 << ctrl;
+}
+
+/**
+ * \brief USB ctrlÉèÖÃ
+ */
+am_static_inline
+void amhw_zmf159_ctrl_reset (amhw_zmf159_usb_t *p_hw_usb,
+                             amhw_zmf159_ctrl_t ctrl)
+{
+    p_hw_usb->ctl &= ~(1 << ctrl);
+}
+
+/**
+ * \brief ¶Ëµã¿ØÖÆ¼Ä´æÆ÷ÉèÖÃ
+ */
+am_static_inline
+void amhw_zmf159_ep_ctrl_set (amhw_zmf159_usb_t *p_hw_usb,
+                              uint8_t            epx,
+                              uint8_t            dat)
+{
+    p_hw_usb->ep_ctl[epx] = dat;
+}
+
+/**
+ * \brief ÉèÖÃ¶Ëµã×´Ì¬
+ */
+am_static_inline
+void amhw_zmf159_ep_stat_set (amhw_zmf159_usb_t *p_hw_usb,
+                              uint8_t            epx,
+                              am_bool_t          stat)
+{
+    p_hw_usb->ep_ctl[epx] &= ~((uint32_t)(stat & 0x01) << 1);
+    p_hw_usb->ep_ctl[epx] |= (uint32_t)(stat & 0x01) << 1;
+}
+
+/**
+ * \brief »ñÈ¡¶Ëµã×´Ì¬
+ */
+am_static_inline
+am_bool_t amhw_zmf159_ep_stat_get (amhw_zmf159_usb_t *p_hw_usb,
+                                   uint8_t            epx)
+{
+    return (am_bool_t)((p_hw_usb->ep_ctl[epx] >> 1) & 0x01);
 }
 
 /**
  * \brief ÉèÖÃÖĞ¶ÏÊ¹ÄÜ
  */
 am_static_inline
-void amhw_zmf159_int_enable (amhw_zmf159_usb_t    *p_hw_usb,
-                             amhw_zmf159_int_enb_t flog)
+void amhw_zmf159_usb_int_enable (amhw_zmf159_usb_t *p_hw_usb,
+                             uint32_t           flog)
 {
-    p_hw_usb->int_enb |= (1 << flog);
+    p_hw_usb->int_enb |= flog;
 }
 
 /**
  * \brief ÉèÖÃÖĞ¶Ï½ûÄÜ
  */
 am_static_inline
-void amhw_zmf159_int_disable (amhw_zmf159_usb_t    *p_hw_usb,
-                              amhw_zmf159_int_enb_t flog)
+void amhw_zmf159_usb_int_disable (amhw_zmf159_usb_t *p_hw_usb,
+                              uint32_t           flog)
 {
-    p_hw_usb->int_enb &= ~(1 << flog);
+    p_hw_usb->int_enb &= ~flog;
 }
 
 /**
  * \brief ¶ÁÖĞ¶Ï×´Ì¬
  */
 am_static_inline
-uint8_t amhw_zmf159_int_get (amhw_zmf159_usb_t *p_hw_usb)
+uint8_t amhw_zmf159_usb_int_get (amhw_zmf159_usb_t *p_hw_usb)
 {
     return (uint8_t)(p_hw_usb->int_stat & 0xff);
+}
+
+/**
+ * \brief ÇåÏàÓ¦ÖĞ¶Ï
+ */
+am_static_inline
+void amhw_zmf159_usb_int_clear (amhw_zmf159_usb_t *p_hw_usb,
+                                uint32_t          flog)
+{
+    p_hw_usb->int_stat = flog;
+}
+
+/**
+ * \brief ¶ÁUSB×´Ì¬
+ */
+am_static_inline
+uint8_t amhw_zmf159_usb_stat_get (amhw_zmf159_usb_t *p_hw_usb)
+{
+    return (uint8_t)(p_hw_usb->stat & 0xff);
 }
 
 /**
  * \brief »ñÈ¡ÖĞ¶ÏÇëÇóÊı
  */
 am_static_inline
-uint8_t amhw_zmf159_int_num_get (amhw_zmf159_usb_t *p_hw_usb)
+uint8_t amhw_zmf159_usb_int_num_get (amhw_zmf159_usb_t *p_hw_usb)
 {
     return (uint8_t)((p_hw_usb->add_info >> 3) & 0x1f);
 }
-
-/**
- * \brief USB »ñÈ¡µ±Ç°BDT¸üĞÂµÄ¶Ëµã
- */
-am_static_inline
-uint8_t amhw_zmf159_usb_bdt_ep_get (amhw_zmf159_usb_t *p_hw_usb)
-{
-    return (uint8_t)((p_hw_usb->stat >> 4) & 0x0f);
-}
-
 
 /**
  * @}if_amhw_zmf159_usb
