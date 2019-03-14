@@ -16,10 +16,10 @@
 #include "../../usb_lib/inc/usb_lib.h"
 #include "hw/amhw_zmf159_usb.h"
 
-extern amhw_zmf159_usb_bdt_t *pUSB_OTG_BDT;
-extern uint8_t rxUsbBufOdd[16] ;
-extern uint8_t txUsbBufOdd[16] ;
-extern uint8_t epInDataNum[16] ;
+//extern amhw_zmf159_usb_bdt_t *pUSB_OTG_BDT;
+//extern uint8_t rxUsbBufOdd[16] ;
+//extern uint8_t txUsbBufOdd[16] ;
+//extern uint8_t epInDataNum[16] ;
 extern uint8_t setupPacket[8] ;
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -31,7 +31,7 @@ extern uint8_t setupPacket[8] ;
 
 
 
-#define USB_StatusIn()  epInDataNum[0] = 1; \
+#define USB_StatusIn()  zmf159_handle->epInDataNum[0] = 1; \
                         Send0LengthData()
                         
 #define USB_StatusOut() PMAToUserBufferCopy(setupPacket, ENDP0, 0);
@@ -62,12 +62,11 @@ uint8_t *Standard_GetConfiguration(uint16_t Length)
 {
   if (Length == 0)
   {
-    pInformation->Ctrl_Info.Usb_wLength =
-      sizeof(pInformation->Current_Configuration);
+    zmf159_handle->Ctrl_Info.Usb_wLength =
+      sizeof(zmf159_handle->Current_Configuration);
     return 0;
   }
-  pUser_Standard_Requests->User_GetConfiguration();//未定义
-  return (uint8_t *)&pInformation->Current_Configuration;
+  return (uint8_t *)&zmf159_handle->Current_Configuration;
 }
 
 /*******************************************************************************
@@ -82,12 +81,11 @@ uint8_t *Standard_GetConfiguration(uint16_t Length)
 RESULT Standard_SetConfiguration(void)
 {
 
-  if ((pInformation->USBwValue0 <=
-      Device_Table.Total_Configuration) && (pInformation->USBwValue1 == 0)
-      && (pInformation->USBwIndex == 0)) /*call Back usb spec 2.0*/
+  if ((zmf159_handle->USBwValues.bw.bb0 <=
+		  zmf159_handle->Total_Configuration) && (zmf159_handle->USBwValues.bw.bb1 == 0)
+      && (zmf159_handle->USBwIndexs.w == 0)) /*call Back usb spec 2.0*/
   {
-    pInformation->Current_Configuration = pInformation->USBwValue0;
-    pUser_Standard_Requests->User_SetConfiguration();
+    zmf159_handle->Current_Configuration = zmf159_handle->USBwValues.bw.bb0;
     return USB_SUCCESS;
   }
   else
@@ -108,12 +106,11 @@ uint8_t *Standard_GetInterface(uint16_t Length)
 {
   if (Length == 0)
   {
-    pInformation->Ctrl_Info.Usb_wLength =
-      sizeof(pInformation->Current_AlternateSetting);
+    zmf159_handle->Ctrl_Info.Usb_wLength =
+      sizeof(zmf159_handle->Current_AlternateSetting);
     return 0;
   }
-  pUser_Standard_Requests->User_GetInterface();//未定义
-  return (uint8_t *)&pInformation->Current_AlternateSetting;
+  return (uint8_t *)&zmf159_handle->Current_AlternateSetting;
 }
 
 /*******************************************************************************
@@ -130,20 +127,19 @@ RESULT Standard_SetInterface(void)
   RESULT Re;
   /*Test if the specified Interface and Alternate Setting are supported by
     the application Firmware*/
-  Re = (*pProperty->Class_Get_Interface_Setting)(pInformation->USBwIndex0, pInformation->USBwValue0);
+  Re = (*zmf159_handle->pProperty->Class_Get_Interface_Setting)(zmf159_handle->USBwIndexs.bw.bb0, zmf159_handle->USBwValues.bw.bb0);
 
-  if (pInformation->Current_Configuration != 0)
+  if (zmf159_handle->Current_Configuration != 0)
   {
-    if ((Re != USB_SUCCESS) || (pInformation->USBwIndex1 != 0)
-        || (pInformation->USBwValue1 != 0))
+    if ((Re != USB_SUCCESS) || (zmf159_handle->USBwIndexs.bw.bb1 != 0)
+        || (zmf159_handle->USBwValues.bw.bb1 != 0))
     {
       return  USB_UNSUPPORT;
     }
     else if (Re == USB_SUCCESS)
     {
-      pUser_Standard_Requests->User_SetInterface();//未定义
-      pInformation->Current_Interface = pInformation->USBwIndex0;
-      pInformation->Current_AlternateSetting = pInformation->USBwValue0;
+      zmf159_handle->Current_Interface = zmf159_handle->USBwIndexs.bw.bb0;
+      zmf159_handle->Current_AlternateSetting = zmf159_handle->USBwValues.bw.bb0;
       return USB_SUCCESS;
     }
 
@@ -164,7 +160,7 @@ uint8_t *Standard_GetStatus(uint16_t Length)
 {
   if (Length == 0)
   {
-    pInformation->Ctrl_Info.Usb_wLength = 2;
+    zmf159_handle->Ctrl_Info.Usb_wLength = 2;
     return 0;
   }
 
@@ -174,7 +170,7 @@ uint8_t *Standard_GetStatus(uint16_t Length)
   if (Type_Recipient == (STANDARD_REQUEST | DEVICE_RECIPIENT))
   {
     /*Get Device Status */
-    uint8_t Feature = pInformation->Current_Feature;
+    uint8_t Feature = zmf159_handle->Current_Feature;
 
     /* Remote Wakeup enabled */
     if (ValBit(Feature, 5))
@@ -201,7 +197,7 @@ uint8_t *Standard_GetStatus(uint16_t Length)
   else if (Type_Recipient == (STANDARD_REQUEST | ENDPOINT_RECIPIENT))
   {
     uint8_t Related_Endpoint;
-    uint8_t wIndex0 = pInformation->USBwIndex0;
+    uint8_t wIndex0 = zmf159_handle->USBwIndexs.bw.bb0;
 
     Related_Endpoint = (wIndex0 & 0x0f);
     if (ValBit(wIndex0, 7))
@@ -218,8 +214,6 @@ uint8_t *Standard_GetStatus(uint16_t Length)
     {
       /* OUT endpoint */
 
-//      if(_GetUSB_HALT()&(1<<Related_Endpoint)) 
-//      if(_GetUSB_EPn_HALT(Related_Endpoint))
       if (amhw_zmf159_ep_stat_get(ZMF159_USB, Related_Endpoint))
       {
         SetBit(StatusInfo0, 0); /* OUT Endpoint stalled */
@@ -231,7 +225,6 @@ uint8_t *Standard_GetStatus(uint16_t Length)
   {
     return NULL;
   }
-  pUser_Standard_Requests->User_GetStatus();
   return (uint8_t *)&StatusInfo;
 }
 
@@ -248,31 +241,28 @@ RESULT Standard_ClearFeature(void)
   uint32_t     Type_Rec = Type_Recipient;
   uint32_t     Status;
 
-
   if (Type_Rec == (STANDARD_REQUEST | DEVICE_RECIPIENT))
   {/*Device Clear Feature*/
-    ClrBit(pInformation->Current_Feature, 5);
+    ClrBit(zmf159_handle->Current_Feature, 5);
     return USB_SUCCESS;
   }
   else if (Type_Rec == (STANDARD_REQUEST | ENDPOINT_RECIPIENT))
   {/*EndPoint Clear Feature*/
-    DEVICE* pDev;
     uint32_t Related_Endpoint;
     uint32_t wIndex0;
     uint32_t rEP;
 
-    if ((pInformation->USBwValue != ENDPOINT_STALL)
-        || (pInformation->USBwIndex1 != 0))
+    if ((zmf159_handle->USBwValues.w != ENDPOINT_STALL)
+        || (zmf159_handle->USBwIndexs.bw.bb1 != 0))
     {
       return USB_UNSUPPORT;
     }
 
-    pDev = &Device_Table;
-    wIndex0 = pInformation->USBwIndex0;
+    wIndex0 = zmf159_handle->USBwIndexs.bw.bb0;
     rEP = wIndex0 & ~0x80;
     Related_Endpoint = ENDP0 + rEP;
 
-    if (ValBit(pInformation->USBwIndex0, 7))
+    if (ValBit(zmf159_handle->USBwIndexs.bw.bb0, 7))
     {
       /*Get Status of endpoint & stall the request if the related_ENdpoint
       is Disabled*/
@@ -285,8 +275,8 @@ RESULT Standard_ClearFeature(void)
         Status = amhw_zmf159_ep_stat_get(ZMF159_USB, Related_Endpoint);
     }
 
-    if ((rEP >= pDev->Total_Endpoint) || (Status == 0)
-        || (pInformation->Current_Configuration == 0))
+    if ((rEP >= zmf159_handle->Total_Endpoint) || (Status == 0)
+        || (zmf159_handle->Current_Configuration == 0))
     {
       return USB_UNSUPPORT;
     }
@@ -312,7 +302,6 @@ RESULT Standard_ClearFeature(void)
           amhw_zmf159_ep_stat_set(ZMF159_USB, Related_Endpoint, 0);
       }
     }
-    pUser_Standard_Requests->User_ClearFeature();
     return USB_SUCCESS;
   }
 
@@ -334,22 +323,21 @@ RESULT Standard_SetEndPointFeature(void)
   uint32_t    rEP;
   uint32_t   Status;
 
-  wIndex0 = pInformation->USBwIndex0;
+  wIndex0 = zmf159_handle->USBwIndexs.bw.bb0;
   rEP = wIndex0 & ~0x80;
   Related_Endpoint = ENDP0 + rEP;
 
   //Status = _GetUSB_EPn_HALT(Related_Endpoint);
   Status = amhw_zmf159_ep_stat_get(ZMF159_USB, Related_Endpoint);
-  if (Related_Endpoint >= Device_Table.Total_Endpoint
-      || pInformation->USBwValue != 0 || Status == 0
-      || pInformation->Current_Configuration == 0)
+  if (Related_Endpoint >= zmf159_handle->Total_Endpoint
+      || zmf159_handle->USBwValues.w != 0 || Status == 0
+      || zmf159_handle->Current_Configuration == 0)
   {
     return USB_UNSUPPORT;
   }
   else
   {
   }
-  pUser_Standard_Requests->User_SetEndPointFeature();
   return USB_SUCCESS;
 }
 
@@ -363,8 +351,7 @@ RESULT Standard_SetEndPointFeature(void)
 *******************************************************************************/
 RESULT Standard_SetDeviceFeature(void)
 {
-  SetBit(pInformation->Current_Feature, 5);
-  pUser_Standard_Requests->User_SetDeviceFeature();
+  SetBit(zmf159_handle->Current_Feature, 5);
   return USB_SUCCESS;
 }
 
@@ -391,10 +378,10 @@ uint8_t *Standard_GetDescriptorData(uint16_t Length, ONE_DESCRIPTOR *pDesc)
 {
   uint32_t  wOffset;
 
-  wOffset = pInformation->Ctrl_Info.Usb_wOffset;
+  wOffset = zmf159_handle->Ctrl_Info.Usb_wOffset;
   if (Length == 0)
   {
-    pInformation->Ctrl_Info.Usb_wLength = pDesc->Descriptor_Size - wOffset;
+    zmf159_handle->Ctrl_Info.Usb_wLength = pDesc->Descriptor_Size - wOffset;
     return 0;
   }
 
@@ -411,10 +398,10 @@ uint8_t *Standard_GetDescriptorData(uint16_t Length, ONE_DESCRIPTOR *pDesc)
 
 void DataStageOut(void)
 {
-  ENDPOINT_INFO *pEPinfo = &pInformation->Ctrl_Info;
+  am_endpoint_info *pEPinfo = &zmf159_handle->Ctrl_Info;
   uint32_t save_rLength;
 
-  save_rLength = pEPinfo->Usb_rLength;
+  save_rLength = pEPinfo->Usb_wLength;
 
   if (pEPinfo->CopyData && save_rLength)
   {
@@ -428,30 +415,30 @@ void DataStageOut(void)
     }
 
     Buffer = (*pEPinfo->CopyData)(Length);
-    pEPinfo->Usb_rLength -= Length;
-    pEPinfo->Usb_rOffset += Length;
+    pEPinfo->Usb_wLength -= Length;
+    pEPinfo->Usb_wOffset += Length;
 
     PMAToUserBufferCopy(Buffer, ENDP0, Length);//EP0接收OUT_PACK数据
   }
 
-  if (pEPinfo->Usb_rLength != 0)
+  if (pEPinfo->Usb_wLength != 0)
   {
 
   }
   /* Set the next State*/
-  if (pEPinfo->Usb_rLength >= pEPinfo->PacketSize)
+  if (pEPinfo->Usb_wLength >= pEPinfo->PacketSize)
   {
-    pInformation->ControlState = OUT_DATA;
+    zmf159_handle->ControlState = OUT_DATA;
   }
   else
   {
-    if (pEPinfo->Usb_rLength > 0)
+    if (pEPinfo->Usb_wLength > 0)
     {
-      pInformation->ControlState = LAST_OUT_DATA;
+      zmf159_handle->ControlState = LAST_OUT_DATA;
     }
-    else if (pEPinfo->Usb_rLength == 0)
+    else if (pEPinfo->Usb_wLength == 0)
     {
-      pInformation->ControlState = WAIT_STATUS_IN;
+      zmf159_handle->ControlState = WAIT_STATUS_IN;
       USB_StatusIn();
     }
   }
@@ -466,9 +453,9 @@ void DataStageOut(void)
 *******************************************************************************/
 void DataStageIn(void)
 {
-  ENDPOINT_INFO *pEPinfo = &pInformation->Ctrl_Info;
+  am_endpoint_info *pEPinfo = &zmf159_handle->Ctrl_Info;
   uint32_t save_wLength = pEPinfo->Usb_wLength;
-  uint32_t ControlState = pInformation->ControlState;
+  uint32_t ControlState = zmf159_handle->ControlState;
 
   uint8_t *DataBuffer;
   uint32_t Length;
@@ -507,7 +494,7 @@ void DataStageIn(void)
   pEPinfo->Usb_wOffset += Length;
   
 Expect_Status_Out:
-  pInformation->ControlState = ControlState;
+  zmf159_handle->ControlState = ControlState;
 }
 
 /*******************************************************************************
@@ -520,7 +507,7 @@ Expect_Status_Out:
 void NoData_Setup0(void)
 {
   RESULT Result = USB_UNSUPPORT;
-  uint32_t RequestNo = pInformation->USBbRequest;
+  uint32_t RequestNo = zmf159_handle->USBbRequest;
   uint32_t ControlState;
 
   if (Type_Recipient == (STANDARD_REQUEST | DEVICE_RECIPIENT))
@@ -535,9 +522,9 @@ void NoData_Setup0(void)
     /*SET ADDRESS*/
     else if (RequestNo == SET_ADDRESS)
     {
-      if ((pInformation->USBwValue0 > 127) || (pInformation->USBwValue1 != 0)
-          || (pInformation->USBwIndex != 0)
-          || (pInformation->Current_Configuration != 0))
+      if ((zmf159_handle->USBwValues.bw.bb0 > 127) || (zmf159_handle->USBwValues.bw.bb1 != 0)
+          || (zmf159_handle->USBwIndexs.w != 0)
+          || (zmf159_handle->Current_Configuration != 0))
         /* Device Address should be 127 or less*/
       {
         ControlState = STALLED;
@@ -553,9 +540,9 @@ void NoData_Setup0(void)
     /*SET FEATURE for Device*/
     else if (RequestNo == SET_FEATURE)
     {
-      if ((pInformation->USBwValue0 == DEVICE_REMOTE_WAKEUP)
-          && (pInformation->USBwIndex == 0)
-          && (ValBit(pInformation->Current_Feature, 5)))
+      if ((zmf159_handle->USBwValues.bw.bb0 == DEVICE_REMOTE_WAKEUP)
+          && (zmf159_handle->USBwIndexs.w == 0)
+          && (ValBit(zmf159_handle->Current_Feature, 5)))
       {
         Result = Standard_SetDeviceFeature();
       }
@@ -567,9 +554,9 @@ void NoData_Setup0(void)
     /*Clear FEATURE for Device */
     else if (RequestNo == CLEAR_FEATURE)
     {
-      if (pInformation->USBwValue0 == DEVICE_REMOTE_WAKEUP
-          && pInformation->USBwIndex == 0
-          && ValBit(pInformation->Current_Feature, 5))
+      if (zmf159_handle->USBwValues.bw.bb0 == DEVICE_REMOTE_WAKEUP
+          && zmf159_handle->USBwIndexs.w == 0
+          && ValBit(zmf159_handle->Current_Feature, 5))
       {
         Result = Standard_ClearFeature();
       }
@@ -611,10 +598,10 @@ void NoData_Setup0(void)
 
   }
 
-
+  // 类请求
   if (Result != USB_SUCCESS)
   {
-    Result = (*pProperty->Class_NoData_Setup)(RequestNo);
+    Result = (*zmf159_handle->pProperty->Class_NoData_Setup)(RequestNo);
     if (Result == USB_NOT_READY)
     {
       ControlState = PAUSE;
@@ -629,10 +616,11 @@ void NoData_Setup0(void)
 
   ControlState = WAIT_STATUS_IN;/* After no data stage SETUP */
 
+  // 发送空包
   USB_StatusIn();
 
 exit_NoData_Setup0:
-  pInformation->ControlState = ControlState;
+  zmf159_handle->ControlState = ControlState;
   return;
 }
 
@@ -647,7 +635,7 @@ void Data_Setup0(void)
 {
   uint8_t *(*CopyRoutine)(uint16_t);
   RESULT Result;
-  uint32_t Request_No = pInformation->USBbRequest;
+  uint32_t Request_No = zmf159_handle->USBbRequest;
 
   uint32_t Related_Endpoint, Reserved;
   uint32_t wOffset = 0, Status;
@@ -658,30 +646,30 @@ void Data_Setup0(void)
   {
     if (Type_Recipient == (STANDARD_REQUEST | DEVICE_RECIPIENT))
     {
-      uint8_t wValue1 = pInformation->USBwValue1;
+      uint8_t wValue1 = zmf159_handle->USBwValues.bw.bb1;
       if (wValue1 == DEVICE_DESCRIPTOR)
       {
-        CopyRoutine = pProperty->GetDeviceDescriptor;
+        CopyRoutine = zmf159_handle->pProperty->GetDeviceDescriptor;
       }
       else if (wValue1 == CONFIG_DESCRIPTOR)
       {
-        CopyRoutine = pProperty->GetConfigDescriptor;
+        CopyRoutine = zmf159_handle->pProperty->GetConfigDescriptor;
       }
       else if (wValue1 == STRING_DESCRIPTOR)
       {
-        CopyRoutine = pProperty->GetStringDescriptor;
+        CopyRoutine = zmf159_handle->pProperty->GetStringDescriptor;
       }  /* End of GET_DESCRIPTOR */
     }
   }
 
   /*GET STATUS*/
-  else if ((Request_No == GET_STATUS) && (pInformation->USBwValue == 0)
-           && (pInformation->USBwLength == 0x0002)
-           && (pInformation->USBwIndex1 == 0))
+  else if ((Request_No == GET_STATUS) && (zmf159_handle->USBwValues.w == 0)
+           && (zmf159_handle->USBwLengths.w == 0x0002)
+           && (zmf159_handle->USBwIndexs.bw.bb1 == 0))
   {
     /* GET STATUS for Device*/
     if ((Type_Recipient == (STANDARD_REQUEST | DEVICE_RECIPIENT))
-        && (pInformation->USBwIndex == 0))
+        && (zmf159_handle->USBwIndexs.w == 0))
     {
       CopyRoutine = Standard_GetStatus;
     }
@@ -689,8 +677,8 @@ void Data_Setup0(void)
     /* GET STATUS for Interface*/
     else if (Type_Recipient == (STANDARD_REQUEST | INTERFACE_RECIPIENT))
     {
-      if (((*pProperty->Class_Get_Interface_Setting)(pInformation->USBwIndex0, 0) == USB_SUCCESS)
-          && (pInformation->Current_Configuration != 0))
+      if (((*zmf159_handle->pProperty->Class_Get_Interface_Setting)(zmf159_handle->USBwIndexs.bw.bb0, 0) == USB_SUCCESS)
+          && (zmf159_handle->Current_Configuration != 0))
       {
         CopyRoutine = Standard_GetStatus;
       }
@@ -699,13 +687,13 @@ void Data_Setup0(void)
     /* GET STATUS for EndPoint*/
     else if (Type_Recipient == (STANDARD_REQUEST | ENDPOINT_RECIPIENT))
     {
-      Related_Endpoint = (pInformation->USBwIndex0 & 0x0f);
-      Reserved = pInformation->USBwIndex0 & 0x70;
+      Related_Endpoint = (zmf159_handle->USBwIndexs.bw.bb0 & 0x0f);
+      Reserved = zmf159_handle->USBwIndexs.bw.bb0 & 0x70;
 
 //      Status = (_GetUSB_HALT()>>Related_Endpoint)&0x01;
 //      Status = _GetUSB_EPn_HALT(Related_Endpoint);
       Status = amhw_zmf159_ep_stat_get(ZMF159_USB, Related_Endpoint);
-      if ((Related_Endpoint < Device_Table.Total_Endpoint) && (Reserved == 0)
+      if ((Related_Endpoint < zmf159_handle->Total_Endpoint) && (Reserved == 0)
           && (Status != 0))
       {
         CopyRoutine = Standard_GetStatus;
@@ -726,9 +714,9 @@ void Data_Setup0(void)
   else if (Request_No == GET_INTERFACE)
   {
     if ((Type_Recipient == (STANDARD_REQUEST | INTERFACE_RECIPIENT))
-        && (pInformation->Current_Configuration != 0) && (pInformation->USBwValue == 0)
-        && (pInformation->USBwIndex1 == 0) && (pInformation->USBwLength == 0x0001)
-        && ((*pProperty->Class_Get_Interface_Setting)(pInformation->USBwIndex0, 0) == USB_SUCCESS))
+        && (zmf159_handle->Current_Configuration != 0) && (zmf159_handle->USBwValues.w == 0)
+        && (zmf159_handle->USBwIndexs.bw.bb1 == 0) && (zmf159_handle->USBwLengths.w == 0x0001)
+        && ((*zmf159_handle->pProperty->Class_Get_Interface_Setting)(zmf159_handle->USBwIndexs.bw.bb0, 0) == USB_SUCCESS))
     {
       CopyRoutine = Standard_GetInterface;
     }
@@ -737,8 +725,8 @@ void Data_Setup0(void)
   
   if (CopyRoutine)
   {
-    pInformation->Ctrl_Info.Usb_wOffset = wOffset;
-    pInformation->Ctrl_Info.CopyData = CopyRoutine;
+    zmf159_handle->Ctrl_Info.Usb_wOffset = wOffset;
+    zmf159_handle->Ctrl_Info.CopyData = CopyRoutine;
     /* sb in the original the cast to word was directly */
     /* now the cast is made step by step */
     (*CopyRoutine)(0);
@@ -746,60 +734,60 @@ void Data_Setup0(void)
   }
   else
   {
-    Result = (*pProperty->Class_Data_Setup)(pInformation->USBbRequest);
+    Result = (*zmf159_handle->pProperty->Class_Data_Setup)(zmf159_handle->USBbRequest);
       
     if (Result == USB_NOT_READY)
     {
-      pInformation->ControlState = PAUSE;
+      zmf159_handle->ControlState = PAUSE;
       return;
     }
   }
 
-  if (pInformation->Ctrl_Info.Usb_wLength == 0xFFFF)
+  if (zmf159_handle->Ctrl_Info.Usb_wLength == 0xFFFF)
   {
     /* Data is not ready, wait it */
-    pInformation->ControlState = PAUSE;
+    zmf159_handle->ControlState = PAUSE;
     return;
   }
-  if ((Result == USB_UNSUPPORT) || (pInformation->Ctrl_Info.Usb_wLength == 0))
+  if ((Result == USB_UNSUPPORT) || (zmf159_handle->Ctrl_Info.Usb_wLength == 0))
   {
     /* Unsupported request */
-    pInformation->ControlState = STALLED;
+    zmf159_handle->ControlState = STALLED;
     
     return;
   }
 
 
-  if (ValBit(pInformation->USBbmRequestType, 7))
+  if (ValBit(zmf159_handle->USBbmRequestType, 7)) // in
   {
     /* Device ==> Host */
-    __IO uint32_t wLength = pInformation->USBwLength;
+    __IO uint32_t wLength = zmf159_handle->USBwLengths.w;
      
     /* Restrict the data length to be the one host asks */
-    if (pInformation->Ctrl_Info.Usb_wLength > wLength)
+    if (zmf159_handle->Ctrl_Info.Usb_wLength > wLength)
     {
-      pInformation->Ctrl_Info.Usb_wLength = wLength;
+      zmf159_handle->Ctrl_Info.Usb_wLength = wLength;
     }
     
-    else if (pInformation->Ctrl_Info.Usb_wLength < pInformation->USBwLength)
+    else if (zmf159_handle->Ctrl_Info.Usb_wLength < zmf159_handle->USBwLengths.w)
     {
-      if (pInformation->Ctrl_Info.Usb_wLength < pProperty->MaxPacketSize)
+      if (zmf159_handle->Ctrl_Info.Usb_wLength < zmf159_handle->MaxPacketSize)
       {
         Data_Mul_MaxPacketSize = AM_FALSE;
       }
-      else if ((pInformation->Ctrl_Info.Usb_wLength % pProperty->MaxPacketSize) == 0)
+      else if ((zmf159_handle->Ctrl_Info.Usb_wLength % zmf159_handle->MaxPacketSize) == 0)
       {
         Data_Mul_MaxPacketSize = AM_TRUE;
       }
     }   
 
-    pInformation->Ctrl_Info.PacketSize = pProperty->MaxPacketSize;
+    zmf159_handle->Ctrl_Info.PacketSize = zmf159_handle->MaxPacketSize;
     DataStageIn();
   }
   else
   {
-    pInformation->Ctrl_Info.Usb_wLength = pInformation->USBwLength;//
-    pInformation->ControlState = OUT_DATA;
+    zmf159_handle->Ctrl_Info.Usb_wLength = zmf159_handle->USBwLengths.w;//
+    zmf159_handle->ControlState = OUT_DATA;
 
   }
 
@@ -816,20 +804,28 @@ void Data_Setup0(void)
 uint8_t Setup0_Process(void)
 {
     uint8_t *pBuf ;
-  if (pInformation->ControlState != PAUSE)
+  if (zmf159_handle->ControlState != PAUSE)
   {  
+	  am_kprintf("setup\r\n");
     pBuf = setupPacket;
     PMAToUserBufferCopy(pBuf, ENDP0,  8);
-    pInformation->USBbmRequestType = pBuf[0];//USB->rSETUP[0];  // bmRequestType
-    pInformation->USBbRequest = pBuf[1];//USB->rSETUP[1];       // bRequest */
-    pInformation->USBwValue = pBuf[3]|(pBuf[2]<<8);//(USB->rSETUP[3])|(USB->rSETUP[2]<<8);   // wValue
-    pInformation->USBwIndex  = pBuf[5]|(pBuf[4]<<8);//(USB->rSETUP[5])|(USB->rSETUP[4]<<8);  // wIndex
-    pInformation->USBwLength = pBuf[6]|(pBuf[7]<<8);//(USB->rSETUP[6])|(USB->rSETUP[7]<<8);  // wLength
+    zmf159_handle->USBbmRequestType = pBuf[0];
+    zmf159_handle->USBbRequest   = pBuf[1];
+    zmf159_handle->USBwValues.w  = pBuf[3]|(pBuf[2]<<8); // wValue
+    zmf159_handle->USBwIndexs.w  = pBuf[5]|(pBuf[4]<<8); // wIndex
+    zmf159_handle->USBwLengths.w = pBuf[6]|(pBuf[7]<<8);// wLength
+
+    am_kprintf("set up data: %x %x %x %x %x\r\n", zmf159_handle->USBbmRequestType,
+    											  zmf159_handle->USBbRequest,
+												  zmf159_handle->USBwValues.w,
+												  zmf159_handle->USBwIndexs.w,
+												  zmf159_handle->USBwLengths.w);
   }
 
-  pInformation->ControlState = SETTING_UP; 
+  am_kprintf("req: %d \r\n", zmf159_handle->USBbRequest);
+  zmf159_handle->ControlState = SETTING_UP; 
   
-  if (pInformation->USBwLength == 0)
+  if (zmf159_handle->USBwLengths.w == 0)
   {
     /* Setup with no data stage */
     NoData_Setup0();
@@ -851,24 +847,25 @@ uint8_t Setup0_Process(void)
 *******************************************************************************/
 uint8_t In0_Process(void)
 {
-  uint32_t ControlState = pInformation->ControlState;
+  uint32_t ControlState = zmf159_handle->ControlState;
   
   if ((ControlState == IN_DATA) || (ControlState == LAST_IN_DATA))
   {
     DataStageIn();
     /* ControlState may be changed outside the function */
-    ControlState = pInformation->ControlState;
+    ControlState = zmf159_handle->ControlState;
   }
 
   else if (ControlState == WAIT_STATUS_IN)
   {
-    if ((pInformation->USBbRequest == SET_ADDRESS) &&
+    if ((zmf159_handle->USBbRequest == SET_ADDRESS) &&
         (Type_Recipient == (STANDARD_REQUEST | DEVICE_RECIPIENT)))
     {
-      pUser_Standard_Requests->User_SetDeviceAddress();
+//      pUser_Standard_Requests->User_SetDeviceAddress();
+    	(*zmf159_handle->pProperty->User_SetDeviceAddress)();
     }
     
-    (*pProperty->Process_Status_IN)();
+    (*zmf159_handle->pProperty->Process_Status_IN)();
   }
 
   else
@@ -877,7 +874,7 @@ uint8_t In0_Process(void)
 
   }
 
-  pInformation->ControlState = ControlState;
+  zmf159_handle->ControlState = ControlState;
   
   return Post0_Process();
 }
@@ -891,17 +888,17 @@ uint8_t In0_Process(void)
 *******************************************************************************/
 uint8_t Out0_Process(void)
 {
-  uint32_t ControlState = pInformation->ControlState;
+  uint32_t ControlState = zmf159_handle->ControlState;
 
   if ((ControlState == OUT_DATA) || (ControlState == LAST_OUT_DATA))
   {
     DataStageOut();
-    ControlState = pInformation->ControlState; /* may be changed outside the function */
+    ControlState = zmf159_handle->ControlState; /* may be changed outside the function */
   }
 
   else if (ControlState == WAIT_STATUS_OUT)
   {
-    (*pProperty->Process_Status_OUT)();
+    (*zmf159_handle->pProperty->Process_Status_OUT)();
   
     ControlState = STALLED;
   }
@@ -919,7 +916,7 @@ uint8_t Out0_Process(void)
     ControlState = STALLED;
   }
 
-  pInformation->ControlState = ControlState;
+  zmf159_handle->ControlState = ControlState;
 
   return Post0_Process();
 }
@@ -935,11 +932,11 @@ uint8_t Out0_Process(void)
 uint8_t Post0_Process(void)
 {
 
-  if (pInformation->ControlState == STALLED)
+  if (zmf159_handle->ControlState == STALLED)
   {
     
   }
-  return (pInformation->ControlState == PAUSE);
+  return (zmf159_handle->ControlState == PAUSE);
 }
 
 /*******************************************************************************
@@ -951,7 +948,6 @@ uint8_t Post0_Process(void)
 *******************************************************************************/
 void SetDeviceAddress(uint8_t Val)
 {
-  //_SetUSB_ADDR(Val);
     amhw_zmf159_addr_set(ZMF159_USB, Val);
 }
 
@@ -964,6 +960,6 @@ void SetDeviceAddress(uint8_t Val)
 *******************************************************************************/
 void NOP_Process(void)
 {
+
 }
 
-/******************* (C) COPYRIGHT 2018 MindMotion *****END OF FILE****/

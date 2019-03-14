@@ -1,0 +1,104 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import os
+from config_ametal import   ametal_config 
+from config_build_common import     build_common_config 
+
+env = DefaultEnvironment();
+env = env.Clone();
+
+env['ametal_usb'] = ametal_config.EN_AM_COMPONENT_USB
+
+cur_build_path = Dir('.',False);
+org_build_path = str(cur_build_path.srcnode())
+
+#代码
+SOURCE = []
+
+SOURCE.append('device/class/source/am_usbd_audio.c');
+SOURCE.append('device/class/source/am_usbd_cdc_acm.c');
+SOURCE.append('device/class/source/am_usbd_hid.c');
+SOURCE.append('device/class/source/am_usbd_msc.c');
+SOURCE.append('device/class/source/am_usbd_msc_ufi.c');
+SOURCE.append('device/class/source/am_usbd_phdc.c');
+SOURCE.append('device/class/source/am_usbd_printer.c');
+SOURCE.append('device/class/source/am_usbd_video.c');
+SOURCE.append('device/common/source/am_usbd_ch9.c');
+SOURCE.append('device/common/source/am_usbd_class.c');
+SOURCE.append('host/common/source/am_usbh_devices.c');
+SOURCE.append('host/common/source/am_usbh_framework.c');
+SOURCE.append('host/class/source/am_usbh_audio.c');
+SOURCE.append('host/class/source/am_usbh_cdc.c');
+SOURCE.append('host/class/source/am_usbh_hid.c');
+SOURCE.append('host/class/source/am_usbh_hub.c');
+SOURCE.append('host/class/source/am_usbh_hub_app.c');
+SOURCE.append('host/class/source/am_usbh_msd.c');
+SOURCE.append('host/class/source/am_usbh_msd_ufi.c');
+SOURCE.append('host/class/source/am_usbh_phdc.c');
+SOURCE.append('host/class/source/am_usbh_printer.c');
+SOURCE.append('host/class/source/am_usbh_printer.c');
+SOURCE.append('osa/am_usb_osa_bm.c');
+
+usb_devic_host = None
+
+#去掉指定不编译的部分源码
+if 'usb_device' in env['ametal_usb']:
+    usb_devic_host = 1
+    SOURCE.remove('device/class/source/am_usbd_audio.c');
+    SOURCE.remove('device/class/source/am_usbd_cdc_acm.c');
+    SOURCE.remove('device/class/source/am_usbd_hid.c');
+    SOURCE.remove('device/class/source/am_usbd_msc.c');
+    SOURCE.remove('device/class/source/am_usbd_msc_ufi.c');
+    SOURCE.remove('device/class/source/am_usbd_phdc.c');
+    SOURCE.remove('device/class/source/am_usbd_printer.c');
+    SOURCE.remove('device/class/source/am_usbd_video.c');
+    SOURCE.remove('device/common/source/am_usbd_ch9.c');
+    SOURCE.remove('device/common/source/am_usbd_class.c');
+    
+if 'usb_host' in env['ametal_usb']:
+    usb_devic_host = 2
+    SOURCE.remove('host/common/source/am_usbh_devices.c');
+    SOURCE.remove('host/common/source/am_usbh_framework.c');
+    SOURCE.remove('host/class/source/am_usbh_audio.c');
+    SOURCE.remove('host/class/source/am_usbh_cdc.c');
+    SOURCE.remove('host/class/source/am_usbh_hid.c');
+    SOURCE.remove('host/class/source/am_usbh_hub.c');
+    SOURCE.remove('host/class/source/am_usbh_hub_app.c');
+    SOURCE.remove('host/class/source/am_usbh_msd.c');
+    SOURCE.remove('host/class/source/am_usbh_msd_ufi.c');
+    SOURCE.remove('host/class/source/am_usbh_phdc.c');
+    SOURCE.remove('host/class/source/am_usbh_printer.c');
+    SOURCE.remove('host/class/source/am_usbh_printer.c');
+
+if usb_devic_host == 2:        
+   SOURCE.remove('osa/am_usb_osa_bm.c');
+
+# 分析各个构建库的头文件包含路径,这里在AM_COMMON_INCLUDE里面应该已经包含了所有头文件
+INCLUDE = list(build_common_config.AM_COMMON_INCLUDE)
+INCLUDE.append('include_notinsdk');
+
+#USB组件头文件 这里可能从原来的SDK路径加入到新建的SDKS的头文件路径，后者为原来的路径，前者为新建SDK的路径
+
+if 'usb_device' not in env['ametal_usb']:
+    InstallDir(build_common_config.AM_SDK_INSTALL_PATH+'common/components/usb/device',os.path.join(org_build_path,'device'))
+    InstallDir(build_common_config.AM_SDK_INSTALL_PATH+'common/components/usb/device/class/include',os.path.join(org_build_path,'device/class/include'))
+    InstallDir(build_common_config.AM_SDK_INSTALL_PATH+'common/components/usb/device/common/include',os.path.join(org_build_path,'device/common/include'))
+    InstallDir(build_common_config.AM_SDK_INSTALL_PATH+'common/components/usb/device/config/include',os.path.join(org_build_path,'device/config/include'))
+    
+if 'usb_host' not in env['ametal_usb']:
+    InstallDir(build_common_config.AM_SDK_INSTALL_PATH+'common/components/usb/host',os.path.join(org_build_path,'host'))
+    InstallDir(build_common_config.AM_SDK_INSTALL_PATH+'common/components/usb/host/class/include',os.path.join(org_build_path,'host/class/include'))
+    InstallDir(build_common_config.AM_SDK_INSTALL_PATH+'common/components/usb/host/common/include',os.path.join(org_build_path,'host/common/include'))
+    InstallDir(build_common_config.AM_SDK_INSTALL_PATH+'common/components/usb/host/config',os.path.join(org_build_path,'host/config'))
+
+if usb_devic_host != 2:    
+    InstallDir(build_common_config.AM_SDK_INSTALL_PATH+'common/components/usb/include',os.path.join(org_build_path,'include'))
+    InstallDir(build_common_config.AM_SDK_INSTALL_PATH+'common/components/usb/osa',os.path.join(org_build_path,'osa'))
+
+#不为2时，至少代表有一部分源码需要生成USB库，代表需要生成componets_usb库，
+if usb_devic_host != 2: 
+    lib_file=StaticLibrary('component_usb',SOURCE,CPPPATH = INCLUDE)
+    print 'usb component lib create ok'
+    Return('lib_file')	
+	

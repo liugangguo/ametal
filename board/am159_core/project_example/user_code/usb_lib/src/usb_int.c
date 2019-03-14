@@ -24,15 +24,16 @@
 /* Extern variables ----------------------------------------------------------*/
 extern void (*pEpInt_IN[7])(void);    /*  Handles IN  interrupts   */
 extern void (*pEpInt_OUT[7])(void);   /*  Handles OUT interrupts   */
-extern amhw_zmf159_usb_bdt_t *pUSB_OTG_BDT;
+//extern amhw_zmf159_usb_bdt_t *pUSB_OTG_BDT;
 /* Private function prototypes -----------------------------------------------*/
-amhw_zmf159_usb_bdt_t *pUSB_OTG_BDT;
-uint8_t rxUsbBufOdd[16] ;
-uint8_t txUsbBufOdd[16] ;
+//amhw_zmf159_usb_bdt_t *pUSB_OTG_BDT;
 
-uint8_t epInDataNum[16] ;
+//uint8_t rxUsbBufOdd[16] ;
+//uint8_t txUsbBufOdd[16] ;
+//
+//uint8_t epInDataNum[16] ;
 
-uint8_t setupPacket[8] ;
+uint8_t setupPacket[8];
 /* Private functions ---------------------------------------------------------*/
 
 /*******************************************************************************
@@ -43,11 +44,14 @@ uint8_t setupPacket[8] ;
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
+
+
 void CTR_LP(void)
 {
   uint32_t wEpIntSta = 0,wEpxIntSta = 0;
   uint32_t wEpStat;
   uint8_t txUsbBufOddTemp;
+  uint8_t EPindex;
 
 //  wEpStat = _GetEP_INT_STA();
 //  _ClrUSB_INT_STA(OTG_FS_INT_STAT_DNE) ;
@@ -58,17 +62,17 @@ void CTR_LP(void)
   if(wEpIntSta == 0)       //¶Ëµã0
   {
       EPindex = 0;
-
+      am_kprintf("ep int 0\r\n");
       if(((wEpStat>>3)&0x01) == 0)//RX
       {
-        rxUsbBufOdd[0] = (wEpStat>>2)&0x1;
-        wEpxIntSta = pUSB_OTG_BDT->rx_buf[rxUsbBufOdd[0]].format;
+    	  zmf159_handle->rxUsbBufOdd[0] = (wEpStat>>2)&0x1;
+        wEpxIntSta = zmf159_handle->pUSB_OTG_BDT->rx_buf[zmf159_handle->rxUsbBufOdd[0]].format;
       }
       else
       {
         txUsbBufOddTemp = (wEpStat>>2)&0x1;
-        wEpxIntSta = pUSB_OTG_BDT->tx_buf[txUsbBufOddTemp].format;
-        pUSB_OTG_BDT->tx_buf[txUsbBufOddTemp].format = 0;
+        wEpxIntSta = zmf159_handle->pUSB_OTG_BDT->tx_buf[txUsbBufOddTemp].format;
+        zmf159_handle->pUSB_OTG_BDT->tx_buf[txUsbBufOddTemp].format = 0;
       }
       wEpxIntSta = (wEpxIntSta >> 2)&0xf;
 
@@ -76,21 +80,21 @@ void CTR_LP(void)
       {
         //USB_OTG_FS->CTL &= ~(1<<5);//tip
           amhw_zmf159_ctrl_reset(ZMF159_USB, ZMF159_USB_TXD_SUSPEND_TOKBSY);
-        epInDataNum[0] = 1;
+          zmf159_handle->epInDataNum[0] = 1;
         Setup0_Process();      
         return;
       }
       
       if(wEpxIntSta == 0x01)//|EPn_INT_STATE_OUTNACK
       {
-
+    	  am_kprintf("ep OUTNACK\r\n");
         Out0_Process();
         return;
       }
 
       if(wEpxIntSta == 0x9)//|EPn_INT_STATE_ACK
       {
-
+    	  am_kprintf("ep INACK\r\n");
         In0_Process();
           
         return;
@@ -101,14 +105,14 @@ void CTR_LP(void)
     EPindex = wEpIntSta;
     if(((wEpStat>>3)&0x01) == 0)//RX
     {
-      rxUsbBufOdd[wEpIntSta] = (wEpStat>>2)&0x1;
-      wEpxIntSta = (pUSB_OTG_BDT+EPindex)->rx_buf[rxUsbBufOdd[EPindex]].format;
+    	zmf159_handle->rxUsbBufOdd[wEpIntSta] = (wEpStat>>2)&0x1;
+      wEpxIntSta = (zmf159_handle->pUSB_OTG_BDT+EPindex)->rx_buf[zmf159_handle->rxUsbBufOdd[EPindex]].format;
     }
     else
     {
       txUsbBufOddTemp = (wEpStat>>2)&0x1;
-      wEpxIntSta = (pUSB_OTG_BDT + EPindex)->rx_buf[txUsbBufOddTemp].format;
-      (pUSB_OTG_BDT+EPindex)->rx_buf[txUsbBufOddTemp].format = 0;
+      wEpxIntSta = (zmf159_handle->pUSB_OTG_BDT + EPindex)->rx_buf[txUsbBufOddTemp].format;
+      (zmf159_handle->pUSB_OTG_BDT+EPindex)->rx_buf[txUsbBufOddTemp].format = 0;
     }
     wEpxIntSta = (wEpxIntSta >> 2)&0xf;
     if(wEpxIntSta == 0x01)//|EPn_INT_STATE_OUTNACK

@@ -15,18 +15,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "../inc/usb_lib.h"
 
-extern amhw_zmf159_usb_bdt_t *pUSB_OTG_BDT;
-extern uint8_t rxUsbBufOdd[16] ;
-extern uint8_t txUsbBufOdd[16] ;
-extern uint8_t epInDataNum[16] ;
-extern uint8_t epOutDataNum[16];
-/* Private typedef -----------------------------------------------------------*/
-/* Private define ------------------------------------------------------------*/
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-/* Extern variables ----------------------------------------------------------*/
-/* Private function prototypes -----------------------------------------------*/
-/* Private functions ---------------------------------------------------------*/
 /*******************************************************************************
 * Function Name  : UserToPMABufferCopy
 * Description    : Copy a buffer from user memory area to packet memory area (PMA)
@@ -40,11 +28,11 @@ void UserToPMABufferCopy(uint8_t *pbUsrBuf, uint16_t EPNum, uint16_t wNBytes)
 {
     uint32_t i;
     uint8_t *pBuf;
-    
+    amhw_zmf159_usb_bdt_t *pUSB_OTG_BDT = zmf159_handle->pUSB_OTG_BDT;
 
-    pBuf = (uint8_t*)((pUSB_OTG_BDT+EPNum)->tx_buf[txUsbBufOdd[EPNum]].adress) ;
+    pBuf = (uint8_t*)((pUSB_OTG_BDT+EPNum)->tx_buf[zmf159_handle->txUsbBufOdd[EPNum]].adress) ;
   
-    (pUSB_OTG_BDT+EPNum)->tx_buf[txUsbBufOdd[EPNum]].format &= 0x00ff00;
+    (pUSB_OTG_BDT+EPNum)->tx_buf[zmf159_handle->txUsbBufOdd[EPNum]].format &= 0x00ff00;
 
     for (i = 0;i < wNBytes;  i++)
     {
@@ -52,10 +40,11 @@ void UserToPMABufferCopy(uint8_t *pbUsrBuf, uint16_t EPNum, uint16_t wNBytes)
         pbUsrBuf++;
     }   
     
-    (pUSB_OTG_BDT+EPNum)->tx_buf[txUsbBufOdd[EPNum]].format |= (wNBytes<<16)|(epInDataNum[EPNum]<<6)/**/;
-    epInDataNum[EPNum] = !epInDataNum[EPNum];
-    (pUSB_OTG_BDT+EPNum)->tx_buf[txUsbBufOdd[EPNum]].format |= 1<<7;
-    txUsbBufOdd[EPNum] = !txUsbBufOdd[EPNum];    
+    (pUSB_OTG_BDT+EPNum)->tx_buf[zmf159_handle->txUsbBufOdd[EPNum]].format |= (wNBytes<<16)|(zmf159_handle->epInDataNum[EPNum]<<6)/**/;
+    zmf159_handle->epInDataNum[EPNum] = !zmf159_handle->epInDataNum[EPNum];
+    (pUSB_OTG_BDT+EPNum)->tx_buf[zmf159_handle->txUsbBufOdd[EPNum]].format |= 1<<7;
+    zmf159_handle->txUsbBufOdd[EPNum] = !zmf159_handle->txUsbBufOdd[EPNum];
+
 }
 /*******************************************************************************
 * Function Name  : PMAToUserBufferCopy
@@ -70,18 +59,21 @@ void PMAToUserBufferCopy(uint8_t *pbUsrBuf, uint16_t EPNum, uint16_t wNBytes)
 {
   uint32_t i;
   uint8_t *pBuf;
+  amhw_zmf159_usb_bdt_t *pUSB_OTG_BDT = zmf159_handle->pUSB_OTG_BDT;
 
-  pBuf = (uint8_t*)((pUSB_OTG_BDT+EPNum)->rx_buf[rxUsbBufOdd[EPNum]].adress) ;
+  pBuf = (uint8_t*)((pUSB_OTG_BDT+EPNum)->rx_buf[zmf159_handle->rxUsbBufOdd[EPNum]].adress) ;
 
   for (i = 0;i < wNBytes;  i++)
   {
       *pbUsrBuf = pBuf[i];
       pbUsrBuf++;
   }   
-  
-  (pUSB_OTG_BDT+EPNum)->rx_buf[rxUsbBufOdd[EPNum]].format &= 0x00ff00;//清除计数,清除stall
-  (pUSB_OTG_BDT+EPNum)->rx_buf[rxUsbBufOdd[EPNum]].format |= (64<<16);//设置最大接收字节
-  (pUSB_OTG_BDT+EPNum)->rx_buf[rxUsbBufOdd[EPNum]].format |= 1<<7;
+
+
+
+  (pUSB_OTG_BDT+EPNum)->rx_buf[zmf159_handle->rxUsbBufOdd[EPNum]].format &= 0x00ff00;//清除计数,清除stall
+  (pUSB_OTG_BDT+EPNum)->rx_buf[zmf159_handle->rxUsbBufOdd[EPNum]].format |= (64<<16);//设置最大接收字节
+  (pUSB_OTG_BDT+EPNum)->rx_buf[zmf159_handle->rxUsbBufOdd[EPNum]].format |= 1<<7;
 }
 
 /******************* (C) COPYRIGHT 2018 MindMotion *****END OF FILE****/

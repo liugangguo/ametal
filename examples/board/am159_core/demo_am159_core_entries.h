@@ -426,4 +426,10 @@ void demo_zlg_hw_adc_int_entry (amhw_zlg_adc_t *p_hw_adc,
  */
 void demo_std_gpio_entry (int input_pin, int output_pin);
 
+
+/**
+ * \brief usb device ´òÓ¡»ú Àý³Ì
+ */
+void demo_zmf159_usbd_printer_entry (void);
+
 /* end of file */

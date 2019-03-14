@@ -15,7 +15,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "../../usb_lib/inc/usb_lib.h"
 #include "../inc/usb_prop.h"
-#include "../inc/usb_pwr.h"
 #include "../inc/usb_istr.h"
 
 /* Private typedef -----------------------------------------------------------*/
@@ -25,10 +24,6 @@
 __IO uint16_t wIstr;  /* ISTR register last read value */
 __IO uint8_t bIntPackSOF = 0;  /* SOFs received between 2 consecutive packets */
 
-/* Extern variables ----------------------------------------------------------*/
-/* Private function prototypes -----------------------------------------------*/
-/* Private functions ---------------------------------------------------------*/
-/* function pointers to non-control endpoints service routines */
 void (*pEpInt_IN[7])(void) =
   {
     EP1_IN_Callback,
@@ -65,9 +60,10 @@ void USB_Istr(void *p_arg)
     wIstr = amhw_zmf159_usb_int_get(ZMF159_USB);
   if(wIstr&OTG_FS_INT_STAT_RST)
   {
+	  am_kprintf("reset\r\n");
 //    _ClrUSB_INT_STA(OTG_FS_INT_STAT_RST) ;
       amhw_zmf159_usb_int_clear(ZMF159_USB, OTG_FS_INT_STAT_RST);
-    Device_Property.Reset();
+    am_device_property.Reset();
     
   }
 
@@ -78,7 +74,7 @@ void USB_Istr(void *p_arg)
 
   if(wIstr&OTG_FS_INT_STAT_DNE)
   {
-    
+	  am_kprintf("token\r\n");
     CTR_LP();   //在子程序中清除中断标志
   }
 } /* USB_Istr */

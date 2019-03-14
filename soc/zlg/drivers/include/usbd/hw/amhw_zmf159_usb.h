@@ -81,14 +81,14 @@ typedef struct amhw_zmf159_usb_bdt {
 /**
  * \beief 中断标志
  */
-#define  ZMF159_USB_INT_STAT_RST       0x01
-#define  ZMF159_USB_INT_STAT_ERROR     0x02
-#define  ZMF159_USB_INT_STAT_SOF_TOK   0x04
-#define  ZMF159_USB_INT_STAT_TOK_DNE   0x08
-#define  ZMF159_USB_INT_STAT_SLEEP     0x10
-#define  ZMF159_USB_INT_STAT_RESUME    0x20
-#define  ZMF159_USB_INT_STAT_ATTACH    0x40
-#define  ZMF159_USB_INT_STAT_STALL     0x80
+#define  ZMF159_USB_INT_STAT_RST       (0x01)
+#define  ZMF159_USB_INT_STAT_ERROR     (0x02)
+#define  ZMF159_USB_INT_STAT_SOF_TOK   (0x04)
+#define  ZMF159_USB_INT_STAT_TOK_DNE   (0x08)
+#define  ZMF159_USB_INT_STAT_SLEEP     (0x10)
+#define  ZMF159_USB_INT_STAT_RESUME    (0x20)
+#define  ZMF159_USB_INT_STAT_ATTACH    (0x40)
+#define  ZMF159_USB_INT_STAT_STALL     (0x80)
 
 /**
  * \beief CTRL寄存器设置
@@ -134,7 +134,8 @@ am_static_inline
 void amhw_zmf159_addr_set (amhw_zmf159_usb_t *p_hw_usb,
                            uint8_t            usb_addr)
 {
-    p_hw_usb->addr = (usb_addr & 0xef);
+//	am_kprintf("addr is %x \r\n", usb_addr);
+    p_hw_usb->addr |= usb_addr ;
 }
 
 /**
@@ -169,6 +170,44 @@ void amhw_zmf159_ep_ctrl_set (amhw_zmf159_usb_t *p_hw_usb,
 }
 
 /**
+ * \brief 端点类型设置
+ */
+am_static_inline
+void amhw_zmf159_ep_class_set (amhw_zmf159_usb_t *p_hw_usb,
+                               uint8_t            epx,
+                               uint8_t            dat)
+{
+    p_hw_usb->ep_ctl[epx] = dat << 2;
+}
+
+/**
+ * \brief 清除端点HALT状态 dat = 0 清挂起； dat= 1,挂起
+ */
+am_static_inline
+void amhw_zmf159_ep_halt_set (amhw_zmf159_usb_t *p_hw_usb,
+                              uint8_t            epx,
+							  uint8_t            dat)
+{
+	if (dat == 0) {
+        p_hw_usb->ep_ctl[epx] &= ~(1 << 1);  // 清挂起
+	} else if (dat == 1){
+		p_hw_usb->ep_ctl[epx] |= (1 << 1);   // 挂起
+	}
+}
+
+
+/**
+ * \brief 清除端点HALT状态
+ */
+am_static_inline
+void amhw_zmf159_ep_enable (amhw_zmf159_usb_t *p_hw_usb,
+                            uint8_t            epx)
+{
+    p_hw_usb->ep_ctl[epx] = 1 << 0;
+}
+
+
+/**
  * \brief 设置端点状态
  */
 am_static_inline
@@ -195,7 +234,7 @@ am_bool_t amhw_zmf159_ep_stat_get (amhw_zmf159_usb_t *p_hw_usb,
  */
 am_static_inline
 void amhw_zmf159_usb_int_enable (amhw_zmf159_usb_t *p_hw_usb,
-                             uint32_t           flog)
+                                 uint32_t           flog)
 {
     p_hw_usb->int_enb |= flog;
 }
@@ -224,9 +263,9 @@ uint8_t amhw_zmf159_usb_int_get (amhw_zmf159_usb_t *p_hw_usb)
  */
 am_static_inline
 void amhw_zmf159_usb_int_clear (amhw_zmf159_usb_t *p_hw_usb,
-                                uint32_t          flog)
+                                uint32_t          flag)
 {
-    p_hw_usb->int_stat = flog;
+    p_hw_usb->int_stat = flag;
 }
 
 /**

@@ -31,8 +31,8 @@ uint8_t len_UartToUsb = 0;
 __IO uint32_t count_out = 0;
 uint32_t count_in = 0;
 uint8_t empty_flag = 0;
-extern uint8_t rxUsbBufOdd[16] ;
-extern amhw_zmf159_usb_bdt_t *pUSB_OTG_BDT;
+//extern uint8_t rxUsbBufOdd[16] ;
+//extern amhw_zmf159_usb_bdt_t *pUSB_OTG_BDT;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 /*******************************************************************************
@@ -44,7 +44,7 @@ extern amhw_zmf159_usb_bdt_t *pUSB_OTG_BDT;
 *******************************************************************************/
 void EP3_OUT_Callback(void)
 {
-  count_out = (pUSB_OTG_BDT+ENDP3)->rx_buf[rxUsbBufOdd[ENDP3]].format>>16;
+  count_out = (zmf159_handle->pUSB_OTG_BDT+ENDP3)->rx_buf[zmf159_handle->rxUsbBufOdd[ENDP3]].format>>16;
   count_out &= 0x1FF;
   PMAToUserBufferCopy(buffer_out, ENDP3, count_out);
   status_UsbUart |= 0x1<<1;

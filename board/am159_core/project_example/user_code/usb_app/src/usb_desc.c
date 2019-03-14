@@ -140,10 +140,10 @@ const uint8_t Virtual_Com_Port_StringVendor[VIRTUAL_COM_PORT_SIZ_STRING_VENDOR] 
     'n', 0,
     'd', 0,
     'M', 0, 
-		'o', 0, 
-		't', 0, 
-		'i', 0, 
-		'o', 0,
+	'o', 0,
+	't', 0,
+	'i', 0,
+	'o', 0,
     'n', 0,		
     
   };
@@ -191,5 +191,4 @@ uint8_t Virtual_Com_Port_StringSerial[VIRTUAL_COM_PORT_SIZ_STRING_SERIAL] =
     '0', 0,
     '6', 0,
     '2', 0,
-  }
-  ;/******************* (C) COPYRIGHT 2018 MindMotion *****END OF FILE****/
+  };
