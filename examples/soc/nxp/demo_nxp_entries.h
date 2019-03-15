@@ -12,7 +12,7 @@
 
 /**
  * \file
- * \brief NXPÏµÁĞÍâÉèÇı¶¯µÄËùÓĞÀı³Ìº¯ÊıÈë¿ÚÉùÃ÷
+ * \brief NXPç³»åˆ—å¤–è®¾é©±åŠ¨çš„æ‰€æœ‰ä¾‹ç¨‹å‡½æ•°å…¥å£å£°æ˜
  * \sa    demo_nxp_entries.h
  *
  * \internal
@@ -20,6 +20,7 @@
  * - 1.00 18-08-28  adw, first implementation
  * \endinternal
  */
+
 #ifndef __DEMO_NXP_ENTRIES_H
 #define __DEMO_NXP_ENTRIES_H
 
@@ -27,6 +28,7 @@
 #include "am_timer.h"
 #include "am_adc.h"
 #include "am_lpc_sct.h"
+
 #include "hw/amhw_lpc_wwdt.h"
 #include "hw/amhw_lpc_crc.h"
 #include "hw/amhw_lpc_i2c.h"
@@ -35,472 +37,539 @@
 #include "hw/amhw_lpc_spi.h"
 #include "hw/amhw_lpc_wkt.h"
 #include "hw/amhw_lpc_mrt.h"
-#include "hw/amhw_lpc_fmc.h"
 
 #include "hw/amhw_lpc82x_adc.h"
 #include "hw/amhw_lpc82x_acmp.h"
+#include "hw/amhw_lpc_fmc.h"
 #include "hw/amhw_lpc82x_gpio.h"
 #include "hw/amhw_lpc82x_pmu.h"
-
+#include "hw/amhw_lpc84x_gpio.h"
+#include "hw/amhw_lpc84x_dac.h"
+#include "hw/amhw_lpc84x_adc.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /**
- * \brief WWDT Ó²¼ş²ã£¨Ê¹ÓÃÁËÖĞ¶Ï£©Àı³ÌÈë¿Ú
+ * \brief WWDT ç¡¬ä»¶å±‚ï¼ˆä½¿ç”¨äº†ä¸­æ–­ï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_wwdt : Ö¸Ïò WWDT ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
- * \param[in] inum      : ÖĞ¶ÏºÅ
- * \param[in] wdt_freq  : WWDTÆµÂÊ
+ * \param[in] p_hw_wwdt : æŒ‡å‘ WWDT å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
+ * \param[in] inum      : ä¸­æ–­å·
+ * \param[in] wdt_freq  : WWDTé¢‘ç‡
  *
- * \note Ò»°ãÇé¿öÏÂ£¬ÔÚÊ¹ÓÃ±¾ demo Ç°£¬»¹Ğè´ò¿ª WWDT Ä£¿éÏàÓ¦µÄÊ±ÖÓ£¬
- * ÅäÖÃºÏÊÊµÄWDTÊ±ÖÓÆµÂÊ¡£
+ * \note ä¸€èˆ¬æƒ…å†µä¸‹ï¼Œåœ¨ä½¿ç”¨æœ¬ demo å‰ï¼Œè¿˜éœ€æ‰“å¼€ WWDT æ¨¡å—ç›¸åº”çš„æ—¶é’Ÿï¼Œ
+ * é…ç½®åˆé€‚çš„WDTæ—¶é’Ÿé¢‘ç‡ã€‚
  */
 void demo_lpc_hw_wwdt_entry (amhw_lpc_wwdt_t *p_hw_wwdt,
                              int              inum,
                              uint32_t         wdt_freq);
+
 /**
- * \brief acmp Ó²¼ş²ã£¨Ê¹ÓÃÁËÖĞ¶Ï£©Àı³ÌÈë¿Ú
+ * \brief acmp ç¡¬ä»¶å±‚ï¼ˆä½¿ç”¨äº†ä¸­æ–­ï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_acmp : Ö¸Ïò acmp ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
- * \param[in] flags     : acmpÅäÖÃ
- * \param[in] inum      : ÖĞ¶ÏºÅ
- * \param[in] pin       : ±È½ÏÊä³öÒı½Å
+ * \param[in] p_hw_acmp : æŒ‡å‘ acmp å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
+ * \param[in] flags     : acmpé…ç½®
+ * \param[in] inum      : ä¸­æ–­å·
+ * \param[in] pin       : æ¯”è¾ƒè¾“å‡ºå¼•è„š
  *
- * \note Ò»°ãÇé¿öÏÂ£¬ÔÚÊ¹ÓÃ±¾ demo Ç°£¬»¹Ğè´ò¿ª WWDT Ä£¿éÏàÓ¦µÄÊ±ÖÓ£¬
- * ÅäÖÃºÏÊÊµÄWDTÊ±ÖÓÆµÂÊ¡£
+ * \note ä¸€èˆ¬æƒ…å†µä¸‹ï¼Œåœ¨ä½¿ç”¨æœ¬ demo å‰ï¼Œè¿˜éœ€æ‰“å¼€ WWDT æ¨¡å—ç›¸åº”çš„æ—¶é’Ÿï¼Œ
+ * é…ç½®åˆé€‚çš„WDTæ—¶é’Ÿé¢‘ç‡ã€‚
  */
 void demo_lpc824_hw_acmp_int_entry (amhw_lpc82x_acmp_t *p_hw_acmp, 
                                     uint32_t            flags, 
                                     int                 inum, 
                                     int                 pin);
+
 /**
- * \brief acmp Ó²¼ş²ã£¨µçÑ¹½×Ìİ£©Àı³ÌÈë¿Ú
+ * \brief acmp ç¡¬ä»¶å±‚ï¼ˆç”µå‹é˜¶æ¢¯ï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_acmp : Ö¸Ïò acmp ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
- * \param[in] pin       : Êä³ö±È½ÏÒı½Å
+ * \param[in] p_hw_acmp : æŒ‡å‘ acmp å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
+ * \param[in] pin       : è¾“å‡ºæ¯”è¾ƒå¼•è„š
  */
 void demo_lpc824_hw_acmp_lad_entry (amhw_lpc82x_acmp_t *p_hw_acmp, 
                                     int                 pin);
                              
 /**
- * \brief acmp Ó²¼ş²ã£¨ÂÖÑ¯£©Àı³ÌÈë¿Ú
+ * \brief acmp ç¡¬ä»¶å±‚ï¼ˆè½®è¯¢ï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_acmp : Ö¸Ïò acmp ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
- * \param[in] p_acmp    : Ä£Äâ±È½Ï¼Ä´æÆ÷¿é
+ * \param[in] p_hw_acmp : æŒ‡å‘ acmp å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
+ * \param[in] p_acmp    : æ¨¡æ‹Ÿæ¯”è¾ƒå¯„å­˜å™¨å—
  */
 void demo_lpc824_hw_acmp_poll_entry (amhw_lpc82x_acmp_t *p_hw_acmp,
                                      int                 pin);
+
 /**
- * \brief adc ±ê×¼adc£¨dma·½Ê½£©Àı³ÌÈë¿Ú
+ * \brief adc æ ‡å‡†adcï¼ˆdmaæ–¹å¼ï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] adc_handle  : adc ¼Ä´æÆ÷¿é
- * \param[in] chan        : adc Í¨µÀ
- * \param[in] vref_mv     : adc ²Î¿¼µçÑ¹
+ * \param[in] adc_handle  : adc å¯„å­˜å™¨å—
+ * \param[in] chan        : adc é€šé“
+ * \param[in] vref_mv     : adc å‚è€ƒç”µå‹
  */
 void demo_lpc824_hw_adc_dma_entry (amhw_lpc82x_adc_t *p_hw_adc,
                                    int                ch,
                                    uint32_t           vref_mv);
+
 /**
- * \brief adc ±ê×¼adc£¨dma·½Ê½£©Àı³ÌÈë¿Ú
+ * \brief adc æ ‡å‡†adcï¼ˆdmaæ–¹å¼ï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] adc_handle  : adc ¼Ä´æÆ÷¿é
- * \param[in] inum        : ÖĞ¶ÏºÅ
- * \param[in] vref_mv     : adc ²Î¿¼µçÑ¹
+ * \param[in] adc_handle  : adc å¯„å­˜å™¨å—
+ * \param[in] inum        : ä¸­æ–­å·
+ * \param[in] vref_mv     : adc å‚è€ƒç”µå‹
  */
 void demo_lpc824_hw_adc_thcmp_entry (amhw_lpc82x_adc_t  *p_hw_adc, 
                                      int                 inum,
                                      uint32_t            vref_mv);
+
 /**
- * \brief acmp ±ê×¼adc£¨dma int·½Ê½£©Àı³ÌÈë¿Ú
+ * \brief acmp æ ‡å‡†adcï¼ˆdma intæ–¹å¼ï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] adc_handle  : adc ¾ä±ú
- * \param[in] chan        : adc Í¨µÀ
- * \param[in] rate        : adc ²ÉÑùËÙÂÊ
+ * \param[in] adc_handle  : adc å¥æŸ„
+ * \param[in] chan        : adc é€šé“
+ * \param[in] rate        : adc é‡‡æ ·é€Ÿç‡
  */
 void demo_lpc_std_adc_dma_int_entry (am_adc_handle_t adc_handle,
                                      int             chan,
                                      uint32_t        rate);
+
 /**
- * \brief acmp ±ê×¼adc£¨dma poll·½Ê½£©Àı³ÌÈë¿Ú
+ * \brief acmp æ ‡å‡†adcï¼ˆdma pollæ–¹å¼ï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] adc_handle  : adc¾ä±ú
- * \param[in] chan        : adc Í¨µÀ
- * \param[in] rate        : adc ²ÉÑùËÙÂÊ
+ * \param[in] adc_handle  : adcå¥æŸ„
+ * \param[in] chan        : adc é€šé“
+ * \param[in] rate        : adc é‡‡æ ·é€Ÿç‡
  */
 void demo_lpc_std_adc_dma_poll_entry (am_adc_handle_t adc_handle,
                                       int             chan,
                                       uint32_t        rate);
+
 /**
- * \brief acmp ±ê×¼adc£¨int·½Ê½£©Àı³ÌÈë¿Ú
+ * \brief acmp æ ‡å‡†adcï¼ˆintæ–¹å¼ï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] adc_handle  : adc¾ä±ú
- * \param[in] chan        : adc Í¨µÀ
- * \param[in] rate        : adc ²ÉÑùËÙÂÊ 
+ * \param[in] adc_handle  : adcå¥æŸ„
+ * \param[in] chan        : adc é€šé“
+ * \param[in] rate        : adc é‡‡æ ·é€Ÿç‡
  */
 void demo_lpc_std_adc_int_entry (am_adc_handle_t adc_handle,
                                  int             chan,
                                  uint32_t        rate);
+
 /**
- * \brief acmp ±ê×¼adc£¨poll ·½Ê½£©Àı³ÌÈë¿Ú
+ * \brief acmp æ ‡å‡†adcï¼ˆpoll æ–¹å¼ï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] adc_handle  : adc¾ä±ú
- * \param[in] ch          : Í¨µÀ
- * \param[in] rate        : ËÙÂÊ
+ * \param[in] adc_handle  : adcå¥æŸ„
+ * \param[in] ch          : é€šé“
+ * \param[in] rate        : é€Ÿç‡
  */
 void demo_lpc_std_adc_poll_entry (am_adc_handle_t handle, 
                                   int             ch, 
                                   uint32_t        rate);
+
+
 /**
- * \brief acmp Ó²¼ş²ã crcÀı³ÌÈë¿Ú
+ * \brief acmp ç¡¬ä»¶å±‚ crcä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_crc  : crc ¾ä±ú
- * \param[in] p_data    : ²âÊÔÊı¾İ
- * \param[in] rate      : ²âÊÔÊı¾İ³¤¶È
+ * \param[in] p_hw_crc  : crc å¥æŸ„
+ * \param[in] p_data    : æµ‹è¯•æ•°æ®
+ * \param[in] rate      : æµ‹è¯•æ•°æ®é•¿åº¦
  */
 void demo_lpc_hw_crc_entry (amhw_lpc_crc_t  *p_hw_crc,
                             am_const char   *p_data, 
                             uint32_t         nbytes);
+
+
 /**
- * \brief dma Ó²¼ş´¥·¢Àı³ÌÈë¿Ú
+ * \brief dma ç¡¬ä»¶è§¦å‘ä¾‹ç¨‹å…¥å£
  *
- * \param[in] chan : dma Í¨µÀ
- * \param[in] pin  : ´¥·¢Òı½Å
+ * \param[in] chan : dma é€šé“
+ * \param[in] pin  : è§¦å‘å¼•è„š
  */
 void demo_lpc824_drv_dma_hwtrigger_burst_entry (uint8_t  chan,
                                                 int      pin);
+
+
 /**
- * \brief dma ÄÚ´æµ½ÄÚ´æÀı³ÌÈë¿Ú
+ * \brief dma å†…å­˜åˆ°å†…å­˜ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_src : ²âÊÔÊı¾İÔ´µØÖ·
- * \param[in] len   : ²âÊÔÊı¾İµÄ³¤¶È
+ * \param[in] p_src : æµ‹è¯•æ•°æ®æºåœ°å€
+ * \param[in] len   : æµ‹è¯•æ•°æ®çš„é•¿åº¦
  */
 void demo_lpc824_drv_dma_m2m_entry (uint8_t *p_src,
                                     int      len);
+
+
+
 /**
- * \brief DMA ping-pong Àı³ÌÈë¿Ú
+ * \brief DMA ping-pong ä¾‹ç¨‹å…¥å£
  *
- * \param[in] chan  : DMA Í¨µÀ
- * \param[in] p_src : ²âÊÔÊı¾İÔ´µØÖ·
- * \param[in] len   : ²âÊÔÊı¾İµÄ³¤¶È
+ * \param[in] chan  : DMA é€šé“
+ * \param[in] p_src : æµ‹è¯•æ•°æ®æºåœ°å€
+ * \param[in] len   : æµ‹è¯•æ•°æ®çš„é•¿åº¦
  */
 void demo_lpc824_drv_dma_ping_pong_entry (uint8_t  chan, 
                                           uint8_t *p_src, 
                                           int      len);
+
+
 /**
- * \brief flash Ó²¼ş²ãÀı³ÌÈë¿Ú
+ * \brief flash ç¡¬ä»¶å±‚ä¾‹ç¨‹å…¥å£
  *
- * \param[in] chan  : DMA Í¨µÀ
- * \param[in] p_src : ²âÊÔÊı¾İÔ´µØÖ·
- * \param[in] len   : ²âÊÔÊı¾İµÄ³¤¶È
+ * \param[in] chan  : DMA é€šé“
+ * \param[in] p_src : æµ‹è¯•æ•°æ®æºåœ°å€
+ * \param[in] len   : æµ‹è¯•æ•°æ®çš„é•¿åº¦
  */
 void demo_lpc824_hw_flash_ctrl_entry (amhw_lpc_fmc_time_t time);
+
+
 /**
- * \brief gpio Ó²¼ş²ãÀı³ÌÈë¿Ú
+ * \brief gpio ç¡¬ä»¶å±‚ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_gpio  : GPIO ¼Ä´æÆ÷¿éÖ¸Õë
- * \param[in] pin        : Òı½Å
+ * \param[in] p_hw_gpio  : GPIO å¯„å­˜å™¨å—æŒ‡é’ˆ
+ * \param[in] pin        : å¼•è„š
  */
 void demo_lpc824_hw_gpio_entry (amhw_lpc82x_gpio_t *p_hw_gpio, 
                                 int                 pin);
+
 /**
- * \brief gpio Ó²¼ş²ãÖĞ¶ÏÀı³ÌÈë¿Ú
+ * \brief gpio ç¡¬ä»¶å±‚ä¸­æ–­ä¾‹ç¨‹å…¥å£
  *
- * \param[in] key_pin  : °´¼üÒı½Å
- * \param[in] led_pin  : ledÒı½Å
- * \param[in] pint_sel : ÖĞ¶ÏÍ¨µÀºÅ
- * \param[in] inum     : ÖĞ¶ÏºÅ
+ * \param[in] key_pin  : æŒ‰é”®å¼•è„š
+ * \param[in] led_pin  : ledå¼•è„š
+ * \param[in] pint_sel : ä¸­æ–­é€šé“å·
+ * \param[in] inum     : ä¸­æ–­å·
  */
 void demo_lpc824_hw_gpio_int_entry (int                 key_pin,
                                     int                 led_pin,
                                     int                 pint_sel,
                                     int                 inum);
+
 /**
- * \brief gpio Æ¥ÅäÄ£Ê½Àı³ÌÈë¿Ú
+ * \brief gpio åŒ¹é…æ¨¡å¼ä¾‹ç¨‹å…¥å£
  *
- * \param[in] pin  : ledÒı½Å
+ * \param[in] pin  : ledå¼•è„š
  */
 void demo_lpc824_hw_gpio_pmatch_entry (int pin);
+
 /**
- * \brief gpio Ó²¼ş²ã£¨°´¼ü£©Àı³ÌÈë¿Ú
+ * \brief gpio ç¡¬ä»¶å±‚ï¼ˆæŒ‰é”®ï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] pin  : °´¼üÒı½Å
+ * \param[in] pin  : æŒ‰é”®å¼•è„š
  */
 void demo_lpc_std_gpio_key_entry (int pin);
+
 /**
- * \brief i2c master Ó²¼ş²ã£¨dma£©Àı³ÌÈë¿Ú
+ * \brief i2c master ç¡¬ä»¶å±‚ï¼ˆdmaï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_i2c  : i2c¼Ä´æÆ÷¿é
- * \param[in] clkdiv    : ·ÖÆµ²ÎÊı
- * \param[in] addr      : Æ÷¼şµØÖ·
- * \param[in] sub_addr  : ´Ó»úµØÖ·
+ * \param[in] p_hw_i2c  : i2cå¯„å­˜å™¨å—
+ * \param[in] clkdiv    : åˆ†é¢‘å‚æ•°
+ * \param[in] addr      : å™¨ä»¶åœ°å€
+ * \param[in] sub_addr  : ä»æœºåœ°å€
  */
 void demo_lpc824_hw_i2c_master_dma_entry (amhw_lpc_i2c_t *p_hw_i2c,
                                           uint32_t        clkdiv,
                                           uint8_t         addr,
                                           uint8_t         sub_add);
+
+
 /**
- * \brief i2c master Ó²¼ş²ã£¨dma£©Àı³ÌÈë¿Ú
+ * \brief i2c master ç¡¬ä»¶å±‚ï¼ˆdmaï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_i2c  : i2c¼Ä´æÆ÷¿é
- * \param[in] clkdiv    : ·ÖÆµ²ÎÊı
- * \param[in] addr      : Æ÷¼şµØÖ·
+ * \param[in] p_hw_i2c  : i2cå¯„å­˜å™¨å—
+ * \param[in] clkdiv    : åˆ†é¢‘å‚æ•°
+ * \param[in] addr      : å™¨ä»¶åœ°å€
  */
 void demo_lpc_hw_i2c_master_poll_entey (amhw_lpc_i2c_t *p_hw_i2c,
                                         uint32_t        clkdiv,
                                         uint8_t         addr);
+
 /**
- * \brief i2c master Ó²¼ş²ã£¨dma£©Àı³ÌÈë¿Ú
+ * \brief i2c master ç¡¬ä»¶å±‚ï¼ˆdmaï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_i2c : i2c¼Ä´æÆ÷¿é
- * \param[in] chan     : dmaÍ¨µÀºÅ
+ * \param[in] p_hw_i2c : i2cå¯„å­˜å™¨å—
+ * \param[in] chan     : dmaé€šé“å·
  */
 void demo_lpc824_hw_i2c_slave_dma_entry (amhw_lpc_i2c_t *p_hw_i2c,
                                          uint8_t         chan);
+
 /**
- * \brief i2c slave Ó²¼ş²ã£¨int£©Àı³ÌÈë¿Ú
+ * \brief i2c slave ç¡¬ä»¶å±‚ï¼ˆintï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_i2c  : i2c¼Ä´æÆ÷¿é
- * \param[in] inum      : ÖĞ¶ÏºÅ
+ * \param[in] p_hw_i2c  : i2cå¯„å­˜å™¨å—
+ * \param[in] inum      : ä¸­æ–­å·
  */
 void demo_lpc_hw_i2c_slave_int_entry (amhw_lpc_i2c_t *p_hw_i2c,
                                       int             inum);
+
+
 /**
- * \brief i2c slave Ó²¼ş²ã£¨poll£©Àı³ÌÈë¿Ú
+ * \brief i2c slave ç¡¬ä»¶å±‚ï¼ˆpollï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_i2c  : i2c¼Ä´æÆ÷¿é
+ * \param[in] p_hw_i2c  : i2cå¯„å­˜å™¨å—
  */
 void demo_lpc_hw_i2c_slave_poll_entry (amhw_lpc_i2c_t *p_hw_i2c);
 /**
- * \brief iap Ó²¼ş²ãÀı³ÌÈë¿Ú
+ * \brief iap ç¡¬ä»¶å±‚ä¾‹ç¨‹å…¥å£
  */
 void demo_lpc824_hw_iap_entry (void);
+
 /**
- * \brief i2c master Ó²¼ş²ã£¨dma£©Àı³ÌÈë¿Ú
+ * \brief i2c master ç¡¬ä»¶å±‚ï¼ˆdmaï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_mrt  : mrt¼Ä´æÆ÷¿é
- * \param[in] inum      : ÖĞ¶ÏºÅ
+ * \param[in] p_hw_mrt  : mrtå¯„å­˜å™¨å—
+ * \param[in] inum      : ä¸­æ–­å·
  */
 void demo_lpc824_hw_mrt_entry (amhw_lpc_mrt_t *p_hw_mrt, int inum);
+
 /**
- * \brief pll Ó²¼ş²ãÀı³ÌÈë¿Ú
+ * \brief pll ç¡¬ä»¶å±‚ä¾‹ç¨‹å…¥å£
  */
 void demo_lpc824_hw_pll_entry(void);
+
 /**
- * \brief pmu Ó²¼ş²ã£¨deeppowerdown£©Àı³ÌÈë¿Ú
+ * \brief pmu ç¡¬ä»¶å±‚ï¼ˆdeeppowerdownï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_mrt  : pmu¼Ä´æÆ÷¿é
+ * \param[in] p_hw_mrt  : pmuå¯„å­˜å™¨å—
  */
 void demo_lpc824_hw_pmu_deeppowerdown_entry (amhw_lpc82x_pmu_t  *p_hw_pmu);
+
 /**
- * \brief pmu Ó²¼ş²ã£¨deepsleep£©Àı³ÌÈë¿Ú
+ * \brief pmu ç¡¬ä»¶å±‚ï¼ˆdeepsleepï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_mrt  : pmu¼Ä´æÆ÷¿é
- * \param[in] pin       : Òı½Å
+ * \param[in] p_hw_mrt  : pmuå¯„å­˜å™¨å—
+ * \param[in] pin       : å¼•è„š
  */
 void demo_lpc824_hw_pmu_deepsleep_entry (amhw_lpc82x_pmu_t  *p_hw_pmu,
                                          int                 pin);
+
 /**
- * \brief pmu Ó²¼ş²ã£¨powerdown£©Àı³ÌÈë¿Ú
+ * \brief pmu ç¡¬ä»¶å±‚ï¼ˆpowerdownï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_mrt  : pmu¼Ä´æÆ÷¿é
- * \param[in] pin       : Òı½Å
+ * \param[in] p_hw_mrt  : pmuå¯„å­˜å™¨å—
+ * \param[in] pin       : å¼•è„š
  */
 void demo_lpc824_hw_pmu_powerdown_entry (amhw_lpc82x_pmu_t  *p_hw_pmu,
                                          int                 pin);
+
 /**
- * \brief pmu Ó²¼ş²ã£¨sleep£©Àı³ÌÈë¿Ú
+ * \brief pmu ç¡¬ä»¶å±‚ï¼ˆsleepï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_mrt  : pmu¼Ä´æÆ÷¿é
- * \param[in] pin       : Òı½Å
+ * \param[in] p_hw_mrt  : pmuå¯„å­˜å™¨å—
+ * \param[in] pin       : å¼•è„š
  */
 void demo_lpc824_hw_pmu_sleep_entry (amhw_lpc82x_pmu_t  *p_hw_pmu,
                                      int                 pin);
+
 /**
- * \brief sct Çı¶¯²ã£¨pwm£©Àı³ÌÈë¿Ú
+ * \brief sct é©±åŠ¨å±‚ï¼ˆpwmï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] sct_handle  : sct·şÎñ²Ù×÷¾ä±ú
+ * \param[in] sct_handle  : sctæœåŠ¡æ“ä½œå¥æŸ„
  */
 void demo_lpc_drv_sct_timing_pwm_entry (am_lpc_sct_handle_t sct_handle);
+
 /**
- * \brief sct Ó²¼ş²ã£¨pwm£©Àı³ÌÈë¿Ú
+ * \brief sct ç¡¬ä»¶å±‚ï¼ˆpwmï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_sct  : sct¼Ä´æÆ÷¿é
- * \param[in] frq       : ÏµÍ³Ê±ÖÓÆµÂÊ
+ * \param[in] p_hw_sct  : sctå¯„å­˜å™¨å—
+ * \param[in] frq       : ç³»ç»Ÿæ—¶é’Ÿé¢‘ç‡
  */
 void demo_lpc_hw_sct_1_32bit_pwm_entry (amhw_lpc_sct_t *p_hw_sct, 
                                            uint32_t        frq);
+
 /**
- * \brief sct Ó²¼ş²ã£¨timing_32bit£©Àı³ÌÈë¿Ú
+ * \brief sct ç¡¬ä»¶å±‚ï¼ˆtiming_32bitï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_sct  : sct¼Ä´æÆ÷¿é
- * \param[in] inum      : ÖĞ¶ÏºÅ
- * \param[in] frq       : ÏµÍ³Ê±ÖÓÆµÂÊ
+ * \param[in] p_hw_sct  : sctå¯„å­˜å™¨å—
+ * \param[in] inum      : ä¸­æ–­å·
+ * \param[in] frq       : ç³»ç»Ÿæ—¶é’Ÿé¢‘ç‡
  */
 void demo_lpc_hw_sct_1_32bit_timing_entry (amhw_lpc_sct_t *p_hw_sct,
                                            int             inum,
                                            uint32_t        frq);
+
+
 /**
- * \brief sct Ó²¼ş²ã£¨timing_16bit£©Àı³ÌÈë¿Ú
+ * \brief sct ç¡¬ä»¶å±‚ï¼ˆtiming_16bitï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_sct  : sct¼Ä´æÆ÷¿é
- * \param[in] inum      : ÖĞ¶ÏºÅ
- * \param[in] frq       : ÏµÍ³Ê±ÖÓÆµÂÊ
- * \param[in] pin       : ·äÃùÆ÷Òı½Å
+ * \param[in] p_hw_sct  : sctå¯„å­˜å™¨å—
+ * \param[in] inum      : ä¸­æ–­å·
+ * \param[in] frq       : ç³»ç»Ÿæ—¶é’Ÿé¢‘ç‡
+ * \param[in] pin       : èœ‚é¸£å™¨å¼•è„š
  */
 void demo_lpc_hw_sct_2_16bit_timing_entry (amhw_lpc_sct_t *p_hw_sct, 
                                            int             inum,
                                            uint32_t        frq,
                                            int             pin);
+
+
 /**
- * \brief sct Ó²¼ş²ã£¨pwm_16bit£©Àı³ÌÈë¿Ú
+ * \brief sct ç¡¬ä»¶å±‚ï¼ˆpwm_16bitï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_sct  : sct¼Ä´æÆ÷¿é
- * \param[in] frq       : ÏµÍ³Ê±ÖÓÆµÂÊ
+ * \param[in] p_hw_sct  : sctå¯„å­˜å™¨å—
+ * \param[in] frq       : ç³»ç»Ÿæ—¶é’Ÿé¢‘ç‡
  */
 void demo_lpc_hw_sct_2_16bit_pwm_entry(amhw_lpc_sct_t *p_hw_sct,
                                        int             frq);
+
 /**
- * \brief sct Ó²¼ş²ã£¨pwm_16bit£©Àı³ÌÈë¿Ú
+ * \brief sct ç¡¬ä»¶å±‚ï¼ˆpwm_16bitï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_sct  : sct¼Ä´æÆ÷¿é
- * \param[in] inum      : ÖĞ¶ÏºÅ
- * \param[in] frq       : ÏµÍ³Ê±ÖÓÆµÂÊ
+ * \param[in] p_hw_sct  : sctå¯„å­˜å™¨å—
+ * \param[in] inum      : ä¸­æ–­å·
+ * \param[in] frq       : ç³»ç»Ÿæ—¶é’Ÿé¢‘ç‡
  */
 void demo_lpc_hw_sct_cap_entry (amhw_lpc_sct_t *p_hw_sct, 
                                 int             inum, 
                                 uint32_t        frq);
+
 /**
- * \brief sct Ó²¼ş²ã£¨pwm_16bit£©Àı³ÌÈë¿Ú
+ * \brief sct ç¡¬ä»¶å±‚ï¼ˆpwm_16bitï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_sct  : sct¼Ä´æÆ÷¿é
- * \param[in] frq       : ÏµÍ³Ê±ÖÓÆµÂÊ
+ * \param[in] p_hw_sct  : sctå¯„å­˜å™¨å—
+ * \param[in] frq       : ç³»ç»Ÿæ—¶é’Ÿé¢‘ç‡
  */
 void demo_lpc_hw_sct_multi_states_entry(amhw_lpc_sct_t *p_hw_sct,
                                         uint32_t        frq);
 /**
- * \brief bod Ó²¼ş²ã£¨µôµç²âÊÔ£©Àı³ÌÈë¿Ú
+ * \brief bod ç¡¬ä»¶å±‚ï¼ˆæ‰ç”µæµ‹è¯•ï¼‰ä¾‹ç¨‹å…¥å£
  */
 void demo_lpc824_hw_bod_entry(void);
+
+
 /**
- * \brief clk Ó²¼ş²ã£¨Ê±ÖÓÆµÂÊÊä³ö£©Àı³ÌÈë¿Ú
+ * \brief clk ç¡¬ä»¶å±‚ï¼ˆæ—¶é’Ÿé¢‘ç‡è¾“å‡ºï¼‰ä¾‹ç¨‹å…¥å£
  */
 void demo_lpc824_hw_clkout_entry (void);
+
 /**
- * \brief usart Ó²¼ş²ã£¨×Ô¶¯²¨ÌØÂÊ£©Àı³ÌÈë¿Ú
+ * \brief usart ç¡¬ä»¶å±‚ï¼ˆè‡ªåŠ¨æ³¢ç‰¹ç‡ï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_usart  : usart¼Ä´æÆ÷¿é
- * \param[in] u_clk       : ´®¿Ú»ù±¾¹¤×÷ÆµÂÊ
+ * \param[in] p_hw_usart  : usartå¯„å­˜å™¨å—
+ * \param[in] u_clk       : ä¸²å£åŸºæœ¬å·¥ä½œé¢‘ç‡
  */
 void demo_lpc824_hw_usart_autobaud_entry(amhw_lpc_usart_t *p_hw_usart,
                                          uint32_t          u_clk);
+
 /**
- * \brief usart Ó²¼ş²ã£¨poll£©Àı³ÌÈë¿Ú
+ * \brief usart ç¡¬ä»¶å±‚ï¼ˆpollï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_usart  : usart¼Ä´æÆ÷¿é
- * \param[in] u_clk       : ´®¿Ú»ù±¾¹¤×÷ÆµÂÊ
- * \param[in] baudrate    : ²¨ÌØÂÊ
+ * \param[in] p_hw_usart  : usartå¯„å­˜å™¨å—
+ * \param[in] u_clk       : ä¸²å£åŸºæœ¬å·¥ä½œé¢‘ç‡
+ * \param[in] baudrate    : æ³¢ç‰¹ç‡
  */
 void demo_lpc_hw_usart_poll_entry(amhw_lpc_usart_t *p_hw_usart,
                                   uint32_t          u_clk,
                                   uint32_t          baudrate);
+
 /**
- * \brief usart Ó²¼ş²ã£¨rx dma£©Àı³ÌÈë¿Ú
+ * \brief usart ç¡¬ä»¶å±‚ï¼ˆrx dmaï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_usart  : usart¼Ä´æÆ÷¿é
- * \param[in] u_clk       : ´®¿Ú»ù±¾¹¤×÷ÆµÂÊ
- * \param[in] baudrate    : ²¨ÌØÂÊ
- * \param[in] chan        : ÍâÉèdmaÇëÇóÍ¨µÀ
+ * \param[in] p_hw_usart  : usartå¯„å­˜å™¨å—
+ * \param[in] u_clk       : ä¸²å£åŸºæœ¬å·¥ä½œé¢‘ç‡
+ * \param[in] baudrate    : æ³¢ç‰¹ç‡
+ * \param[in] chan        : å¤–è®¾dmaè¯·æ±‚é€šé“
  */
 void demo_lpc824_hw_usart_rx_dma_entry (amhw_lpc_usart_t *p_hw_usart,
                                         uint32_t          uclk,
                                         uint32_t          baudrate,
                                         int               chan);
 /**
- * \brief usart Ó²¼ş²ã£¨tx dma£©Àı³ÌÈë¿Ú
+ * \brief usart ç¡¬ä»¶å±‚ï¼ˆtx dmaï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_usart  : usart¼Ä´æÆ÷¿é
- * \param[in] u_clk       : ´®¿Ú»ù±¾¹¤×÷ÆµÂÊ
- * \param[in] baudrate    : ²¨ÌØÂÊ
- * \param[in] chan        : ÍâÉèdmaÇëÇóÍ¨µÀ
+ * \param[in] p_hw_usart  : usartå¯„å­˜å™¨å—
+ * \param[in] u_clk       : ä¸²å£åŸºæœ¬å·¥ä½œé¢‘ç‡
+ * \param[in] baudrate    : æ³¢ç‰¹ç‡
+ * \param[in] chan        : å¤–è®¾dmaè¯·æ±‚é€šé“
  */
 void demo_lpc824_hw_usart_tx_dma_entry (amhw_lpc_usart_t *p_hw_usart,
                                         uint32_t          uclk,
                                         uint32_t          baudrate,
                                         int               chan);
+
 /**
- * \brief usart Ó²¼ş²ã£¨poll£©Àı³ÌÈë¿Ú
+ * \brief usart ç¡¬ä»¶å±‚ï¼ˆpollï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] uart_handle  : ·şÎñ¾ä±ú
+* \param[in] uart_handle  : æœåŠ¡å¥æŸ„
  */
 void demo_lpc_std_usart_flowctrl_entry (am_uart_handle_t  uart_handle);
+
 /**
- * \brief wkt Ó²¼ş²ã£¨deeppowerdown-wakeup£©Àı³ÌÈë¿Ú
+ * \brief wkt ç¡¬ä»¶å±‚ï¼ˆdeeppowerdown-wakeupï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_pmu  : pmu¼Ä´æÆ÷¿é
- * \param[in] p_hw_wkt  : wkt¼Ä´æÆ÷¿é
- * \param[in] inum      : ÖĞ¶ÏºÅ
- * \param[in] delay_inms: ÑÓÊ±Ê±¼ä£¨»½ĞÑ£©
+ * \param[in] p_hw_pmu  : pmuå¯„å­˜å™¨å—
+ * \param[in] p_hw_wkt  : wktå¯„å­˜å™¨å—
+ * \param[in] inum      : ä¸­æ–­å·
+ * \param[in] delay_inms: å»¶æ—¶æ—¶é—´ï¼ˆå”¤é†’ï¼‰
  */
 void demo_lpc824_hw_wkt_deeppowerdown_wakeup_entry(amhw_lpc82x_pmu_t *p_hw_pmu,
                                                    amhw_lpc_wkt_t    *p_hw_wkt,
                                                    int                inum,
                                                    uint32_t           delay_inms);
 /**
- * \brief wkt Ó²¼ş²ã£¨deeppowerdown-wakeup£©Àı³ÌÈë¿Ú
+ * \brief wkt ç¡¬ä»¶å±‚ï¼ˆdeeppowerdown-wakeupï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_wkt   : wkt¼Ä´æÆ÷¿é
- * \param[in] wkt_mdelay : ÑÓÊ±Ê±¼ä
+ * \param[in] p_hw_wkt   : wktå¯„å­˜å™¨å—
+ * \param[in] wkt_mdelay : å»¶æ—¶æ—¶é—´
  */
 void demo_lpc_hw_wkt_timer(amhw_lpc_wkt_t *p_hw_wkt,
                            uint32_t        wkt_mdelay);
+
 /**
- * \brief wkt ±ê×¼²ã£¨timer£©Àı³ÌÈë¿Ú
+ * \brief wkt æ ‡å‡†å±‚ï¼ˆtimerï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] timer_handle   : ²Ù×÷¾ä±ú
- * \param[in] chan           : Í¨µÀ
- * \param[in] clkin          : ¶¨Ê±Æ÷Ê±ÖÓ
+ * \param[in] timer_handle   : æ“ä½œå¥æŸ„
+ * \param[in] chan           : é€šé“
+ * \param[in] clkin          : å®šæ—¶å™¨æ—¶é’Ÿ
  */
 void demo_lpc_std_wkt_timer_entry (am_timer_handle_t timer_handle,
                                    uint8_t           chan,
                                    uint32_t          clkin);
+
 /**
- * \brief spi Ó²¼ş²ã£¨master£©Àı³ÌÈë¿Ú
+ * \brief spi ç¡¬ä»¶å±‚ï¼ˆmasterï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_spi  : spi¼Ä´æÆ÷¿é  
- * \param[in] clk       : Ê±ÖÓ
+ * \param[in] p_hw_spi  : spiå¯„å­˜å™¨å—
+ * \param[in] clk       : æ—¶é’Ÿ
  */
 void demo_lpc_hw_spi_master_entry(amhw_lpc_spi_t *p_hw_spi,
                                   uint32_t        clk);
 /**
- * \brief spi Ó²¼ş²ã£¨slave£©Àı³ÌÈë¿Ú
+ * \brief spi ç¡¬ä»¶å±‚ï¼ˆslaveï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_spi  : spi¼Ä´æÆ÷¿é  
- * \param[in] clk       : Ê±ÖÓ
+ * \param[in] p_hw_spi  : spiå¯„å­˜å™¨å—
+ * \param[in] clk       : æ—¶é’Ÿ
  */
 void demo_lpc_hw_spi_slave_entry (amhw_lpc_spi_t *p_hw_spi,
                                   uint32_t        clk);
+
 /**
- * \brief spi Ó²¼ş²ã£¨slave£©Àı³ÌÈë¿Ú
+ * \brief spi ç¡¬ä»¶å±‚ï¼ˆslaveï¼‰ä¾‹ç¨‹å…¥å£
  *
- * \param[in] p_hw_spi  : spi¼Ä´æÆ÷¿é  
- * \param[in] chan      : dmaÍ¨µÀ
+ * \param[in] p_hw_spi  : spiå¯„å­˜å™¨å—
+ * \param[in] chan      : dmaé€šé“
  */
 void demo_lpc824_hw_spi_slave_dma_entry(amhw_lpc_spi_t *p_hw_spi, 
                                         uint8_t         chan);
-
 /**
- * \brief
+ * \brief gpio ç¡¬ä»¶å±‚ï¼ˆGPIOï¼‰ä¾‹ç¨‹å…¥å£
+ *
+ * \param[in] p_hw_gpio  : gpioå¯„å­˜å™¨å—
+ * \param[in] pin        : å¼•è„šå·
  */
-//void demo_lpc845_hw_gpio_entry (amhw_lpc84x_gpio_t *p_hw_gpio,
-//                                int                 pin);
+void demo_lpc845_hw_gpio_entry (amhw_lpc84x_gpio_t *p_hw_gpio,
+                                int                 pin);
 /**
- * \brief
+ * \brief gpio pmatchç¡¬ä»¶å±‚ä¾‹ç¨‹å…¥å£
+ *
+ * \param[in] pin : å¼•è„šå·
  */
 void demo_lpc845_hw_gpio_pmatch_entry (int pin);
 
 /**
- * \brief
+ * \brief gpio ç¡¬ä»¶å±‚ä¸­æ–­ï¼ˆGPIOï¼‰ä¾‹ç¨‹å…¥å£
+ *
+ * \param[in] key_pin   : æŒ‰é”®å¼•è„šå·
+ * \param[in] led_pin   : ledå¼•è„šå·
+ * \param[in] pint_sel  : è§¦å‘å¼•è„šå·
+ * \param[in] inum      : ä¸­æ–­å·
  */
 void demo_lpc845_hw_gpio_int_entry(int    key_pin,
                                    int    led_pin,
@@ -508,86 +577,131 @@ void demo_lpc845_hw_gpio_int_entry(int    key_pin,
                                    int    inum);
 
 /**
- * \brief
+ * \brief MRT ç¡¬ä»¶å±‚ä¸­æ–­ï¼ˆGPIOï¼‰ä¾‹ç¨‹å…¥å£
+ *
+ * \param[in] p_hw_mrt  : mrtå¯„å­˜å™¨å—
+ * \param[in] inum      : ä¸­æ–­å·
  */
 void demo_lpc845_hw_mrt_entry (amhw_lpc_mrt_t *p_hw_mrt, int inum);
 
 /**
- * \brief
+ * \brief ç¡¬ä»¶å±‚æ¿çº§æ£€æµ‹ä¾‹ç¨‹å…¥å£
  */
 void demo_lpc845_hw_bod_entry (void);
 
 /**
- * \brief
+ * \brief ç¡¬ä»¶å±‚ioè¾“å‡ºæ—¶é’Ÿå†ç¨‹å…¥å£
  */
 void demo_lpc845_hw_clkout_entry (void);
 
 /**
- * \brief
+ * \brief I2C
+ *
+ * \param[in] p_hw_i2c  : i2cå¯„å­˜å™¨å—
+ * \param[in] chan      : DMAé€šé“å·
  */
 void demo_lpc845_hw_i2c_slave_dma_entry (amhw_lpc_i2c_t *p_hw_i2c,
                                          uint8_t         chan);
 
 /**
- * \brief
+ * \brief PMUå†ç¨‹å…¥å£
+ *
+ * \param[in] p_hw_pmu  : pmuå¯„å­˜å™¨å—
+ * \param[in] p_hw_wkt  : WKTå¯„å­˜å™¨å—
+ * \param[in] inum      : ä¸­æ–­å·
+ * \param[in] delay_inmsï¼šå»¶æ—¶æ—¶é—´
  */
 void demo_lpc845_hw_wkt_deeppowerdown_wakeup_entry(amhw_lpc82x_pmu_t *p_hw_pmu,
                                                    amhw_lpc_wkt_t    *p_hw_wkt,
                                                    int                inum,
                                                    uint32_t           delay_inms);
 /**
- * \brief
+ * \brief flashæ“ä½œä¾‹ç¨‹å…¥å£
+ *
+ * \param[in] time  : å»¶æ—¶è¯»å†™å€¼
  */
 void demo_lpc845_hw_flash_ctrl_entry(amhw_lpc_fmc_time_t time);
 
-///**
-// * \brief
-// */
-//void demo_lpc_hw_dac_buf_int_entry (amhw_lpc_dac_t *p_hw_dac,
-//                                    int             inum);
-///**
-// * \brief
-// */
-//void demo_lpc845_hw_adc_dma_entry(amhw_lpc84x_adc_t *p_hw_adc,
-//                                  int                ch,
-//                                  uint32_t        vref_mv);
-///**
-// * \brief
-// *
-// */
-//void demo_lpc845_hw_adc_thcmp_entry(amhw_lpc84x_adc_t  *p_hw_adc,
-//                                    int                 inum,
-//                                    uint32_t            vref_mv);
+/**
+ * \brief DAC ä¾‹ç¨‹å…¥å£
+ *
+ * \param[in] p_hw_dac  : DACå¯„å­˜å™¨å—
+ * \param[in] inum      : ä¸­æ–­é€šé“å·
+ */
+void demo_lpc_hw_dac_buf_int_entry (amhw_lpc_dac_t *p_hw_dac,
+                                    int             inum);
+/**
+ * \brief ADC ä¾‹ç¨‹å…¥å£
+ *
+ * \param[in] p_hw_adc  : adcå¯„å­˜å™¨å—
+ * \param[in] ch        : é€šé“å·
+ * \param[in] vref_mv   : åŸºå‡†ç”µå‹å€¼
+ */
+void demo_lpc845_hw_adc_dma_entry(amhw_lpc84x_adc_t *p_hw_adc,
+                                  int                ch,
+                                  uint32_t        vref_mv);
+/**
+ * \brief ADC ä¾‹ç¨‹å…¥å£
+ *
+ * \param[in] p_hw_adc  : adc å¯„å­˜å™¨å—
+ * \param[in] ch        : é€šé“å·
+ * \param[in] vref_mv   : åŸºå‡†ç”µå‹å€¼
+ */
+void demo_lpc845_hw_adc_thcmp_entry(amhw_lpc84x_adc_t  *p_hw_adc,
+                                    int                 inum,
+                                    uint32_t            vref_mv);
 
-
+/**
+ * \brief dma ä¾‹ç¨‹å…¥å£
+ *
+ * \param[in] chan      : é€šé“å·
+ * \param[in] pin       : å¼•è„šå·
+ */
 void demo_lpc845_drv_dma_hwtrigger_burst_entry (uint8_t  chan,
                                                 int      pin);
 
 /**
- * \brief
+ * \brief PMU ä¾‹ç¨‹å…¥å£
+ * \param[in] p_hw_pmu  : pmu å¯„å­˜å™¨å—
+ * \param[in] pin       : å¼•è„šå·
  */
 void demo_lpc845_hw_pmu_powerdown_entry (amhw_lpc82x_pmu_t  *p_hw_pmu,
                                          int                 pin);
 
 /**
- * \brief
+ * \brief dma  ä¾‹ç¨‹å…¥å£
+ *
+ * \param[in] p_src      : æºåœ°å€
+ * \param[in] len        : æ•°æ®é•¿åº¦
  */
 void demo_lpc845_drv_dma_m2m_entry(uint8_t *p_src, int len);
 
 /**
- * \brief
+ * \brief DMA ä¾‹ç¨‹å…¥å£
+ *
+ * \param[in] chan      : é€šé“å·
+ * \param[in] p_src     : æºåœ°å€
+ * \param[in] len       : æ•°æ®é•¿åº¦
  */
 void demo_lpc845_drv_dma_ping_pong_entry (uint8_t  chan,
                                           uint8_t *p_src,
                                           int      len);
 /**
- * \brief
+ * \brief ADC ä¾‹ç¨‹å…¥å£
+ *
+ * \param[in] p_hw_acmp  : adcå¯„å­˜å™¨å—
+ * \param[in] pin        : è¾“å‡ºå¼•è„šå·
  */
 void demo_lpc845_hw_acmp_poll_entry(amhw_lpc82x_acmp_t *p_hw_acmp,
                                     int                 pin);
 
 /**
- * \brief
+ * \brief IIC ç¡¬ä»¶å±‚ï¼ˆmasterï¼‰ä¾‹ç¨‹å…¥å£
+ *
+ * \param[in] p_hw_i2c  : iicå¯„å­˜å™¨å—
+ * \param[in] clkdiv    : åˆ†é¢‘å€¼
+ * \param[in] addr      : è¯»å–çš„åœ°å€
+ * \param[in] sub_addr  : è¯»å–åœ°å€é•¿åº¦
  */
 void demo_lpc845_hw_i2c_master_dma_entry (amhw_lpc_i2c_t *p_hw_i2c,
                                           uint32_t        clkdiv,
@@ -595,13 +709,21 @@ void demo_lpc845_hw_i2c_master_dma_entry (amhw_lpc_i2c_t *p_hw_i2c,
                                           uint8_t         sub_addr);
 
 /**
- * \brief
+ * \brief PMU æ·±åº¦ç¡çœ æ¨¡å¼åˆå§‹åŒ–
+ *
+ * \param[in] p_hw_i2c  : pmuå¯„å­˜å™¨å—
+ * \param[in] pin       : å¼•è„šå·
  */
 void demo_lpc845_hw_pmu_deepsleep_entry (amhw_lpc82x_pmu_t  *p_hw_pmu,
                                          int                 pin);
-
+										 
 /**
- * \brief
+ * \brief uart  ç¡¬ä»¶å±‚ï¼ˆdmaï¼‰ä¾‹ç¨‹å…¥å£
+ *
+ * \param[in] p_hw_i2c  : UARTå­˜å™¨å—
+ * \param[in] uclk      : uartæ—¶é’Ÿ
+ * \param[in] baudrate  : æ³¢ç‰¹ç‡
+ * \param[in] chan      : é€šé“å·
  */
 void demo_lpc845_hw_usart_rx_dma_entry (amhw_lpc_usart_t *p_hw_usart,
                                         uint32_t          uclk,
@@ -609,13 +731,21 @@ void demo_lpc845_hw_usart_rx_dma_entry (amhw_lpc_usart_t *p_hw_usart,
                                         int               chan);
 
 /**
- * \brief
+ * \brief PMU ç¡çœ æ¨¡å¼åˆå§‹åŒ–
+ *
+ * \param[in] p_hw_pmu  : pmuå­˜å™¨å—
+ * \param[in] pin       : å¼•è„šå·
  */
 void demo_lpc845_hw_pmu_sleep_entry (amhw_lpc82x_pmu_t  *p_hw_pmu,
                                      int                 pin);
 
 /**
- * \brief
+ * \brief uart  ç¡¬ä»¶å±‚ï¼ˆdmaï¼‰ä¾‹ç¨‹å…¥å£
+ *
+ * \param[in] p_hw_usart : UARTå­˜å™¨å—
+ * \param[in] uclk       : uartæ—¶é’Ÿ
+ * \param[in] baudrate   : æ³¢ç‰¹ç‡
+ * \param[in] chan       : é€šé“å·
  */
 void demo_lpc845_hw_usart_tx_dma_entry (amhw_lpc_usart_t *p_hw_usart,
                                         uint32_t          uclk,
@@ -623,10 +753,9 @@ void demo_lpc845_hw_usart_tx_dma_entry (amhw_lpc_usart_t *p_hw_usart,
                                         int               chan);
 
 /**
- * \brief
+ * \brief iap ä¾‹ç¨‹å…¥å£
  */
 void demo_lpc845_hw_iap_entry (void);
-
 #ifdef __cplusplus
 }
 #endif
