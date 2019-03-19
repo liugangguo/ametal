@@ -12,14 +12,27 @@
 * INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
 *******************************************************************************/
 
-/* Includes ------------------------------------------------------------------*/
-#include "../../usb_lib/inc/usb_lib.h"
-#include "../inc/usb_desc.h"
+
+#include "am_usbd.h"
+#include "zmf159_inum.h"
+#include "zmf159_clk.h"
+#include "am_usb_dci.h"
+#include "am_zmf159_usbd.h"
+#include "am_clk.h"
+#include "hw/amhw_zmf159_rcc.h"
+
+#define VIRTUAL_COM_PORT_SIZ_DEVICE_DESC        18
+#define VIRTUAL_COM_PORT_SIZ_CONFIG_DESC        67
+#define VIRTUAL_COM_PORT_SIZ_STRING_LANGID      4
+#define VIRTUAL_COM_PORT_SIZ_STRING_VENDOR      38
+#define VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT     60
+#define VIRTUAL_COM_PORT_SIZ_STRING_SERIAL      26
+
 /* USB Standard Device Descriptor */
-const uint8_t Virtual_Com_Port_DeviceDescriptor[] =
+static const uint8_t Virtual_Com_Port_DeviceDescriptor[] =
   {
     0x12,   /* bLength */
-    USB_DEVICE_DESCRIPTOR_TYPE,     /* bDescriptorType */
+	AM_USB_DESC_TYPE_DEVICE,     /* bDescriptorType */
     0x10,
     0x01,   /* bcdUSB = 2.00 */
     0x02,   /* bDeviceClass: CDC */
@@ -38,11 +51,11 @@ const uint8_t Virtual_Com_Port_DeviceDescriptor[] =
     0x01    /* bNumConfigurations */
   };
 
-const uint8_t Virtual_Com_Port_ConfigDescriptor[] =
+static uint8_t Virtual_Com_Port_ConfigDescriptor[] =
   {
     /*Configuation Descriptor*/
-    0x09,   /* bLength: Configuation Descriptor size */
-    USB_CONFIGURATION_DESCRIPTOR_TYPE,      /* bDescriptorType: Configuration */
+    AM_USB_DESC_LENGTH_CONFIGURE,   /* bLength: Configuation Descriptor size */
+    AM_USB_DESC_TYPE_CONFIGURE,      /* bDescriptorType: Configuration */
     VIRTUAL_COM_PORT_SIZ_CONFIG_DESC,       /* wTotalLength:no of returned bytes */
     0x00,
     0x02,   /* bNumInterfaces: 2 interface */
@@ -52,7 +65,7 @@ const uint8_t Virtual_Com_Port_ConfigDescriptor[] =
     0x32,   /* MaxPower 0 mA */
     /*Interface Descriptor*/
     0x09,   /* bLength: Interface Descriptor size */
-    USB_INTERFACE_DESCRIPTOR_TYPE,  /* bDescriptorType: Interface */
+	AM_USB_DESC_TYPE_INTERFACE,  /* bDescriptorType: Interface */
     /* Interface descriptor type */
     0x00,   /* bInterfaceNumber: Number of Interface */
     0x00,   /* bAlternateSetting: Alternate setting */
@@ -86,15 +99,15 @@ const uint8_t Virtual_Com_Port_ConfigDescriptor[] =
     0x01,   /* bSlaveInterface0: Data Class Interface */
     /*Endpoint 2 Descriptor*/
     0x07,   /* bLength: Endpoint Descriptor size */
-    USB_ENDPOINT_DESCRIPTOR_TYPE,   /* bDescriptorType: Endpoint */
+	AM_USB_DESC_TYPE_ENDPOINT,   /* bDescriptorType: Endpoint */
     0x82,   /* bEndpointAddress: (IN2) */
     0x03,   /* bmAttributes: Interrupt */
-    VIRTUAL_COM_PORT_INT_SIZE,      /* wMaxPacketSize: */
+    0x40,      /* wMaxPacketSize: 64*/
     0x00,
     0xFF,   /* bInterval: */
     /*Data class interface descriptor*/
     0x09,   /* bLength: Endpoint Descriptor size */
-    USB_INTERFACE_DESCRIPTOR_TYPE,  /* bDescriptorType: */
+    AM_USB_DESC_TYPE_INTERFACE,  /* bDescriptorType: */
     0x01,   /* bInterfaceNumber: Number of Interface */
     0x00,   /* bAlternateSetting: Alternate setting */
     0x02,   /* bNumEndpoints: Two endpoints used */
@@ -104,35 +117,35 @@ const uint8_t Virtual_Com_Port_ConfigDescriptor[] =
     0x00,   /* iInterface: */
     /*Endpoint 3 Descriptor*/
     0x07,   /* bLength: Endpoint Descriptor size */
-    USB_ENDPOINT_DESCRIPTOR_TYPE,   /* bDescriptorType: Endpoint */
+	AM_USB_DESC_TYPE_ENDPOINT,   /* bDescriptorType: Endpoint */
     0x03,   /* bEndpointAddress: (OUT3) */
     0x02,   /* bmAttributes: Bulk */
-    VIRTUAL_COM_PORT_DATA_SIZE,             /* wMaxPacketSize: */
+    0x40,             /* wMaxPacketSize: 64*/
     0x00,
     0x00,   /* bInterval: ignore for Bulk transfer */
     /*Endpoint 1 Descriptor*/
     0x07,   /* bLength: Endpoint Descriptor size */
-    USB_ENDPOINT_DESCRIPTOR_TYPE,   /* bDescriptorType: Endpoint */
+	AM_USB_DESC_TYPE_ENDPOINT,   /* bDescriptorType: Endpoint */
     0x81,   /* bEndpointAddress: (IN1) */
     0x02,   /* bmAttributes: Bulk */
-    VIRTUAL_COM_PORT_DATA_SIZE,             /* wMaxPacketSize: */
+    0x40,             /* wMaxPacketSize: 64*/
     0x00,
     0x00    /* bInterval */
   };
 
 /* USB String Descriptors */
-const uint8_t Virtual_Com_Port_StringLangID[VIRTUAL_COM_PORT_SIZ_STRING_LANGID] =
+static const uint8_t Virtual_Com_Port_StringLangID[VIRTUAL_COM_PORT_SIZ_STRING_LANGID] =
   {
     VIRTUAL_COM_PORT_SIZ_STRING_LANGID,
-    USB_STRING_DESCRIPTOR_TYPE,
+	AM_USB_DESC_TYPE_STRING,
     0x09,
     0x04 /* LangID = 0x0409: U.S. English */
   };
 
-const uint8_t Virtual_Com_Port_StringVendor[VIRTUAL_COM_PORT_SIZ_STRING_VENDOR] =
+static const uint8_t Virtual_Com_Port_StringVendor[VIRTUAL_COM_PORT_SIZ_STRING_VENDOR] =
   {
     VIRTUAL_COM_PORT_SIZ_STRING_VENDOR,     /* Size of Vendor string */
-    USB_STRING_DESCRIPTOR_TYPE,             /* bDescriptorType*/
+	AM_USB_DESC_TYPE_STRING,             /* bDescriptorType*/
     /* Manufacturer: "MindMotion" */
 	
     'M', 0, 
@@ -148,10 +161,10 @@ const uint8_t Virtual_Com_Port_StringVendor[VIRTUAL_COM_PORT_SIZ_STRING_VENDOR] 
     
   };
 
-const uint8_t Virtual_Com_Port_StringProduct[VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT] =
+static const uint8_t Virtual_Com_Port_StringProduct[VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT] =
   {
     VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT,          /* bLength */
-    USB_STRING_DESCRIPTOR_TYPE,        /* bDescriptorType */
+	AM_USB_DESC_TYPE_STRING,        /* bDescriptorType */
     /* Product name: ""MindMotion  Virtual COM Port" */
 	
     'M', 0, 
@@ -178,10 +191,10 @@ const uint8_t Virtual_Com_Port_StringProduct[VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT
     
   };
 
-uint8_t Virtual_Com_Port_StringSerial[VIRTUAL_COM_PORT_SIZ_STRING_SERIAL] =
+static const uint8_t Virtual_Com_Port_StringSerial[VIRTUAL_COM_PORT_SIZ_STRING_SERIAL] =
   {
     VIRTUAL_COM_PORT_SIZ_STRING_SERIAL,           /* bLength */
-    USB_STRING_DESCRIPTOR_TYPE,                   /* bDescriptorType */
+	AM_USB_DESC_TYPE_STRING,                   /* bDescriptorType */
     
 
     'M', 0, 
@@ -192,3 +205,114 @@ uint8_t Virtual_Com_Port_StringSerial[VIRTUAL_COM_PORT_SIZ_STRING_SERIAL] =
     '6', 0,
     '2', 0,
   };
+
+
+
+
+
+/******************************************************************************
+ * 各描述符信息
+ *****************************************************************************/
+static const am_usbd_descriptor_t __g_am_usbd_vcom_descriptor[] = {
+    /* 设备描述符 */
+    {
+        (AM_USB_DESC_TYPE_DEVICE << 8) | (0x00),
+        sizeof(Virtual_Com_Port_DeviceDescriptor),
+		Virtual_Com_Port_DeviceDescriptor
+    },
+
+    /* 配置描述符及其下级描述符 */
+    {
+        (AM_USB_DESC_TYPE_CONFIGURE << 8) | (0x00),
+        sizeof(Virtual_Com_Port_ConfigDescriptor),
+		Virtual_Com_Port_ConfigDescriptor
+    },
+
+    /* 字符串描述符0，描述语言id */
+    {
+        (AM_USB_DESC_TYPE_STRING << 8) | (0x00),
+        sizeof(Virtual_Com_Port_StringLangID),
+		Virtual_Com_Port_StringLangID
+    },
+
+    /* 字符串描述符1，描述厂商 */
+    {
+        (AM_USB_DESC_TYPE_STRING << 8) | 0x01,
+        sizeof(Virtual_Com_Port_StringVendor),
+		Virtual_Com_Port_StringVendor
+    },
+
+    /* 字符串描述符2，描述产品 */
+    {
+        (AM_USB_DESC_TYPE_STRING << 8) | 0x02,
+        sizeof(Virtual_Com_Port_StringProduct),
+		Virtual_Com_Port_StringProduct
+    },
+
+    /* 字符串描述符3，描述设备 */
+    {
+        (AM_USB_DESC_TYPE_STRING << 8) | 0x03,
+        sizeof(Virtual_Com_Port_StringSerial),
+		Virtual_Com_Port_StringSerial
+    },
+};
+
+
+/**
+ * \brief 平台初始化
+ */
+static void __am_usbd_vcom_init (void) {
+//    /* 使能时钟 */
+    am_clk_enable(CLK_USB);
+	amhw_zmf159_rcc_ahb2_enable(AMHW_ZMF159_RCC_AHB2_USBFS);
+}
+
+/**
+ * \brief 平台去初始化
+ */
+static void __am_usbd_vcom_deinit (void) {
+    am_clk_disable(CLK_USB);
+	amhw_zmf159_rcc_ahb2_disable(AMHW_ZMF159_RCC_AHB2_USBFS);
+}
+
+static const am_usbd_devinfo_t __g_usbd_info = {
+		__g_am_usbd_vcom_descriptor,                                                         /* 描述符地址 */
+        sizeof(__g_am_usbd_vcom_descriptor) / sizeof(__g_am_usbd_vcom_descriptor[0]),     /* 描述符个数 */
+};
+
+/**< \brief 定义USB设备信息 */
+static const am_zmf159_usbd_devinfo_t  __g_zmf159_usbd_printer_info = {
+    ZMF159_USB_BASE,                  /**< \brief 寄存器基地址 */
+    INUM_USB_FS,                      /**< \brief 中断号 */
+    __am_usbd_vcom_init,              /**< \brief 平台初始化 */
+    __am_usbd_vcom_deinit,            /**< \brief 平台去初始化 */
+    &__g_usbd_info,
+};
+
+
+am_zmf159_device_t  __g_zmf159_dev;
+
+/** \brief usb_printer实例初始化，获得usb_printer标准服务句柄 */
+am_zmf159_device_t * am_zmf159_usbd_vcom_inst_init (void)
+{
+    return am_zmf159_usbd_init(&__g_zmf159_dev, &__g_zmf159_usbd_printer_info);
+}
+
+
+/** \brief usb_printer解初始化，获得usb_printer标准服务句柄 */
+void am_zmf159_usbd_vcom_inst_deinit (void)
+{
+//    am_usbd_vcom_deinit(&__g_zmf159_dev);
+}
+
+
+
+
+
+
+
+
+
+
+
+

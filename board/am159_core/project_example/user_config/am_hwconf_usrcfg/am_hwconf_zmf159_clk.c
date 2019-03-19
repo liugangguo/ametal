@@ -43,7 +43,7 @@ static const am_zmf159_clk_devinfo_t __g_clk_devinfo =
      *
      *  如果pllin_src选择 AMHW_ZMF159_PLLCLK_HSE 则 PLLIN = hse_osc）
      */
-    16000000,
+    12000000,
 
     /**
      * \brief LSEOSC外部晶振频率
@@ -63,13 +63,13 @@ static const am_zmf159_clk_devinfo_t __g_clk_devinfo =
      * \brief PLL 倍频系数，可选1-64
      *        PLLOUT = PLLIN * pll_mul / pll_div
      */
-    12,
+    8,
 
     /**
      * \brief PLL 分频系数，可选1-8
      *        PLLOUT = PLLIN * pll_mul / pll_div
      */
-    2,
+    1,
 
     /** \brief USB分频系数，USBCLK = PLLOUT / (usb_div + 1),建议配置成48Mhz */
     1,

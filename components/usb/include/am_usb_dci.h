@@ -152,8 +152,8 @@ struct am_usbd_dev {
 	 */
 	am_usbd_handle_t      ctrl_handle;
 
-    uint8_t                    device_address; /**< \brief 设备地址 */
-    uint8_t                    state;          /**< \brief 设备状态 */
+    uint8_t               device_address; /**< \brief 设备地址 */
+    uint8_t               state;          /**< \brief 设备状态 */
 
     /**
      *  \brief USB当前正在处理的事务类型

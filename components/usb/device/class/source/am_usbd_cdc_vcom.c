@@ -67,7 +67,7 @@ static void __usbd_cdc_vcom_class_request(void     *p_arg,
 
     uint16_t  w_value = p_dev->p_dev->setup_data.w_value;
     uint8_t  *p_buf = NULL;
-    uint8_t   length = 0;
+//    uint8_t   length = 0;
     uint8_t   array[8] = {0};
     uint8_t   i = 0;
 
