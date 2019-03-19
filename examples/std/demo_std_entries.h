@@ -377,59 +377,115 @@ void demo_std_nvram_entry (char *p_nvram_name, int32_t nvram_unit, int32_t test_
 
 /**
  * \brief 温湿度传感器HTS221例程，通过触发模式实现
- *
+ * \param[in] handle  HTS221设备标准服务句柄
  * \return 无
  */
 void demo_std_hts221_int_entry (am_sensor_handle_t handle);
 
 /**
  * \brief 温湿度传感器HTS221例程，通过查询方式实现
- *
+ * \param[in] handle  HTS221设备标准服务句柄
  * \return 无
  */
 void demo_std_hts221_entry (am_sensor_handle_t handle);
 
 /**
  * \brief 压力温度传感器BMP280例程，通过查询方式实现
- *
+ * \param[in] handle  BMP280设备标准服务句柄
  * \return 无
  */
 void demo_std_bmp280_entry (am_sensor_handle_t handle);
 
 /**
  * \brief 压力温湿度传感器BME280例程，通过查询方式实现
- *
+ * \param[in] handle  BME280设备标准服务句柄
  * \return 无
  */
 void demo_std_bme280_entry (am_sensor_handle_t handle);
 
 /**
  * \brief 压力温度传感器LPS22HB例程，通过查询方式实现
- *
+ * \param[in] handle  LPS22HB设备标准服务句柄
  * \return 无
  */
 void demo_std_lps22hb_entry (am_sensor_handle_t handle);
 
 /**
  * \brief 压力温度传感器LPS22HB例程，通过触发模式实现
- *
+ * \param[in] handle  LPS22HB设备标准服务句柄
  * \return 无
  */
 void demo_std_lps22hb_int_entry (am_sensor_handle_t handle);
 
 /**
  * \brief 三轴陀螺仪传感器BMG160例程，通过查询模式实现
- *
+ * \param[in] handle  BMG160设备标准服务句柄
  * \return 无
  */
 void demo_std_bmg160_entry (am_sensor_handle_t handle);
 
 /**
  * \brief 三轴磁传感器MMC5883MA例程，通过查询模式实现
- *
+ * \param[in] handle  MMC5883MA设备标准服务句柄
  * \return 无
  */
 void demo_std_mmc5883ma_entry (am_sensor_handle_t handle);
+
+/**
+ * \brief 光传感器BH1730FVC例程，通过查询模式实现
+ * \param[in] handle  BH1730FVC设备标准服务句柄
+ * \return 无
+ */
+void demo_std_bh1730fvc_entry (am_sensor_handle_t handle);
+
+/**
+ * \brief 三轴加速度BMA253例程，通过查询模式实现
+ * \param[in] handle  BMA253设备标准服务句柄
+ * \return 无
+ */
+void demo_std_bma253_entry (am_sensor_handle_t handle);
+
+/**
+ * \brief 三轴加速度BMA253例程，通过触发模式实现
+ * \param[in] handle  BMA253设备标准服务句柄
+ * \return 无
+ */
+void demo_std_bma253_int_entry (am_sensor_handle_t handle);
+
+/**
+ * \brief 三轴磁传感器LIS3MDL例程，通过查询模式实现
+ * \param[in] handle  LIS3MDL设备标准服务句柄
+ * \return 无
+ */
+void demo_std_lis3mdl_entry (am_sensor_handle_t handle);
+
+/**
+ * \brief 三轴磁传感器LIS3MDL例程，通过触发模式实现
+ * \param[in] handle  LIS3MDL设备标准服务句柄
+ * \return 无
+ */
+void demo_std_lis3mdl_int_entry (am_sensor_handle_t handle);
+
+/**
+ * \brief 三轴加速度LSM6DSL例程，通过查询模式实现
+ * \param[in] handle  LSM6DSL设备标准服务句柄
+ * \return 无
+ */
+void demo_std_lsm6dsl_entry (am_sensor_handle_t handle);
+
+/**
+ * \brief 三轴加速度LSM6DSL例程，通过触发模式实现
+ * \param[in] handle  LSM6DSL设备标准服务句柄
+ * \return 无
+ */
+void demo_std_lsm6dsl_int_entry (am_sensor_handle_t handle);
+
+/**
+ * \brief 温湿度传感器SHTC1例程，通过查询模式实现
+ * \param[in] handle  SHTC1设备标准服务句柄
+ * \return 无
+ */
+void demo_std_shtc1_entry (am_sensor_handle_t handle);
 
 #ifdef __cplusplus
 }
