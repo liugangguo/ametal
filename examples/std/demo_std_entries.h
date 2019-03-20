@@ -12,7 +12,7 @@
 
 /**
  * \file
- * \brief STDæ‰€æœ‰ä¾‹ç¨‹å‡½æ•°å…¥å£å£°æ˜
+ * \brief STDËùÓĞÀı³Ìº¯ÊıÈë¿ÚÉùÃ÷
  * \sa    demo_std_entries.h
  *
  * \internal
@@ -45,201 +45,208 @@ extern "C" {
 #endif
 
 /**
- * \brief ADCä¾‹ç¨‹ï¼Œåˆ©ç”¨æŸ¥è¯¢æ–¹å¼è·å–ADCè½¬æ¢ç»“æœï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief ADCÀı³Ì£¬ÀûÓÃ²éÑ¯·½Ê½»ñÈ¡ADC×ª»»½á¹û£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] handle ADC æ ‡å‡†æœåŠ¡å¥æŸ„
- * \param[in] chan   ADC é€šé“å·
+ * \param[in] handle ADC ±ê×¼·şÎñ¾ä±ú
+ * \param[in] chan   ADC Í¨µÀºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_adc_entry (am_adc_handle_t handle, int chan);
 
 /**
- * \brief ADC åˆ©ç”¨æ¿å­çš„çƒ­æ•ç”µé˜»(NTC)ï¼Œæ¨ç®—å‡ºæ¸©åº¦ä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief Àı³ÌÈë¿Ú
+ */
+void demo_std_multichan_adc_entry (am_adc_handle_t handle,
+                                   int            *p_chan,
+                                   int             chan_num);
+
+/**
+ * \brief ADC ÀûÓÃ°å×ÓµÄÈÈÃôµç×è(NTC)£¬ÍÆËã³öÎÂ¶ÈÀı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] handle    ADC æ ‡å‡†æœåŠ¡å¥æŸ„
- * \param[in] chan      ADC é€šé“å·ï¼ˆè¯¥é€šé“å¯¹åº”çš„å¼•è„šéœ€è¿æ¥è‡³ NTC ç«¯ï¼‰
- * \param[in] res_fixed å›ºå®šåˆ†å‹ç”µé˜»å€¼ï¼ˆå•ä½ï¼šæ¬§å§†ï¼‰ï¼Œä¸å…·ä½“ç¡¬ä»¶ç”µè·¯ç›¸å…³
+ * \param[in] handle    ADC ±ê×¼·şÎñ¾ä±ú
+ * \param[in] chan      ADC Í¨µÀºÅ£¨¸ÃÍ¨µÀ¶ÔÓ¦µÄÒı½ÅĞèÁ¬½ÓÖÁ NTC ¶Ë£©
+ * \param[in] res_fixed ¹Ì¶¨·ÖÑ¹µç×èÖµ£¨µ¥Î»£ºÅ·Ä·£©£¬Óë¾ßÌåÓ²¼şµçÂ·Ïà¹Ø
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_adc_ntc_entry (am_adc_handle_t handle,
                              int             chan,
                              uint32_t        res_fixed);
 
 /**
- * \brief èœ‚é¸£å™¨ä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief ·äÃùÆ÷Àı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param æ— 
+ * \param ÎŞ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_buzzer_entry (void);
 
 /**
- * \brief å®šæ—¶å™¨å®ç°æ•è·åŠŸèƒ½ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief ¶¨Ê±Æ÷ÊµÏÖ²¶»ñ¹¦ÄÜ£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] cap_handle è¾“å…¥æ•è·æ ‡å‡†æœåŠ¡å¥æŸ„
- * \param[in] pwm_handle PWM æ ‡å‡†æœåŠ¡å¥æŸ„
- * \param[in] cap_chan   å®šæ—¶å™¨æ•è·é€šé“ï¼ˆä¸€èˆ¬é»˜è®¤ä½¿ç”¨æ•è·é€šé“ 0ï¼‰
- * \param[in] pwm_chan   å®šæ—¶å™¨è¾“å‡ºé€šé“ï¼ˆä¸€èˆ¬é»˜è®¤ä½¿ç”¨ PWM é€šé“ 0ï¼‰
+ * \param[in] cap_handle ÊäÈë²¶»ñ±ê×¼·şÎñ¾ä±ú
+ * \param[in] pwm_handle PWM ±ê×¼·şÎñ¾ä±ú
+ * \param[in] cap_chan   ¶¨Ê±Æ÷²¶»ñÍ¨µÀ£¨Ò»°ãÄ¬ÈÏÊ¹ÓÃ²¶»ñÍ¨µÀ 0£©
+ * \param[in] pwm_chan   ¶¨Ê±Æ÷Êä³öÍ¨µÀ£¨Ò»°ãÄ¬ÈÏÊ¹ÓÃ PWM Í¨µÀ 0£©
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_timer_cap_entry (am_cap_handle_t cap_handle, int cap_chan);
 
 /**
- * \brief CRC ä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief CRC Àı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] crc_handle CRC æ ‡å‡†æœåŠ¡å¥æŸ„
+ * \param[in] crc_handle CRC ±ê×¼·şÎñ¾ä±ú
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_crc_entry (am_crc_handle_t crc_handle);
 
 /**
- * \brief GPIO ä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief GPIO Àı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] input_pin  GPIO ç®¡è„šæ ‡å· (# PIO*_0)
- * \param[in] output_pin GPIO ç®¡è„šæ ‡å· (# PIO*_0)
+ * \param[in] input_pin  GPIO ¹Ü½Å±êºÅ (# PIO*_0)
+ * \param[in] output_pin GPIO ¹Ü½Å±êºÅ (# PIO*_0)
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_gpio_entry (int input_pin, int output_pin);
 
 /**
- * \brief GPIO å¼•è„šä¸­æ–­ä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief GPIO Òı½ÅÖĞ¶ÏÀı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] pin GPIO ç®¡è„šæ ‡å· (# PIO*_0)
+ * \param[in] pin GPIO ¹Ü½Å±êºÅ (# PIO*_0)
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_gpio_trigger_entry (int pin);
 
 /**
- * \brief I2C ä¸»æœºè¯»å–æ¸©åº¦ä¼ æ„Ÿå™¨ LM75 ä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief I2C Ö÷»ú¶ÁÈ¡ÎÂ¶È´«¸ĞÆ÷ LM75 Àı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] handle æ¸©åº¦æ ‡å‡†æœåŠ¡å¥æŸ„
+ * \param[in] handle ÎÂ¶È±ê×¼·şÎñ¾ä±ú
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_i2c_lm75_entry (am_temp_handle_t handle);
 
 /**
- * \brief I2C ä¸»æœºè®¿é—® EEPROM è®¾å¤‡ä¾‹ç¨‹ï¼Œé€šè¿‡å¼‚æ­¥æ ‡å‡†æ¥å£å®ç°
+ * \brief I2C Ö÷»ú·ÃÎÊ EEPROM Éè±¸Àı³Ì£¬Í¨¹ıÒì²½±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] handle      I2C æ ‡å‡†æœåŠ¡å¥æŸ„
- * \param[in] eeprom_addr EEPROM åœ°å€
- * \param[in] test_len    æµ‹è¯•å­—èŠ‚æ•°
+ * \param[in] handle      I2C ±ê×¼·şÎñ¾ä±ú
+ * \param[in] eeprom_addr EEPROM µØÖ·
+ * \param[in] test_len    ²âÊÔ×Ö½ÚÊı
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_i2c_master_async_entry (am_i2c_handle_t handle,
                                       uint32_t        eeprom_addr,
                                       uint32_t        test_len);
 
 /**
- * \brief I2C ä¸»æœºè®¿é—® EEPROM è®¾å¤‡ä¾‹ç¨‹ï¼Œé€šè¿‡åŒæ­¥æ ‡å‡†æ¥å£å®ç°
+ * \brief I2C Ö÷»ú·ÃÎÊ EEPROM Éè±¸Àı³Ì£¬Í¨¹ıÍ¬²½±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] handle      I2C æ ‡å‡†æœåŠ¡å¥æŸ„
- * \param[in] eeprom_addr EEPROM åœ°å€
- * \param[in] test_len    æµ‹è¯•å­—èŠ‚æ•°
+ * \param[in] handle      I2C ±ê×¼·şÎñ¾ä±ú
+ * \param[in] eeprom_addr EEPROM µØÖ·
+ * \param[in] test_len    ²âÊÔ×Ö½ÚÊı
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_i2c_master_sync_entry (am_i2c_handle_t handle,
                                      uint32_t        eeprom_addr,
                                      uint32_t        test_len);
 
 /**
- * \brief I2C ä»æœºæ¨¡æ‹Ÿ TMP100 ä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief I2C ´Ó»úÄ£Äâ TMP100 Àı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] handle I2C æ ‡å‡†æœåŠ¡å¥æŸ„
+ * \param[in] handle I2C ±ê×¼·şÎñ¾ä±ú
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_i2c_slave_subaddr_entry (am_i2c_slv_handle_t handle);
 
 /**
- * \brief I2C ä»æœºä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief I2C ´Ó»úÀı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] handle   I2C æ ‡å‡†æœåŠ¡å¥æŸ„
- * \param[in] dev_addr ä»æœºåœ°å€
+ * \param[in] handle   I2C ±ê×¼·şÎñ¾ä±ú
+ * \param[in] dev_addr ´Ó»úµØÖ·
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_i2c_slave_entry (am_i2c_slv_handle_t handle, uint16_t dev_addr);
  
 /**
- * \brief æŒ‰é”®ä¾‹ç¨‹ï¼ˆ4ä¸ªæŒ‰é”®ï¼‰
- * \param[in] led_id LED ç¼–å·
- * \return æ— 
+ * \brief °´¼üÀı³Ì£¨4¸ö°´¼ü£©
+ * \param[in] led_id LED ±àºÅ
+ * \return ÎŞ
  */
 void demo_std_4key_entry (void);
 
 /**
- * \brief æŒ‰é”®ä¾‹ç¨‹
- * \param[in] led_id LED ç¼–å·
- * \return æ— 
+ * \brief °´¼üÀı³Ì
+ * \param[in] led_id LED ±àºÅ
+ * \return ÎŞ
  */
 void demo_std_key_entry (void);
 
 /**
- * \brief æŒ‰é”®ä¾‹ç¨‹ï¼Œä½¿ç”¨æ•°ç ç®¡æ˜¾ç¤ºå½“å‰æŒ‰ä¸‹çš„æŒ‰é”®ï¼ˆæŒ‰é”®äº‹ä»¶åœ¨æŒ‰é”®å›è°ƒä¸­ç«‹å³å¤„ç†ï¼‰
- * \param[in] id  æ•°ç ç®¡ç¼–å·
- * \return æ— 
+ * \brief °´¼üÀı³Ì£¬Ê¹ÓÃÊıÂë¹ÜÏÔÊ¾µ±Ç°°´ÏÂµÄ°´¼ü£¨°´¼üÊÂ¼şÔÚ°´¼ü»Øµ÷ÖĞÁ¢¼´´¦Àí£©
+ * \param[in] id  ÊıÂë¹Ü±àºÅ
+ * \return ÎŞ
  */
 void demo_std_key_digitron_entry (int32_t id);
 
 /**
- * \brief æŒ‰é”®ä¾‹ç¨‹ï¼Œä½¿ç”¨æ•°ç ç®¡æ˜¾ç¤ºå½“å‰æŒ‰ä¸‹çš„æŒ‰é”®ï¼ˆæŒ‰é”®äº‹ä»¶ç¼“å­˜åˆ°ç¯å½¢ç¼“å†²åŒºä¸­ï¼‰
- * \param[in] id  æ•°ç ç®¡ç¼–å·
- * \return æ— 
+ * \brief °´¼üÀı³Ì£¬Ê¹ÓÃÊıÂë¹ÜÏÔÊ¾µ±Ç°°´ÏÂµÄ°´¼ü£¨°´¼üÊÂ¼ş»º´æµ½»·ĞÎ»º³åÇøÖĞ£©
+ * \param[in] id  ÊıÂë¹Ü±àºÅ
+ * \return ÎŞ
  */
 void demo_std_key_digitron_rngbuf_entry (int32_t id);
 
 /**
- * \brief LED ä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
- * \param[in] led_id LED ç¼–å·
- * \return æ— 
+ * \brief LED Àı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
+ * \param[in] led_id LED ±àºÅ
+ * \return ÎŞ
  */
 void demo_std_led_entry (int led_id);
 
 /**
- * \brief LED æµæ°´ç¯ä¾‹ç¨‹
+ * \brief LED Á÷Ë®µÆÀı³Ì
  *
- * \param[in] led_id_start  å¤šä¸ªLEDçš„èµ·å§‹ç¼–å·
- * \param[in] num           ç”¨äºæµæ°´ç¯ä¾‹ç¨‹çš„ LED æ•°ç›®
+ * \param[in] led_id_start  ¶à¸öLEDµÄÆğÊ¼±àºÅ
+ * \param[in] num           ÓÃÓÚÁ÷Ë®µÆÀı³ÌµÄ LED ÊıÄ¿
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_led_water_light_entry (int led_id_start, int num);
 
 /**
- * \brief å®šæ—¶å™¨ PWM è¾“å‡ºåŠŸèƒ½ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief ¶¨Ê±Æ÷ PWM Êä³ö¹¦ÄÜ£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] pwm_handle   PWM æ ‡å‡†æœåŠ¡å¥æŸ„
- * \param[in] pwm_chan     é€šé“å·
+ * \param[in] pwm_handle   PWM ±ê×¼·şÎñ¾ä±ú
+ * \param[in] pwm_chan     Í¨µÀºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_timer_pwm_entry (am_pwm_handle_t pwm_handle, int pwm_chan);
 
 /**
- * \brief è½¯ä»¶å®šæ—¶å™¨ä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
- * \return æ— 
+ * \brief Èí¼ş¶¨Ê±Æ÷Àı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
+ * \return ÎŞ
  */
 void demo_std_softimer_entry (void);
 
 /**
- * \brief SPI è¯»å†™ FLASH(MX25L3206E) ä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief SPI ¶ÁĞ´ FLASH(MX25L3206E) Àı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] spi_handle  SPI æ ‡å‡†æœåŠ¡å¥æŸ„
- * \param[in] cs_pin      ç‰‡é€‰å¼•è„šå·
- * \param[in] test_addr   æµ‹è¯•åœ°å€
- * \param[in] test_length æµ‹è¯•å­—èŠ‚æ•°
+ * \param[in] spi_handle  SPI ±ê×¼·şÎñ¾ä±ú
+ * \param[in] cs_pin      Æ¬Ñ¡Òı½ÅºÅ
+ * \param[in] test_addr   ²âÊÔµØÖ·
+ * \param[in] test_length ²âÊÔ×Ö½ÚÊı
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_spi_flash_entry (am_spi_handle_t spi_handle,
                                int             cs_pin,
@@ -247,245 +254,189 @@ void demo_std_spi_flash_entry (am_spi_handle_t spi_handle,
                                uint32_t        test_length);
 
 /**
- * \brief SPI ä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief SPI Àı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] spi_handle SPI æ ‡å‡†æœåŠ¡å¥æŸ„
- * \param[in] cs_pin     ç‰‡é€‰å¼•è„šå·
+ * \param[in] spi_handle SPI ±ê×¼·şÎñ¾ä±ú
+ * \param[in] cs_pin     Æ¬Ñ¡Òı½ÅºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_spi_master_entry (am_spi_handle_t spi_handle,
                                 int             cs_pin);
 
 /**
- * \brief SPI ä»æœºä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief SPI ´Ó»úÀı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] spi_handle SPI æ ‡å‡†æœåŠ¡å¥æŸ„
- * \param[in] cs_pin     ç‰‡é€‰å¼•è„šå·
+ * \param[in] spi_handle SPI ±ê×¼·şÎñ¾ä±ú
+ * \param[in] cs_pin     Æ¬Ñ¡Òı½ÅºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_spi_slave_entry (am_spi_slv_handle_t handle);
 
 /**
- * \brief å»¶æ—¶æ ‡å‡†æ¥å£ä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief ÑÓÊ±±ê×¼½Ó¿ÚÀı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] led_id LED ç¼–å·
+ * \param[in] led_id LED ±àºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_delay_entry (int led_id);
 
 /**
- * \brief Systick ä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief Systick Àı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] handle å®šæ—¶å™¨æ ‡å‡†æœåŠ¡å¥æŸ„
- * \param[in] led_id LED ç¼–å·
+ * \param[in] handle ¶¨Ê±Æ÷±ê×¼·şÎñ¾ä±ú
+ * \param[in] led_id LED ±àºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_systick_timer_entry (am_timer_handle_t handle, int led_id);
 
 /**
- * \brief å®šæ—¶å™¨å®ç°æ ‡å‡†å®šæ—¶å™¨ä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief ¶¨Ê±Æ÷ÊµÏÖ±ê×¼¶¨Ê±Æ÷Àı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] handle      å®šæ—¶å™¨æ ‡å‡†æœåŠ¡å¥æŸ„
- * \param[in] timing_chan å®šæ—¶å™¨é€šé“å·
+ * \param[in] handle      ¶¨Ê±Æ÷±ê×¼·şÎñ¾ä±ú
+ * \param[in] timing_chan ¶¨Ê±Æ÷Í¨µÀºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_timer_timing_entry (am_timer_handle_t handle,
                                   int               timing_chan);
 
 /**
- * \brief UART æŸ¥è¯¢æ–¹å¼ä¸‹æ¥æ”¶å‘é€æ•°æ®ä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
- * \param[in] handle UART æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
+ * \brief UART ²éÑ¯·½Ê½ÏÂ½ÓÊÕ·¢ËÍÊı¾İÀı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
+ * \param[in] handle UART ±ê×¼·şÎñ¾ä±ú
+ * \return ÎŞ
  */
 void demo_std_uart_polling_entry (am_uart_handle_t handle);
 
 /**
- * \brief UART ç¯å½¢ç¼“å†²åŒºæ–¹å¼ä¸‹æ¥æ”¶å‘é€æ•°æ®ä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
- * \param[in] uart_handle UART æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
+ * \brief UART »·ĞÎ»º³åÇø·½Ê½ÏÂ½ÓÊÕ·¢ËÍÊı¾İÀı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
+ * \param[in] uart_handle UART ±ê×¼·şÎñ¾ä±ú
+ * \return ÎŞ
  */
 void demo_std_uart_ringbuf_entry (am_uart_handle_t uart_handle);
 
 /**
- * \brief UART RS485ä¾‹ç¨‹
- * \param[in] uart_handle UART æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
+ * \brief UART RS485Àı³Ì
+ * \param[in] uart_handle UART ±ê×¼·şÎñ¾ä±ú
+ * \return ÎŞ
  */
 void demo_std_uart_rs485_entry (am_uart_handle_t uart_handle);
 
 /**
- * \brief WDT æ¼”ç¤ºä¾‹ç¨‹ï¼Œé€šè¿‡æ ‡å‡†æ¥å£å®ç°
+ * \brief WDT ÑİÊ¾Àı³Ì£¬Í¨¹ı±ê×¼½Ó¿ÚÊµÏÖ
  *
- * \param[in] handle       WDT æ ‡å‡†æœåŠ¡å¥æŸ„
- * \param[in] time_out_ms  çœ‹é—¨ç‹—è¶…æ—¶æ—¶é—´
- * \param[in] feed_time_ms å–‚ç‹—æ—¶é—´
+ * \param[in] handle       WDT ±ê×¼·şÎñ¾ä±ú
+ * \param[in] time_out_ms  ¿´ÃÅ¹·³¬Ê±Ê±¼ä
+ * \param[in] feed_time_ms Î¹¹·Ê±¼ä
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_wdt_entry (am_wdt_handle_t handle,
                          uint32_t        time_out_ms,
                          uint32_t        feed_time_ms);
                          
 /**
- * \brief æ•°ç ç®¡æ˜¾ç¤º60ç§’è®¡æ—¶ä¾‹ç¨‹
- * \param[in] id æ•°ç ç®¡ç¼–å·
- * \return æ— 
+ * \brief ÊıÂë¹ÜÏÔÊ¾60Ãë¼ÆÊ±Àı³Ì
+ * \param[in] id ÊıÂë¹Ü±àºÅ
+ * \return ÎŞ
  */          
 void demo_std_digitron_60s_counting_entry (int32_t id);
 
 /**
- * \brief æ•°ç ç®¡å®æ—¶æ˜¾ç¤ºæ¸©åº¦ä¾‹ç¨‹
+ * \brief ÊıÂë¹ÜÊµÊ±ÏÔÊ¾ÎÂ¶ÈÀı³Ì
  *
- * \param[in] id          æ•°ç ç®¡ç¼–å·
- * \param[in] temp_handle æ¸©åº¦ä¼ æ„Ÿå™¨æ ‡å‡†æœåŠ¡å¥æŸ„
+ * \param[in] id          ÊıÂë¹Ü±àºÅ
+ * \param[in] temp_handle ÎÂ¶È´«¸ĞÆ÷±ê×¼·şÎñ¾ä±ú
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_digitron_temp_entry (int32_t id, am_temp_handle_t temp_handle);
  
 /**
- * \brief HC595 è¾“å‡ºä¾‹ç¨‹ï¼Œä¸ºä¾¿äºè§‚å¯Ÿç°è±¡ï¼Œå»ºè®®å°†HC595çš„8ä¸ªè¾“å‡ºè¿æ¥åˆ°LEDç¯
- * \param[in] hc595_handle  HC595 æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
+ * \brief HC595 Êä³öÀı³Ì£¬Îª±ãÓÚ¹Û²ìÏÖÏó£¬½¨Òé½«HC595µÄ8¸öÊä³öÁ¬½Óµ½LEDµÆ
+ * \param[in] hc595_handle  HC595 ±ê×¼·şÎñ¾ä±ú
+ * \return ÎŞ
  */
 void demo_std_hc595_led_entry (am_hc595_handle_t hc595_handle);
 
 /**
- * \brief RTCä¾‹ç¨‹
- * \param[in] rtc_handle  RTCè®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
+ * \brief RTCÀı³Ì
+ * \param[in] rtc_handle  RTCÉè±¸±ê×¼·şÎñ¾ä±ú
+ * \return ÎŞ
  */
 void demo_std_rtc_entry (am_rtc_handle_t rtc_handle);
 
 /**
- * \brief NVRAM æµ‹è¯•ä¾‹ç¨‹
+ * \brief NVRAM ²âÊÔÀı³Ì
  *
- * æµ‹è¯•ä½¿ç”¨çš„å­˜å‚¨æ®µéœ€åœ¨ __g_nvram_segs[] åˆ—è¡¨ä¸­å®šä¹‰ï¼ˆam_nvram_cfg.c æ–‡ä»¶ä¸­ï¼‰
+ * ²âÊÔÊ¹ÓÃµÄ´æ´¢¶ÎĞèÔÚ __g_nvram_segs[] ÁĞ±íÖĞ¶¨Òå£¨am_nvram_cfg.c ÎÄ¼şÖĞ£©
  *
- * \param[in] p_nvram_name  å­˜å‚¨æ®µå
- * \param[in] nvram_unit    å­˜å‚¨æ®µå•å…ƒå·
- * \param[in] test_lenth    æµ‹è¯•è¯»å†™æ•°æ®çš„é•¿åº¦
+ * \param[in] p_nvram_name  ´æ´¢¶ÎÃû
+ * \param[in] nvram_unit    ´æ´¢¶Îµ¥ÔªºÅ
+ * \param[in] test_lenth    ²âÊÔ¶ÁĞ´Êı¾İµÄ³¤¶È
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_std_nvram_entry (char *p_nvram_name, int32_t nvram_unit, int32_t test_lenth);
 
 /**
- * \brief æ¸©æ¹¿åº¦ä¼ æ„Ÿå™¨HTS221ä¾‹ç¨‹ï¼Œé€šè¿‡è§¦å‘æ¨¡å¼å®ç°
- * \param[in] handle  HTS221è®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
+ * \brief ÎÂÊª¶È´«¸ĞÆ÷HTS221Àı³Ì£¬Í¨¹ı´¥·¢Ä£Ê½ÊµÏÖ
+ *
+ * \return ÎŞ
  */
 void demo_std_hts221_int_entry (am_sensor_handle_t handle);
 
 /**
- * \brief æ¸©æ¹¿åº¦ä¼ æ„Ÿå™¨HTS221ä¾‹ç¨‹ï¼Œé€šè¿‡æŸ¥è¯¢æ–¹å¼å®ç°
- * \param[in] handle  HTS221è®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
+ * \brief ÎÂÊª¶È´«¸ĞÆ÷HTS221Àı³Ì£¬Í¨¹ı²éÑ¯·½Ê½ÊµÏÖ
+ *
+ * \return ÎŞ
  */
 void demo_std_hts221_entry (am_sensor_handle_t handle);
 
 /**
- * \brief å‹åŠ›æ¸©åº¦ä¼ æ„Ÿå™¨BMP280ä¾‹ç¨‹ï¼Œé€šè¿‡æŸ¥è¯¢æ–¹å¼å®ç°
- * \param[in] handle  BMP280è®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
+ * \brief Ñ¹Á¦ÎÂ¶È´«¸ĞÆ÷BMP280Àı³Ì£¬Í¨¹ı²éÑ¯·½Ê½ÊµÏÖ
+ *
+ * \return ÎŞ
  */
 void demo_std_bmp280_entry (am_sensor_handle_t handle);
 
 /**
- * \brief å‹åŠ›æ¸©æ¹¿åº¦ä¼ æ„Ÿå™¨BME280ä¾‹ç¨‹ï¼Œé€šè¿‡æŸ¥è¯¢æ–¹å¼å®ç°
- * \param[in] handle  BME280è®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
+ * \brief Ñ¹Á¦ÎÂÊª¶È´«¸ĞÆ÷BME280Àı³Ì£¬Í¨¹ı²éÑ¯·½Ê½ÊµÏÖ
+ *
+ * \return ÎŞ
  */
 void demo_std_bme280_entry (am_sensor_handle_t handle);
 
 /**
- * \brief å‹åŠ›æ¸©åº¦ä¼ æ„Ÿå™¨LPS22HBä¾‹ç¨‹ï¼Œé€šè¿‡æŸ¥è¯¢æ–¹å¼å®ç°
- * \param[in] handle  LPS22HBè®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
+ * \brief Ñ¹Á¦ÎÂ¶È´«¸ĞÆ÷LPS22HBÀı³Ì£¬Í¨¹ı²éÑ¯·½Ê½ÊµÏÖ
+ *
+ * \return ÎŞ
  */
 void demo_std_lps22hb_entry (am_sensor_handle_t handle);
 
 /**
- * \brief å‹åŠ›æ¸©åº¦ä¼ æ„Ÿå™¨LPS22HBä¾‹ç¨‹ï¼Œé€šè¿‡è§¦å‘æ¨¡å¼å®ç°
- * \param[in] handle  LPS22HBè®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
+ * \brief Ñ¹Á¦ÎÂ¶È´«¸ĞÆ÷LPS22HBÀı³Ì£¬Í¨¹ı´¥·¢Ä£Ê½ÊµÏÖ
+ *
+ * \return ÎŞ
  */
 void demo_std_lps22hb_int_entry (am_sensor_handle_t handle);
 
 /**
- * \brief ä¸‰è½´é™€èºä»ªä¼ æ„Ÿå™¨BMG160ä¾‹ç¨‹ï¼Œé€šè¿‡æŸ¥è¯¢æ¨¡å¼å®ç°
- * \param[in] handle  BMG160è®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
+ * \brief ÈıÖáÍÓÂİÒÇ´«¸ĞÆ÷BMG160Àı³Ì£¬Í¨¹ı²éÑ¯Ä£Ê½ÊµÏÖ
+ *
+ * \return ÎŞ
  */
 void demo_std_bmg160_entry (am_sensor_handle_t handle);
 
 /**
- * \brief ä¸‰è½´ç£ä¼ æ„Ÿå™¨MMC5883MAä¾‹ç¨‹ï¼Œé€šè¿‡æŸ¥è¯¢æ¨¡å¼å®ç°
- * \param[in] handle  MMC5883MAè®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
+ * \brief ÈıÖá´Å´«¸ĞÆ÷MMC5883MAÀı³Ì£¬Í¨¹ı²éÑ¯Ä£Ê½ÊµÏÖ
+ *
+ * \return ÎŞ
  */
 void demo_std_mmc5883ma_entry (am_sensor_handle_t handle);
-
-/**
- * \brief å…‰ä¼ æ„Ÿå™¨BH1730FVCä¾‹ç¨‹ï¼Œé€šè¿‡æŸ¥è¯¢æ¨¡å¼å®ç°
- * \param[in] handle  BH1730FVCè®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
- */
-void demo_std_bh1730fvc_entry (am_sensor_handle_t handle);
-
-/**
- * \brief ä¸‰è½´åŠ é€Ÿåº¦BMA253ä¾‹ç¨‹ï¼Œé€šè¿‡æŸ¥è¯¢æ¨¡å¼å®ç°
- * \param[in] handle  BMA253è®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
- */
-void demo_std_bma253_entry (am_sensor_handle_t handle);
-
-/**
- * \brief ä¸‰è½´åŠ é€Ÿåº¦BMA253ä¾‹ç¨‹ï¼Œé€šè¿‡è§¦å‘æ¨¡å¼å®ç°
- * \param[in] handle  BMA253è®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
- */
-void demo_std_bma253_int_entry (am_sensor_handle_t handle);
-
-/**
- * \brief ä¸‰è½´ç£ä¼ æ„Ÿå™¨LIS3MDLä¾‹ç¨‹ï¼Œé€šè¿‡æŸ¥è¯¢æ¨¡å¼å®ç°
- * \param[in] handle  LIS3MDLè®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
- */
-void demo_std_lis3mdl_entry (am_sensor_handle_t handle);
-
-/**
- * \brief ä¸‰è½´ç£ä¼ æ„Ÿå™¨LIS3MDLä¾‹ç¨‹ï¼Œé€šè¿‡è§¦å‘æ¨¡å¼å®ç°
- * \param[in] handle  LIS3MDLè®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
- */
-void demo_std_lis3mdl_int_entry (am_sensor_handle_t handle);
-
-/**
- * \brief ä¸‰è½´åŠ é€Ÿåº¦LSM6DSLä¾‹ç¨‹ï¼Œé€šè¿‡æŸ¥è¯¢æ¨¡å¼å®ç°
- * \param[in] handle  LSM6DSLè®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
- */
-void demo_std_lsm6dsl_entry (am_sensor_handle_t handle);
-
-/**
- * \brief ä¸‰è½´åŠ é€Ÿåº¦LSM6DSLä¾‹ç¨‹ï¼Œé€šè¿‡è§¦å‘æ¨¡å¼å®ç°
- * \param[in] handle  LSM6DSLè®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
- */
-void demo_std_lsm6dsl_int_entry (am_sensor_handle_t handle);
-
-/**
- * \brief æ¸©æ¹¿åº¦ä¼ æ„Ÿå™¨SHTC1ä¾‹ç¨‹ï¼Œé€šè¿‡æŸ¥è¯¢æ¨¡å¼å®ç°
- * \param[in] handle  SHTC1è®¾å¤‡æ ‡å‡†æœåŠ¡å¥æŸ„
- * \return æ— 
- */
-void demo_std_shtc1_entry (am_sensor_handle_t handle);
 
 #ifdef __cplusplus
 }
