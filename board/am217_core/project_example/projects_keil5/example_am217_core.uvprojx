@@ -897,11 +897,6 @@
               <FilePath>..\..\..\..\soc\zlg\drivers\source\spi\am_zlg_spi_slv_dma.c</FilePath>
             </File>
             <File>
-              <FileName>zm_zlg_spi_poll.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\soc\zlg\drivers\source\spi\zm_zlg_spi_poll.c</FilePath>
-            </File>
-            <File>
               <FileName>am_zlg_tim_cap.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\soc\zlg\drivers\source\tim\am_zlg_tim_cap.c</FilePath>
@@ -970,6 +965,11 @@
               <FileName>am_zlg_spi_dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\soc\zlg\drivers\source\spi\am_zlg_spi_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>am_zlg_spi_poll.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\soc\zlg\drivers\source\spi\am_zlg_spi_poll.c</FilePath>
             </File>
           </Files>
         </Group>
