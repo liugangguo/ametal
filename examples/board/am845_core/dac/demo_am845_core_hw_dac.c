@@ -45,6 +45,9 @@
 #include "am_lpc84x_dac.h"
 #include "demo_nxp_entries.h"
 
+extern void demo_lpc_hw_dac_buf_int_entry (amhw_lpc_dac_t *p_hw_dac,
+                                           int             inum);
+
 /**
  * \brief Àý³ÌÈë¿Ú
  */

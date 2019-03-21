@@ -54,6 +54,7 @@
   外部函数定义
 *******************************************************************************/
 
+extern void demo_lpc845_hw_pmu_deeppowerdown_entry(amhw_lpc82x_pmu_t  *p_hw_pmu);
 /**
  * \brief 例程入口
  */

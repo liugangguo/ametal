@@ -43,8 +43,6 @@
 #include "hw/amhw_lpc_fmc.h"
 #include "hw/amhw_lpc82x_gpio.h"
 #include "hw/amhw_lpc82x_pmu.h"
-#include "hw/amhw_lpc84x_gpio.h"
-#include "hw/amhw_lpc84x_dac.h"
 #include "hw/amhw_lpc84x_adc.h"
 #ifdef __cplusplus
 extern "C" {
@@ -548,14 +546,7 @@ void demo_lpc_hw_spi_slave_entry (amhw_lpc_spi_t *p_hw_spi,
  */
 void demo_lpc824_hw_spi_slave_dma_entry(amhw_lpc_spi_t *p_hw_spi, 
                                         uint8_t         chan);
-/**
- * \brief gpio 硬件层（GPIO）例程入口
- *
- * \param[in] p_hw_gpio  : gpio寄存器块
- * \param[in] pin        : 引脚号
- */
-void demo_lpc845_hw_gpio_entry (amhw_lpc84x_gpio_t *p_hw_gpio,
-                                int                 pin);
+
 /**
  * \brief gpio pmatch硬件层例程入口
  *
@@ -621,35 +612,6 @@ void demo_lpc845_hw_wkt_deeppowerdown_wakeup_entry(amhw_lpc82x_pmu_t *p_hw_pmu,
  * \param[in] time  : 延时读写值
  */
 void demo_lpc845_hw_flash_ctrl_entry(amhw_lpc_fmc_time_t time);
-
-/**
- * \brief DAC 例程入口
- *
- * \param[in] p_hw_dac  : DAC寄存器块
- * \param[in] inum      : 中断通道号
- */
-void demo_lpc_hw_dac_buf_int_entry (amhw_lpc_dac_t *p_hw_dac,
-                                    int             inum);
-/**
- * \brief ADC 例程入口
- *
- * \param[in] p_hw_adc  : adc寄存器块
- * \param[in] ch        : 通道号
- * \param[in] vref_mv   : 基准电压值
- */
-void demo_lpc845_hw_adc_dma_entry(amhw_lpc84x_adc_t *p_hw_adc,
-                                  int                ch,
-                                  uint32_t        vref_mv);
-/**
- * \brief ADC 例程入口
- *
- * \param[in] p_hw_adc  : adc 寄存器块
- * \param[in] ch        : 通道号
- * \param[in] vref_mv   : 基准电压值
- */
-void demo_lpc845_hw_adc_thcmp_entry(amhw_lpc84x_adc_t  *p_hw_adc,
-                                    int                 inum,
-                                    uint32_t            vref_mv);
 
 /**
  * \brief dma 例程入口

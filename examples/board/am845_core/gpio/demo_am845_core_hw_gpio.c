@@ -43,6 +43,9 @@
 /** \brief LED0 引脚 */
 #define __LED0_PIN  PIO0_0
 
+extern void demo_lpc845_hw_gpio_entry (amhw_lpc84x_gpio_t *p_hw_gpio,
+                                       int                 pin);
+
 /**
  * \brief 例程入口
  */
