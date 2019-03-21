@@ -48,6 +48,10 @@
 #include "am_lpc84x_adc_dma.h"
 #include "demo_nxp_entries.h"
 
+extern void demo_lpc845_hw_adc_dma_entry(amhw_lpc84x_adc_t *p_hw_adc,
+                                         int                ch,
+                                         uint32_t        vref_mv);
+
 /**
  * \brief Àý³ÌÈë¿Ú
  */

@@ -48,6 +48,10 @@
 #include "hw/amhw_lpc84x_dac.h"
 #define __MV_OUT                 1000
 
+extern void demo_std_dac_entry (am_dac_handle_t dac0_handle,
+                                uint8_t         channel,
+                                uint32_t        mv_out);
+
 /**
  * \brief Àý³ÌÈë¿Ú
  */

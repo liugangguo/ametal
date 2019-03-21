@@ -54,6 +54,10 @@
 #include "hw/amhw_lpc84x_syscon.h"
 #include "demo_nxp_entries.h"
 
+extern void demo_lpc845_hw_adc_thcmp_entry(amhw_lpc84x_adc_t  *p_hw_adc,
+	                                         int                 inum,
+                                           uint32_t            vref_mv);
+
 /**
  * \brief Àý³ÌÈë¿Ú
  */
