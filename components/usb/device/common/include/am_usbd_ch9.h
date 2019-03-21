@@ -31,7 +31,37 @@
 extern "C" {
 #endif
 
-void am_usbd_ch9_std_request(am_usbd_dev_t *p_dev);
+
+uint8_t *am_usb_ch9_config_get(void *p_arg, uint16_t length);
+
+uint8_t am_usb_ch9_config_set(void *p_arg);
+
+
+uint8_t *am_usb_ch9_interface_get(void *p_arg, uint16_t length);
+
+uint8_t am_usb_ch9_interface_set(void *p_arg);
+
+uint8_t *am_usb_ch9_status_get(void *p_arg, uint16_t length);
+
+uint8_t am_usb_ch9_feature_clr(void *p_arg);
+
+uint8_t am_usb_ch9_ep_feature_set(void *p_arg);
+
+uint8_t am_usb_ch9_dev_feature_set(void *p_arg);
+
+
+uint8_t *std_descriptor_get(void                       *p_arg,
+							uint16_t                    length,
+							const am_usbd_descriptor_t *p_desc);
+
+/*__std_descriptor_get */
+uint8_t *am_usb_ch9_descriptor_get(void *p_arg, uint16_t length);
+
+
+
+/* address set */
+void am_usb_ch9_addr_set(am_usbd_dev_t *p_dev);
+
 
 #ifdef __cplusplus
 }

@@ -46,6 +46,7 @@ typedef enum am_usbd_control_type {
     AM_USBD_CONTROL_ENDPOINT_UNSTALL,    /**< \brief 端点非阻塞 */
     AM_USBD_CONTROL_GET_DEVICE_STATUS,   /**< \brief 获取设备状态 */
     AM_USBD_CONTROL_GET_ENDPOINT_STATUS, /**< \brief 获取端点状态 */
+	AM_USBD_CONTROL_SET_ENDPOINT_STATUS, /**< \brief 设置端点状态 */
     AM_USBD_CONTROL_SET_DEVICE_ADDRESS,  /**< \brief 设置设备地址 */
     AM_USBD_CONTROL_GET_SYNCH_FRAME,     /**< \brief 获取同步帧 */
     AM_USBD_CONTROL_RESUME,              /**< \brief 设备唤醒 */
@@ -90,7 +91,7 @@ typedef am_usb_status_t (*am_usbd_ep_callback_t)(void *p_arg);
 typedef void (*am_vendor_request_t)(void *p_arg, uint8_t b_requrest);
 
 /* 类请求回调函数类型.*/
-typedef void (*am_class_request_t)(void *p_arg, uint8_t b_requrest);
+typedef uint8_t (*am_class_request_t)(void *p_arg, uint8_t b_requrest);
 
 /** \brief usb device 控制接口结构体 */
 typedef struct am_usbd_interface {
@@ -143,6 +144,16 @@ typedef struct am_usbd_dev am_usbd_dev_t;
 /** \brief 定义标准设备请求函数类型*/
 typedef void (*am_std_request_t)(am_usbd_dev_t *p_dev);
 
+
+typedef struct __endpoint_info
+{
+  uint16_t  Usb_wLength;
+  uint16_t  Usb_wOffset;
+  uint16_t  PacketSize;
+  uint8_t   *(*CopyData)(void *p_arg, uint16_t Length);
+}am_data_info_t;
+
+
 /** \brief USB device struct  */
 struct am_usbd_dev {
 	/**
@@ -155,14 +166,16 @@ struct am_usbd_dev {
     uint8_t               device_address; /**< \brief 设备地址 */
     uint8_t               state;          /**< \brief 设备状态 */
 
-    /**
-     *  \brief USB当前正在处理的事务类型
-     *      AM_USBD_CTRL_SETUP      0x00
-     *      AM_USBD_CTRL_IN         0x01
-     *      AM_USBD_CTRL_OUT        0x02
-     *      AM_USBD_CTRL_IDLE       0xFF
-     */
-    uint8_t                    running_ctrl_state;
+    uint8_t               cur_feature;
+    uint8_t               cur_config;       /* Selected configuration */
+    uint8_t               cur_interface;    /* Selected interface of current configuration */
+    uint8_t               cur_alt;          /* Selected Alternate Setting of current
+                                             interface*/
+
+    uint8_t sta_info;
+
+
+//    uint8_t                    running_ctrl_state;
 
     const am_usbd_interface_t *p_interface;    /**< \brief 控制器接口 */
 
@@ -184,6 +197,8 @@ struct am_usbd_dev {
 
     /** \brief 端点状态 */
     am_usbd_ep_info_t         endpoint_info[AM_USBD_MAX_EP_CNT];
+
+    am_data_info_t            ctrl_info;
 };
 
 /*****************************************************************************

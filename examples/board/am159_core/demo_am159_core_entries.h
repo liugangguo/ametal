@@ -430,6 +430,6 @@ void demo_std_gpio_entry (int input_pin, int output_pin);
 /**
  * \brief usb device ´òÓ¡»ú Àý³Ì
  */
-void demo_zmf159_usbd_printer_entry (void);
+void demo_zmf159_usbd_vcom_entry (void);
 
 /* end of file */

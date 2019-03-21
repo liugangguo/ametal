@@ -81,6 +81,13 @@
 #define AM_USBD_CDC_VCOM_LINE_STATE_DTR_PRESENT       (0x01)
 #define AM_USBD_CDC_VCOM_LINE_STATE_DTR_NO_PRESENT    (0x00)
 
+typedef struct line_coding {
+  uint32_t bitrate;
+  uint8_t format;
+  uint8_t paritytype;
+  uint8_t datatype;
+}line_coding_t;
+
 /*******************************************************************************
  * API
  ******************************************************************************/
@@ -113,21 +120,7 @@ typedef struct am_usbd_cdc_vcom {
     am_usbd_dev_t                 *p_dev;      /**< \brief 保存usb设备类指针*/
     const am_usbd_cdc_vcom_info_t *p_info;     /**< \brief 串口设备信息*/
 
-    uint8_t serial_status_buff[AM_USBD_CDC_VCOM_NOTIF_PACKET_SIZE + AM_USBD_CDC_VCOM_UART_BITMAP_SIZE];
 
-    uint8_t starttransactions;
-    uint8_t hassentstate;
-
-    /* Define the infomation relates to abstract control model */
-    uint8_t   dtepresent;       // 表示数据终端设备（DTE）是否存在
-    uint8_t   dtestatus;        // 终端设备状态
-    uint16_t  uartstate;        // CDC 设备串口状态
-
-    am_cdc_vcom_recv_cb_t  pfn_recv;
-    void                  *p_arg_recv;
-
-    am_cdc_vcom_send_cb_t  pfn_send;
-    void                  *p_arg_send;
 
 } am_usbd_cdc_vcom_t;
 

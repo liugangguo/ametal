@@ -32,7 +32,7 @@
 
 
 // HID键盘设备类请求
-static void __usbd_keyboard_class_request(void     *p_arg,
+static uint8_t __usbd_keyboard_class_request(void     *p_arg,
                                           uint8_t   b_requrest)
 {
 //am_usbd_keyboard_t *p_dev = (am_usbd_keyboard_t *)(p_arg);
@@ -80,6 +80,7 @@ static void __usbd_keyboard_class_request(void     *p_arg,
 //    }
 //
 //    AM_USB_OSA_EXIT_CRITICAL();
+	return AM_USB_STATUS_SUCCESS;
 }
 
 am_usb_status_t am_usbd_keyboard_recv_req(am_usbd_keyboard_handle handle,

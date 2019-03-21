@@ -33,34 +33,24 @@ extern "C" {
 #include "am_usb_dci.h"
 #include "amhw_zmf159_usb.h"
 
-#define  AM_ZMF159MAX_EP_NUM      7
-
-#define SEND_ENCAPSULATED_COMMAND   0x00
-#define GET_ENCAPSULATED_RESPONSE   0x01
-#define SET_COMM_FEATURE            0x02
-#define GET_COMM_FEATURE            0x03
-#define CLEAR_COMM_FEATURE          0x04
-#define SET_LINE_CODING             0x20
-#define GET_LINE_CODING             0x21
-#define SET_CONTROL_LINE_STATE      0x22
-#define SEND_BREAK                  0x23
+#define  AM_ZMF159MAX_EP_NUM         7
 
 #define EP_NUM                      (4)
 
-#define ENDP0   ((uint8_t)0)
-#define ENDP1   ((uint8_t)1)
-#define ENDP2   ((uint8_t)2)
-#define ENDP3   ((uint8_t)3)
-#define ENDP4   ((uint8_t)4)
+//#define ENDP0   ((uint8_t)0)
+//#define ENDP1   ((uint8_t)1)
+//#define ENDP2   ((uint8_t)2)
+//#define ENDP3   ((uint8_t)3)
+//#define ENDP4   ((uint8_t)4)
 
 
 
-typedef struct line_coding {
-  uint32_t bitrate;
-  uint8_t format;
-  uint8_t paritytype;
-  uint8_t datatype;
-}line_coding_t;
+//typedef struct line_coding {
+//  uint32_t bitrate;
+//  uint8_t format;
+//  uint8_t paritytype;
+//  uint8_t datatype;
+//}line_coding_t;
 
 typedef enum _CONTROL_STATE {
   WAIT_SETUP,       /* 0 */
@@ -96,39 +86,21 @@ typedef struct am_zmf159_usbd_devinfo{
 typedef struct am_zmf159_usbd_dev am_zmf159_usbd_dev_t;
 
 
-typedef struct __endpoint_info
-{
-  uint16_t  Usb_wLength;
-  uint16_t  Usb_wOffset;
-  uint16_t  PacketSize;
-  uint8_t   *(*CopyData)(void *p_arg, uint16_t Length);
-}am_endpoint_info;
-
-typedef enum _RESULT
-{
-  USB_SUCCESS = 0,    /* Process sucessfully */
-  USB_ERROR,
-  USB_UNSUPPORT,
-  USB_NOT_READY       /* The process has not been finished, endpoint will be
-                         NAK to further rquest */
-} RESULT;
-
-
 typedef struct am_zmf159_usbd_dev
 {
     am_usbd_dev_t  isa;
 
     uint8_t state;            /* of type CONTROL_STATE */
-    uint8_t cur_feature;
-    uint8_t cur_config;       /* Selected configuration */
-    uint8_t cur_interface;    /* Selected interface of current configuration */
-    uint8_t cur_alt;          /* Selected Alternate Setting of current
-                                       interface*/
+//    uint8_t cur_feature;
+//    uint8_t cur_config;       /* Selected configuration */
+//    uint8_t cur_interface;    /* Selected interface of current configuration */
+//    uint8_t cur_alt;          /* Selected Alternate Setting of current
+//                                       interface*/
 
     uint8_t ep_num;           /* Number of endpoints that are used */
     uint8_t config_num;       /* Number of configuration available */
 
-    uint8_t sta_info;
+//    uint8_t sta_info;
 
     uint8_t rx_odd[16] ;
     uint8_t tx_odd[16] ;
@@ -144,7 +116,6 @@ typedef struct am_zmf159_usbd_dev
 
     const am_zmf159_usbd_devinfo_t *p_info;
 
-    am_endpoint_info ctrl_info;
 }am_zmf159_device_t;
 
 
@@ -154,7 +125,7 @@ typedef struct am_zmf159_usbd_dev
 //*******************************************************************************/
 
 // ¡Ÿ ±
-am_zmf159_device_t *am_zmf159_usbd_init(am_zmf159_device_t             *,
+am_usbd_dev_t *am_zmf159_usbd_init(am_zmf159_device_t             *,
                                        const am_zmf159_usbd_devinfo_t *);
 
 

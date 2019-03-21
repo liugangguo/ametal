@@ -20,6 +20,7 @@
 #include "am_zmf159_usbd.h"
 #include "am_clk.h"
 #include "hw/amhw_zmf159_rcc.h"
+#include "am_usbd_cdc_vcom.h"
 
 #define VIRTUAL_COM_PORT_SIZ_DEVICE_DESC        18
 #define VIRTUAL_COM_PORT_SIZ_CONFIG_DESC        67
@@ -32,7 +33,7 @@
 static const uint8_t Virtual_Com_Port_DeviceDescriptor[] =
   {
     0x12,   /* bLength */
-	AM_USB_DESC_TYPE_DEVICE,     /* bDescriptorType */
+    AM_USB_DESC_TYPE_DEVICE,     /* bDescriptorType */
     0x10,
     0x01,   /* bcdUSB = 2.00 */
     0x02,   /* bDeviceClass: CDC */
@@ -65,7 +66,7 @@ static uint8_t Virtual_Com_Port_ConfigDescriptor[] =
     0x32,   /* MaxPower 0 mA */
     /*Interface Descriptor*/
     0x09,   /* bLength: Interface Descriptor size */
-	AM_USB_DESC_TYPE_INTERFACE,  /* bDescriptorType: Interface */
+    AM_USB_DESC_TYPE_INTERFACE,  /* bDescriptorType: Interface */
     /* Interface descriptor type */
     0x00,   /* bInterfaceNumber: Number of Interface */
     0x00,   /* bAlternateSetting: Alternate setting */
@@ -99,7 +100,7 @@ static uint8_t Virtual_Com_Port_ConfigDescriptor[] =
     0x01,   /* bSlaveInterface0: Data Class Interface */
     /*Endpoint 2 Descriptor*/
     0x07,   /* bLength: Endpoint Descriptor size */
-	AM_USB_DESC_TYPE_ENDPOINT,   /* bDescriptorType: Endpoint */
+    AM_USB_DESC_TYPE_ENDPOINT,   /* bDescriptorType: Endpoint */
     0x82,   /* bEndpointAddress: (IN2) */
     0x03,   /* bmAttributes: Interrupt */
     0x40,      /* wMaxPacketSize: 64*/
@@ -117,7 +118,7 @@ static uint8_t Virtual_Com_Port_ConfigDescriptor[] =
     0x00,   /* iInterface: */
     /*Endpoint 3 Descriptor*/
     0x07,   /* bLength: Endpoint Descriptor size */
-	AM_USB_DESC_TYPE_ENDPOINT,   /* bDescriptorType: Endpoint */
+    AM_USB_DESC_TYPE_ENDPOINT,   /* bDescriptorType: Endpoint */
     0x03,   /* bEndpointAddress: (OUT3) */
     0x02,   /* bmAttributes: Bulk */
     0x40,             /* wMaxPacketSize: 64*/
@@ -125,7 +126,7 @@ static uint8_t Virtual_Com_Port_ConfigDescriptor[] =
     0x00,   /* bInterval: ignore for Bulk transfer */
     /*Endpoint 1 Descriptor*/
     0x07,   /* bLength: Endpoint Descriptor size */
-	AM_USB_DESC_TYPE_ENDPOINT,   /* bDescriptorType: Endpoint */
+    AM_USB_DESC_TYPE_ENDPOINT,   /* bDescriptorType: Endpoint */
     0x81,   /* bEndpointAddress: (IN1) */
     0x02,   /* bmAttributes: Bulk */
     0x40,             /* wMaxPacketSize: 64*/
@@ -137,7 +138,7 @@ static uint8_t Virtual_Com_Port_ConfigDescriptor[] =
 static const uint8_t Virtual_Com_Port_StringLangID[VIRTUAL_COM_PORT_SIZ_STRING_LANGID] =
   {
     VIRTUAL_COM_PORT_SIZ_STRING_LANGID,
-	AM_USB_DESC_TYPE_STRING,
+    AM_USB_DESC_TYPE_STRING,
     0x09,
     0x04 /* LangID = 0x0409: U.S. English */
   };
@@ -145,28 +146,28 @@ static const uint8_t Virtual_Com_Port_StringLangID[VIRTUAL_COM_PORT_SIZ_STRING_L
 static const uint8_t Virtual_Com_Port_StringVendor[VIRTUAL_COM_PORT_SIZ_STRING_VENDOR] =
   {
     VIRTUAL_COM_PORT_SIZ_STRING_VENDOR,     /* Size of Vendor string */
-	AM_USB_DESC_TYPE_STRING,             /* bDescriptorType*/
+    AM_USB_DESC_TYPE_STRING,             /* bDescriptorType*/
     /* Manufacturer: "MindMotion" */
-	
+
     'M', 0, 
     'i', 0, 
     'n', 0,
     'd', 0,
     'M', 0, 
-	'o', 0,
-	't', 0,
-	'i', 0,
-	'o', 0,
-    'n', 0,		
+    'o', 0,
+    't', 0,
+    'i', 0,
+    'o', 0,
+    'n', 0,
     
   };
 
 static const uint8_t Virtual_Com_Port_StringProduct[VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT] =
   {
     VIRTUAL_COM_PORT_SIZ_STRING_PRODUCT,          /* bLength */
-	AM_USB_DESC_TYPE_STRING,        /* bDescriptorType */
+    AM_USB_DESC_TYPE_STRING,        /* bDescriptorType */
     /* Product name: ""MindMotion  Virtual COM Port" */
-	
+
     'M', 0, 
     'y', 0,
     ' ', 0, 
@@ -194,11 +195,11 @@ static const uint8_t Virtual_Com_Port_StringProduct[VIRTUAL_COM_PORT_SIZ_STRING_
 static const uint8_t Virtual_Com_Port_StringSerial[VIRTUAL_COM_PORT_SIZ_STRING_SERIAL] =
   {
     VIRTUAL_COM_PORT_SIZ_STRING_SERIAL,           /* bLength */
-	AM_USB_DESC_TYPE_STRING,                   /* bDescriptorType */
+    AM_USB_DESC_TYPE_STRING,                   /* bDescriptorType */
     
 
     'M', 0, 
-    'M', 0, 
+    'M', 0,
     '3', 0,
     '2', 0,
     '0', 0,
@@ -218,42 +219,42 @@ static const am_usbd_descriptor_t __g_am_usbd_vcom_descriptor[] = {
     {
         (AM_USB_DESC_TYPE_DEVICE << 8) | (0x00),
         sizeof(Virtual_Com_Port_DeviceDescriptor),
-		Virtual_Com_Port_DeviceDescriptor
+        Virtual_Com_Port_DeviceDescriptor
     },
 
     /* ÅäÖÃÃèÊö·û¼°ÆäÏÂ¼¶ÃèÊö·û */
     {
         (AM_USB_DESC_TYPE_CONFIGURE << 8) | (0x00),
         sizeof(Virtual_Com_Port_ConfigDescriptor),
-		Virtual_Com_Port_ConfigDescriptor
+        Virtual_Com_Port_ConfigDescriptor
     },
 
     /* ×Ö·û´®ÃèÊö·û0£¬ÃèÊöÓïÑÔid */
     {
         (AM_USB_DESC_TYPE_STRING << 8) | (0x00),
         sizeof(Virtual_Com_Port_StringLangID),
-		Virtual_Com_Port_StringLangID
+        Virtual_Com_Port_StringLangID
     },
 
     /* ×Ö·û´®ÃèÊö·û1£¬ÃèÊö³§ÉÌ */
     {
         (AM_USB_DESC_TYPE_STRING << 8) | 0x01,
         sizeof(Virtual_Com_Port_StringVendor),
-		Virtual_Com_Port_StringVendor
+        Virtual_Com_Port_StringVendor
     },
 
     /* ×Ö·û´®ÃèÊö·û2£¬ÃèÊö²úÆ· */
     {
         (AM_USB_DESC_TYPE_STRING << 8) | 0x02,
         sizeof(Virtual_Com_Port_StringProduct),
-		Virtual_Com_Port_StringProduct
+        Virtual_Com_Port_StringProduct
     },
 
     /* ×Ö·û´®ÃèÊö·û3£¬ÃèÊöÉè±¸ */
     {
         (AM_USB_DESC_TYPE_STRING << 8) | 0x03,
         sizeof(Virtual_Com_Port_StringSerial),
-		Virtual_Com_Port_StringSerial
+        Virtual_Com_Port_StringSerial
     },
 };
 
@@ -264,7 +265,7 @@ static const am_usbd_descriptor_t __g_am_usbd_vcom_descriptor[] = {
 static void __am_usbd_vcom_init (void) {
 //    /* Ê¹ÄÜÊ±ÖÓ */
     am_clk_enable(CLK_USB);
-	amhw_zmf159_rcc_ahb2_enable(AMHW_ZMF159_RCC_AHB2_USBFS);
+    amhw_zmf159_rcc_ahb2_enable(AMHW_ZMF159_RCC_AHB2_USBFS);
 }
 
 /**
@@ -272,16 +273,16 @@ static void __am_usbd_vcom_init (void) {
  */
 static void __am_usbd_vcom_deinit (void) {
     am_clk_disable(CLK_USB);
-	amhw_zmf159_rcc_ahb2_disable(AMHW_ZMF159_RCC_AHB2_USBFS);
+    amhw_zmf159_rcc_ahb2_disable(AMHW_ZMF159_RCC_AHB2_USBFS);
 }
 
 static const am_usbd_devinfo_t __g_usbd_info = {
-		__g_am_usbd_vcom_descriptor,                                                         /* ÃèÊö·ûµØÖ· */
+        __g_am_usbd_vcom_descriptor,                                                         /* ÃèÊö·ûµØÖ· */
         sizeof(__g_am_usbd_vcom_descriptor) / sizeof(__g_am_usbd_vcom_descriptor[0]),     /* ÃèÊö·û¸öÊý */
 };
 
 /**< \brief ¶¨ÒåUSBÉè±¸ÐÅÏ¢ */
-static const am_zmf159_usbd_devinfo_t  __g_zmf159_usbd_printer_info = {
+static const am_zmf159_usbd_devinfo_t  __g_zmf159_usbd_vcom_info = {
     ZMF159_USB_BASE,                  /**< \brief ¼Ä´æÆ÷»ùµØÖ· */
     INUM_USB_FS,                      /**< \brief ÖÐ¶ÏºÅ */
     __am_usbd_vcom_init,              /**< \brief Æ½Ì¨³õÊ¼»¯ */
@@ -289,13 +290,27 @@ static const am_zmf159_usbd_devinfo_t  __g_zmf159_usbd_printer_info = {
     &__g_usbd_info,
 };
 
+static uint8_t __buffer_out[64] = {0};
+
+const am_usbd_cdc_vcom_info_t __g_usbd_vcom_info = {
+    2,
+    1,
+    3,
+    __buffer_out,
+};
+
 
 am_zmf159_device_t  __g_zmf159_dev;
 
+am_usbd_cdc_vcom_t  __g_vcom_dev;
+
+
 /** \brief usb_printerÊµÀý³õÊ¼»¯£¬»ñµÃusb_printer±ê×¼·þÎñ¾ä±ú */
-am_zmf159_device_t * am_zmf159_usbd_vcom_inst_init (void)
+am_usbd_cdc_vcom_handle am_zmf159_usbd_vcom_inst_init (void)
 {
-    return am_zmf159_usbd_init(&__g_zmf159_dev, &__g_zmf159_usbd_printer_info);
+    return am_usbd_cdc_vcom_init(&__g_vcom_dev,
+                                 &__g_usbd_vcom_info,
+                                  am_zmf159_usbd_init(&__g_zmf159_dev, &__g_zmf159_usbd_vcom_info));
 }
 
 
