@@ -63,12 +63,12 @@
 		<link>
 			<name>startup</name>
 			<type>2</type>
-			<location>D:/workspace/ametal/board/amks16rfid8/project_example/startup</location>
+			<locationURI>PARENT-1-PROJECT_LOC/startup</locationURI>
 		</link>
 		<link>
 			<name>user_code</name>
 			<type>2</type>
-			<location>D:/workspace/ametal/board/amks16rfid8/project_example/user_code</location>
+			<locationURI>PARENT-1-PROJECT_LOC/user_code</locationURI>
 		</link>
 		<link>
 			<name>user_config</name>
