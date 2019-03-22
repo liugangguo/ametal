@@ -51,15 +51,21 @@
  */
 void demo_aml166_core_zml166_adc_thermocouple_measure (void)
 {
-
+    int   i  = 0;
     float para[16];
-    am_zml166_adc_handle_t  handle      = am_zml166_adc_inst_init();
+    am_zml166_adc_handle_t  handle = am_zml166_adc_inst_init();
 
     /* 热电偶计算以及电压校准参数初始化 */
     am_thermocouplie_init();
     am_zlg_flash_init(ZLG116_FLASH);
     memcpy((void *)para, (uint32_t *)((FLASH_BLOCK_NUM * 1024)), 4 * 16);
 
+    if(!(para[0] < 1.1 && para[0] > 0.9)){
+        for(i = 0; i < 8; i++){
+            para[2 * i + 0] = 1;
+            para[2 * i + 1] = 0;
+        }
+    }
     dome_zml166_adc_thermocouple_measure_entry((void *)handle,
                                                        para,
                                                        AM_THERMOCOUPLIE_K);

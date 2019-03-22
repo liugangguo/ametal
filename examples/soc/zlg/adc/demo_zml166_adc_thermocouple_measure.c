@@ -48,7 +48,7 @@ void dome_zml166_adc_thermocouple_measure_entry(void                   *p_handle
     int32_t  adc_val[1];
     double   temp;
 
-    am_adc_handle_t     adc_handle  = &handle->adc_serve;
+    am_adc_handle_t  adc_handle  = &handle->adc_serve;
 
     while(1){
         double    temperature, v1;

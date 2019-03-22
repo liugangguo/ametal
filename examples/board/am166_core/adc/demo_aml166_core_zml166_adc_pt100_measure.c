@@ -53,8 +53,12 @@ void demo_aml166_core_zml166_adc_pt100_measure (void)
     am_zlg_flash_init(ZLG116_FLASH);
     memcpy((void *)para, (uint32_t *)PT100_PARA_SAVE_ADDRESS, 4 * 2);
     /* 若flash中未保存系数 */
-    if(para[0] > 1.1 || para[0] < 0.9) para[0] = 1;
-    if(para[0] > 0.15 || para[0] < -0.15)para[0] = 0;
+    if(!(para[0] < 1.1 && para[0] > 0.9)){
+        para[0] = 1;
+    }
+    if(!(para[1] < 0.15 && para[1] > -0.15)){
+        para[1] = 0;
+    }
     demo_zml166_adc_pt100_measure_entry((void *)handle, para);
 }
 
