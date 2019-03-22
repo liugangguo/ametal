@@ -430,8 +430,6 @@ static am_usb_status_t __zmf159_usbd_control(am_usbd_handle_t         handle,
     }
 
     return error;
-
-    return AM_USB_STATUS_SUCCESS;
 }
 
 /* the controlor interface function */
@@ -529,7 +527,7 @@ static void __data_stage_in(am_zmf159_device_t *p_dev)
     }
 
     if (p_dev->isa.setup_data.bm_request_type & AM_USB_REQ_TYPE_TYPE_CLASS) {
-        am_kprintf("AM_USB_REQ_TYPE_TYPE_CLASS\r\n");
+//        am_kprintf("AM_USB_REQ_TYPE_TYPE_CLASS\r\n");
         DataBuffer = (*pEPinfo->CopyData)(p_dev->isa.class_req.p_arg, Length);
 
     } else {
@@ -699,9 +697,9 @@ static void __nodata_setup0(am_zmf159_device_t *p_dev)
 
     // 类请求
     if (Result != AM_USB_STATUS_SUCCESS) {
-        am_kprintf("class :req :0x%x", p_dev->isa.setup_data.bm_request_type);
+//        am_kprintf("class :req :0x%x", p_dev->isa.setup_data.bm_request_type);
 
-        am_kprintf("-----------------class nodata req :%x ----------------\r\n", RequestNo);
+//        am_kprintf("-----------------class nodata req :%x ----------------\r\n", RequestNo);
 
         Result = p_dev->isa.class_req.pfn_class(p_dev->isa.class_req.p_arg, RequestNo);
 
@@ -914,7 +912,7 @@ void __data_setup0(am_zmf159_device_t *p_dev)
   if (AM_BIT_ISSET(p_dev->isa.setup_data.bm_request_type, 7)) // in
   {
     /* Device ==> Host */
-      am_kprintf("Device ==> Host\r\n");
+//      am_kprintf("Device ==> Host\r\n");
     __IO uint32_t wLength = p_dev->isa.setup_data.w_length;
 
     /* Restrict the data length to be the one host asks */
@@ -938,7 +936,7 @@ void __data_setup0(am_zmf159_device_t *p_dev)
     p_dev->isa.ctrl_info.PacketSize = p_dev->max_packsizee;
     __data_stage_in(p_dev);
   } else {
-      am_kprintf("Host ==> Device\r\n");
+//      am_kprintf("Host ==> Device\r\n");
       p_dev->isa.ctrl_info.Usb_wLength = p_dev->isa.setup_data.w_length;//
       p_dev->state = OUT_DATA;
   }
@@ -1138,7 +1136,7 @@ static am_err_t __init_ep_info (am_zmf159_device_t *p_dev)
         tmp    +=   offset;
 
         /* 如果是端点描述符*/
-        if ((*(p_tmp + 1) == AM_USB_DESC_TYPE_ENDPOINT) && (*p_tmp = AM_USB_DESC_LENGTH_ENDPOINT)) {
+        if ((*(p_tmp + 1) == AM_USB_DESC_TYPE_ENDPOINT) && (*p_tmp == AM_USB_DESC_LENGTH_ENDPOINT)) {
             p_desc_ep = (am_usb_descriptor_endpoint_t *)p_tmp;
             // 获取端点号
             ep_num = (p_desc_ep->b_endpoint_address & AM_USB_DESC_ENDPOINT_ADDR_NUMBER_MASK);

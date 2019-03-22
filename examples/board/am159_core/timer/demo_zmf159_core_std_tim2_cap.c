@@ -56,18 +56,6 @@ void demo_zmf159_core_std_tim2_cap_entry (void)
 
     AM_DBG_INFO("demo zmf159_core std tim2 cap!\r\n");
 
-
-
-    am_gpio_pin_cfg(0, AM_GPIO_PUSH_PULL | AM_GPIO_OUTPUT_INIT_HIGH);
-    am_gpio_pin_cfg(1, AM_GPIO_PUSH_PULL | AM_GPIO_OUTPUT_INIT_HIGH);
-    am_gpio_pin_cfg(2, AM_GPIO_PUSH_PULL | AM_GPIO_OUTPUT_INIT_HIGH);
-    am_gpio_pin_cfg(3, AM_GPIO_PUSH_PULL | AM_GPIO_OUTPUT_INIT_HIGH);
-
-    am_gpio_set(0, 0);
-    am_gpio_set(1, 0);
-    am_gpio_set(2, 0);
-    am_gpio_set(3, 0);
-    while(1);
     /* TIM3 输出频率为 2KHz 的 PWM */
     am_pwm_config(pwm_handle, 0, 500000 / 2, 500000);
     am_pwm_enable(pwm_handle, 0);

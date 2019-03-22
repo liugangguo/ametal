@@ -109,7 +109,7 @@ am_can_handle_t am_zmf159_can_init (am_zmf159_can_dev_t           *p_dev,
  *
  * \return нч
  */
-void am_zmf159_can_deinit (am_zmf159_can_dev_t *p_dev);
+void am_zmf159_can_deinit (am_can_handle_t handle);
 
 /**
  * @} am_s32k14x_if_can

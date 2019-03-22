@@ -16,7 +16,7 @@
  * \brief USB printer_counter 例程
  *
  * - 实验现象：
- * 1.将USB 电缆的 DN 接AM227_core 板 的引脚PA11, DP接core 板PA12， 将USB的另端点接入PC机。
+ * 1.将USB的另端点接入PC机。
  * 2.给板子烧录该例程，等待3秒(程序中有3秒延时，为了模拟USB拔出过程)，3秒后pc机会提示安装驱动，
  *   这里默认安装windows 通用打印机驱动，详细可看驱动安装说明文档，如果用户想要用自己的驱动，可以自行更新。
  * 3.在电脑桌面新建一个txt文件，输入字符串,之后点击文件打印，即在串口中可以看到文件内容，最后会显示该次传输数据量
@@ -47,7 +47,7 @@
 #include "am_zmf159_usbd.h"
 #include "am_usbd_printer.h"
 #include "am_zmf159_inst_init.h"
-#include "demo_am159_core_entries.h"
+#include "demo_zmf159_core_entries.h"
 
 #define __RNG_BUFF_SIZE    1024                      /**< \brief 缓冲区大小. */
 

@@ -113,6 +113,10 @@ int am_main (void)
 //    demo_zmf159_core_miniport_key_digitron_entry();         
 //    demo_zmf159_core_miniport_led_entry();
 //    demo_zmf159_core_miniport_zlg72128_entry();
+//    demo_zmf159_usbd_printer_entry();
+//    demo_zmf159_usbd_printer_counter_entry();
+//    demo_zmf159_usbd_vcom_entry();
+
     while (1) {
     }
 }

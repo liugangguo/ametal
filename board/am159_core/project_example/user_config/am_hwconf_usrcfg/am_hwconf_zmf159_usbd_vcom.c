@@ -293,7 +293,7 @@ am_zmf159_device_t  __g_zmf159_dev;
 am_usbd_cdc_vcom_t  __g_vcom_dev;
 
 
-/** \brief usb_printer实例初始化，获得usb_printer标准服务句柄 */
+/** \brief usb_vcom实例初始化，获得usb_vcom标准服务句柄 */
 am_usbd_cdc_vcom_handle am_zmf159_usbd_vcom_inst_init (void)
 {
     return am_usbd_cdc_vcom_init(&__g_vcom_dev,

@@ -1332,9 +1332,10 @@ am_can_handle_t am_zmf159_can_init (am_zmf159_can_dev_t           *p_dev,
 /**
  * \brief ½â³õÊ¼»¯
  */
-void am_zmf159_can_deinit (am_zmf159_can_dev_t *p_dev)
+void am_zmf159_can_deinit (am_can_handle_t handle)
 {
     amhw_zmf159_can_t *p_hw_can = NULL;
+    am_zmf159_can_dev_t  *p_dev = (am_zmf159_can_dev_t *)handle->p_drv;
 
     if (NULL == p_dev) {
         return;

@@ -33,6 +33,7 @@ extern "C" {
 
 #include "ametal.h"
 #include "am_adc.h"
+#include "am_can.h"
 #include "am_crc.h"
 #include "am_i2c.h"
 #include "am_i2c_slv.h"
@@ -60,6 +61,10 @@ extern "C" {
 #include "am_zlg_tim_cap.h"
 #include "amhw_zlg217_rtc.h"
 #include "am_zmf159_pwr.h"
+
+#include "am_usbd_cdc_vcom.h"
+#include "am_usbd_printer.h"
+
 //#include "am_hwconf_key_gpio.h"
 //#include "am_hwconf_buzzer_pwm.h"
 //#include "am_hwconf_debug_uart.h"
@@ -1059,6 +1064,13 @@ am_zmf159_pwr_handle_t am_zmf159_pwr_inst_init (void);
 /** \brief 实例初始化函数 */
 am_temp_handle_t am_temp_lm75_inst_init (void);
 
+/** \brief usb_printer实例初始化，获得usb_printer标准服务句柄 */
+am_usbd_printer_handle am_zmf159_usbd_printer_inst_init (void);
+
+/** \brief usb_vcom实例初始化，获得usb_vcom标准服务句柄 */
+am_usbd_cdc_vcom_handle am_zmf159_usbd_vcom_inst_init (void);
+/** \brief usb_vcom实例初始化，获得can标准服务句柄 */
+am_can_handle_t am_zmf159_can_inst_init (void);
 /**
  * @}
  */

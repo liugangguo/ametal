@@ -85,7 +85,7 @@ __Vectors       DCD     __initial_sp              ; Top of Stack
                 DCD     am_exc_eint_handler       ;16 - DMA1 Channel 6
                 DCD     am_exc_eint_handler       ;17 - DMA1 Channel 7
                 DCD     am_exc_eint_handler       ;18 - ADC1_2
-                DCD     am_exc_eint_handler       ;19 - USB
+                DCD     am_exc_eint_handler       ;19 - FlashCache
                 DCD     0                         ;20 - Reserve
                 DCD     am_exc_eint_handler       ;21 - CAN1 RX1
                 DCD     0                         ;22 - Reserve
@@ -109,10 +109,47 @@ __Vectors       DCD     __initial_sp              ; Top of Stack
                 DCD     am_exc_eint_handler       ;40 - EXTI Line 15..10
                 DCD     am_exc_eint_handler       ;41 - RTC Alarm through EXTI Line 17
                 DCD     am_exc_eint_handler       ;42 - USB Wakeup from suspend
-                DCD     0                         ;43 - Reserve
-                DCD     0                         ;44 - Reserve
-                DCD     am_exc_eint_handler       ;45 - AES
- 
+				DCD     am_exc_eint_handler      ;43 - TIM8_BRK 
+                DCD     am_exc_eint_handler      ;44 - TIM8_UP 
+                DCD     am_exc_eint_handler      ;45 - TIM8_TRG_COM 
+                DCD     am_exc_eint_handler      ;46 - TIM8_CC 
+                DCD     0                        ; 47 - Reserve 
+                DCD     0                        ; 48 - Reserve 
+                DCD     am_exc_eint_handler      ; 49 - SDIO 
+                DCD     am_exc_eint_handler      ; 50 - TIM5 
+                DCD     am_exc_eint_handler      ; 51 - SPI3 
+                DCD     am_exc_eint_handler      ; 52 - UART4 
+                DCD     am_exc_eint_handler      ; 53 - UART5 
+                DCD     am_exc_eint_handler      ; 54 - TIM6 
+                DCD     am_exc_eint_handler      ; 55 - TIM7 
+                DCD     am_exc_eint_handler      ; 56 - DMA2通道1 
+                DCD     am_exc_eint_handler      ; 57 - DMA2通道2 
+                DCD     am_exc_eint_handler      ; 58 - DMA2通道3 
+                DCD     am_exc_eint_handler      ; 59 - DMA2通道4 
+                DCD     am_exc_eint_handler      ; 60 - DMA2通道5 
+                DCD     0
+				DCD 	0
+                DCD 	0                  
+                DCD     am_exc_eint_handler      ; 64 - COMP1_2 
+				DCD 	0  
+				DCD 	0 
+				DCD     am_exc_eint_handler      ; 67 - USB_FS 
+				DCD 	0 
+				DCD 	0 
+				DCD 	0 
+                DCD		am_exc_eint_handler      ; 71 - UART6 	
+				DCD 	0 
+				DCD 	0 
+				DCD 	0
+				DCD 	0 
+				DCD 	0 
+				DCD 	0 
+				DCD 	0 
+				DCD 	0 
+				DCD 	0 
+                DCD     0
+                DCD     am_exc_eint_handler      ; /* 82 - UART7 */
+                DCD     am_exc_eint_handler      ; /* 83 - UART8 */	
                 AREA    |.text|, CODE, READONLY
 
 ; Reset Handler
