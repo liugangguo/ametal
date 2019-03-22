@@ -27,7 +27,7 @@ static uint8_t __interface_get(uint8_t interface, uint8_t alt)
 }
 
 
-/* ep init */
+/* the device endpoint init */
 static am_usb_status_t __ep_init(am_zmf159_device_t       *p_dev,
                                  am_usbd_endpoint_init_t  *epinit)
 {
@@ -96,7 +96,7 @@ static am_usb_status_t __ep_init(am_zmf159_device_t       *p_dev,
     return AM_USB_STATUS_SUCCESS;
 }
 
-
+/* the device init */
 static am_usb_status_t __zmf159_init(void *p_arg)
 {
     uint8_t i = 0;
@@ -143,7 +143,7 @@ static am_usb_status_t __zmf159_init(void *p_arg)
     return AM_USB_STATUS_SUCCESS;
 }
 
-
+/* usbd deinit */
 static am_usb_status_t __zmf159_deinit(void *p_arg)
 {
     am_zmf159_device_t *p_dev  = (am_zmf159_device_t *)p_arg;
@@ -204,7 +204,7 @@ static void __zmf159_reset(void *p_arg)
     amhw_zmf159_addr_set(ZMF159_USB, 0);
 }
 
-/* send function */
+/* usbd send data function */
 static am_usb_status_t __zmf159_usbd_send(void *p_arg, uint8_t ep, uint8_t *p_buf, uint32_t length)
 {
     uint32_t i;
@@ -296,6 +296,8 @@ static am_usb_status_t __zmf159_usbd_cancel (am_usbd_handle_t handle,
     return AM_USB_STATUS_ERROR;
 }
 
+
+/* usbd ctrl */
 static am_usb_status_t __zmf159_usbd_control(am_usbd_handle_t         handle,
                                             am_usbd_control_type_t    type,
                                             void                     *param)
@@ -432,7 +434,7 @@ static am_usb_status_t __zmf159_usbd_control(am_usbd_handle_t         handle,
     return AM_USB_STATUS_SUCCESS;
 }
 
-
+/* the controlor interface function */
 static const am_usbd_interface_t __g_usb_device_interface = {
     __zmf159_init,
     __zmf159_deinit,
@@ -444,14 +446,8 @@ static const am_usbd_interface_t __g_usb_device_interface = {
 
 
 
-/*******************************************************************************
-* Function Name  : DataStageOut.
-* Description    : Data stage of a Control Write Transfer.
-* Input          : None.
-* Output         : None.
-* Return         : None.
-*******************************************************************************/
 
+/* data output state */
 static void __data_stage_out(am_zmf159_device_t *p_dev)
 {
     uint8_t   *Buffer       = NULL;
@@ -469,7 +465,7 @@ static void __data_stage_out(am_zmf159_device_t *p_dev)
         }
 
         if (p_dev->isa.setup_data.bm_request_type & AM_USB_REQ_TYPE_TYPE_CLASS) {
-            am_kprintf("AM_USB_REQ_TYPE_TYPE_CLASS\r\n");
+//            am_kprintf("AM_USB_REQ_TYPE_TYPE_CLASS\r\n");
             Buffer = (*pEPinfo->CopyData)(p_dev->isa.class_req.p_arg, Length);
         } else {
             Buffer = (*pEPinfo->CopyData)(&(p_dev->isa), Length);
@@ -499,13 +495,7 @@ static void __data_stage_out(am_zmf159_device_t *p_dev)
     }
 }
 
-/*******************************************************************************
-* Function Name  : DataStageIn.
-* Description    : Data stage of a Control Read Transfer.
-* Input          : None.
-* Output         : None.
-* Return         : None.
-*******************************************************************************/
+/* data entry state */
 static void __data_stage_in(am_zmf159_device_t *p_dev)
 {
     am_data_info_t *pEPinfo = &p_dev->isa.ctrl_info;
@@ -555,7 +545,7 @@ Expect_Status_Out:
   p_dev->state = ControlState;
 }
 
-/* nodata setup */
+/* the device hans nodata setup */
 static void __nodata_setup0(am_zmf159_device_t *p_dev)
 {
     uint8_t Result = AM_USB_STATUS_NOT_SUPPORTED;
@@ -709,7 +699,9 @@ static void __nodata_setup0(am_zmf159_device_t *p_dev)
 
     // 类请求
     if (Result != AM_USB_STATUS_SUCCESS) {
-//        am_kprintf("-----------------class nodata req :%x ----------------\r\n", RequestNo);
+        am_kprintf("class :req :0x%x", p_dev->isa.setup_data.bm_request_type);
+
+        am_kprintf("-----------------class nodata req :%x ----------------\r\n", RequestNo);
 
         Result = p_dev->isa.class_req.pfn_class(p_dev->isa.class_req.p_arg, RequestNo);
 
@@ -734,13 +726,7 @@ exit_NoData_Setup0:
     return;
 }
 
-/*******************************************************************************
-* Function Name  : Data_Setup0.
-* Description    : Proceed the processing of setup request with data stage.
-* Input          : None.
-* Output         : None.
-* Return         : None.
-*******************************************************************************/
+/* the device has data stages */
 void __data_setup0(am_zmf159_device_t *p_dev)
 {
     uint8_t *(*CopyRoutine)(void *p_arg, uint16_t);
@@ -927,8 +913,8 @@ void __data_setup0(am_zmf159_device_t *p_dev)
 
   if (AM_BIT_ISSET(p_dev->isa.setup_data.bm_request_type, 7)) // in
   {
-//    /* Device ==> Host */
-//      am_kprintf("Device ==> Host\r\n");
+    /* Device ==> Host */
+      am_kprintf("Device ==> Host\r\n");
     __IO uint32_t wLength = p_dev->isa.setup_data.w_length;
 
     /* Restrict the data length to be the one host asks */
@@ -960,13 +946,7 @@ void __data_setup0(am_zmf159_device_t *p_dev)
   return;
 }
 
-/*******************************************************************************
-* Function Name  : Setup0_Process
-* Description    : Get the device request data and dispatch to individual process.
-* Input          : None.
-* Output         : None.
-* Return         : Post0_Process.
-*******************************************************************************/
+/* setup token packets interrupt processing function*/
 static void __setup0_process(am_zmf159_device_t *p_dev)
 {
     if (p_dev->state != PAUSE) {
@@ -981,13 +961,7 @@ static void __setup0_process(am_zmf159_device_t *p_dev)
     }
 }
 
-/*******************************************************************************
-* Function Name  : In0_Process
-* Description    : Process the IN token on all default endpoint.
-* Input          : None.
-* Output         : None.
-* Return         : Post0_Process.
-*******************************************************************************/
+/* input token packets interrupt processing function*/
 static void __in0_process(am_zmf159_device_t *p_dev)
 {
     uint32_t ControlState = p_dev->state;
@@ -1007,16 +981,9 @@ static void __in0_process(am_zmf159_device_t *p_dev)
     }
 
     p_dev->state = ControlState;
-
 }
 
-/*******************************************************************************
-* Function Name  : Out0_Process
-* Description    : Process the OUT token on all default endpoint.
-* Input          : None.
-* Output         : None.
-* Return         : Post0_Process.
-*******************************************************************************/
+/* output token packets interrupt processing function */
 static void __out0_process(am_zmf159_device_t *p_dev)
 {
     uint32_t ControlState = p_dev->state;
@@ -1040,14 +1007,7 @@ static void __out0_process(am_zmf159_device_t *p_dev)
 }
 
 
-/*******************************************************************************
-* Function Name  : __token_isr.
-* Description    : Low priority Endpoint Correct Transfer interrupt's service
-*                  routine.
-* Input          : None.
-* Output         : None.
-* Return         : None.
-*******************************************************************************/
+/* token interrupt function */
 static void __token_isr(am_zmf159_device_t *p_dev)
 {
     uint32_t wEpIntSta = 0,wEpxIntSta = 0;
@@ -1074,19 +1034,19 @@ static void __token_isr(am_zmf159_device_t *p_dev)
         if(wEpxIntSta == 0x0D) {//setup
             amhw_zmf159_ctrl_reset(ZMF159_USB, ZMF159_USB_TXD_SUSPEND_TOKBSY);
             p_dev->ep_indata_num[0] = 1;
-            am_kprintf("setup \r\n");
+//            am_kprintf("setup \r\n");
             __setup0_process(p_dev);
             return;
         }
 
         if(wEpxIntSta == 0x01) {//|EPn_INT_STATE_OUTNACK
-            am_kprintf("OUTNACK \r\n");
+//            am_kprintf("OUTNACK \r\n");
             __out0_process(p_dev);
             return;
         }
 
         if(wEpxIntSta == 0x9) {//|EPn_INT_STATE_ACK
-            am_kprintf("INACK \r\n");
+//            am_kprintf("INACK \r\n");
             __in0_process(p_dev);
             return;
         }
@@ -1109,13 +1069,7 @@ static void __token_isr(am_zmf159_device_t *p_dev)
     }/* if(EPindex != 0)*/
 }
 
-/*******************************************************************************
-* Function Name  : USB_Istr.
-* Description    : ISTR events interrupt service routine.
-* Input          : None.
-* Output         : None.
-* Return         : None.
-*******************************************************************************/
+/* 中断回调函数*/
 static void __zmf159_usbd_istr(void *p_arg)
 {
     __IO uint16_t wIstr = 0;
@@ -1128,8 +1082,8 @@ static void __zmf159_usbd_istr(void *p_arg)
     }
 
     if(wIstr & ZMF159_USB_INT_STAT_TOK_DNE) {
-        am_kprintf("token \r\n");
-        __token_isr(p_dev);   //在子程序中清除中断标志
+//        am_kprintf("token \r\n");
+        __token_isr(p_dev);
     }
 } /* USB_Istr */
 
@@ -1207,9 +1161,9 @@ am_usbd_dev_t *am_zmf159_usbd_init(am_zmf159_device_t              *p_dev,
     uint8_t i = 0;
     p_dev->isa.ctrl_handle = p_dev;
 
-    p_dev->p_info = p_info;
+    p_dev->p_info          = p_info;
 
-    p_dev->isa.p_info = p_info->p_devinfo;
+    p_dev->isa.p_info      = p_info->p_devinfo;
 
     p_dev->state = 2;
     p_dev->isa.p_interface = &__g_usb_device_interface;
@@ -1220,7 +1174,7 @@ am_usbd_dev_t *am_zmf159_usbd_init(am_zmf159_device_t              *p_dev,
     p_dev->ep_num     = EP_NUM;
     p_dev->config_num = 1;
 
-    p_dev->rx_buf   = NULL;
+    p_dev->rx_buf        = NULL;
     p_dev->max_packsizee = 0x40; // 64
 
     /**< \brief 设置端点0的默认配置 */
@@ -1254,5 +1208,12 @@ am_usbd_dev_t *am_zmf159_usbd_init(am_zmf159_device_t              *p_dev,
     am_int_enable(p_dev->p_info->inum);
 
     return &(p_dev->isa);
+}
+
+void am_zmf159_usbd_deinit( const am_zmf159_usbd_devinfo_t  *p_info)
+{
+	if (p_info->pfn_plfm_deinit != NULL) {
+		p_info->pfn_plfm_deinit();
+	}
 }
 

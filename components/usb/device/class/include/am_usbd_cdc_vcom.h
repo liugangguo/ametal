@@ -47,9 +47,9 @@
 /* Currently configured line coding */
 #define AM_USBD_CDC_VCOM_LINE_CODING_SIZE             (0x07U)
 
-#define AM_USBD_CDC_VCOM_LINE_CODING_DTERATE          (9600) /**< \brief [D0:D3], data terminal rate*/
+#define AM_USBD_CDC_VCOM_LINE_CODING_DTERATE          (9600)
 
-#define AM_USBD_CDC_VCOM_LINE_CODING_CHARFORMAT_1     (0x00U)   /**< \brief [D4], stop bit*/
+#define AM_USBD_CDC_VCOM_LINE_CODING_CHARFORMAT_1     (0x00U)
 #define AM_USBD_CDC_VCOM_LINE_CODING_CHARFORMAT_1_5   (0x01U)
 #define AM_USBD_CDC_VCOM_LINE_CODING_CHARFORMAT_2     (0x02U)
 
@@ -82,10 +82,10 @@
 #define AM_USBD_CDC_VCOM_LINE_STATE_DTR_NO_PRESENT    (0x00)
 
 typedef struct line_coding {
-  uint32_t bitrate;
-  uint8_t format;
-  uint8_t paritytype;
-  uint8_t datatype;
+  uint32_t bitrate;     /**< \brief baud rate     */
+  uint8_t  format;      /**< \brief stop bits-1   */
+  uint8_t  paritytype;  /**< \brief parity - none */
+  uint8_t  datatype;    /**< \brief data bit      */
 }line_coding_t;
 
 /*******************************************************************************
@@ -98,19 +98,18 @@ extern "C" {
 
 
 // 接收回调函数类型
-typedef void (*am_cdc_vcom_recv_cb_t)(void *p_arg, uint8_t *p_buf, uint8_t len);
+typedef void (*pfn_cdc_vcom_recv_cb_t)(void *p_arg, uint8_t *p_buf, uint8_t len);
 
-typedef void (*am_cdc_vcom_send_cb_t)(void *p_arg);
+typedef void (*pfn_cdc_vcom_send_cb_t)(void *p_arg);
 
 
 /** \brief 打印机信息结构体 */
 typedef struct am_usbd_cdc_vcom_info {
 
     uint8_t interrupt_in_ep;
-
     uint8_t  ep_in;
     uint8_t  ep_out;
-//    uint8_t *p_buf_in;
+
     uint8_t *p_buf_out;
 } am_usbd_cdc_vcom_info_t;
 
@@ -120,11 +119,15 @@ typedef struct am_usbd_cdc_vcom {
     am_usbd_dev_t                 *p_dev;      /**< \brief 保存usb设备类指针*/
     const am_usbd_cdc_vcom_info_t *p_info;     /**< \brief 串口设备信息*/
 
+    line_coding_t                  cfg;
 
+    /* recv cb*/
+    pfn_cdc_vcom_recv_cb_t        pfn_recv_cb;
+    void                         *p_recv_arg;
 
 } am_usbd_cdc_vcom_t;
 
-/*USBD keyboard 通用句柄*/
+
 typedef am_usbd_cdc_vcom_t  *am_usbd_cdc_vcom_handle;
 
 
@@ -149,21 +152,13 @@ am_usbd_cdc_vcom_handle am_usbd_cdc_vcom_init (am_usbd_cdc_vcom_t            *p_
 void am_usbd_cdc_vcom_deinit (am_usbd_cdc_vcom_t *p_dev);
 
 
-am_usb_status_t am_usbd_cdc_vcom_vendor_request_callback(am_usbd_cdc_vcom_handle handle,
-                                                         am_vendor_request_t     pfn_cb,
-                                                         void                   *p_arg);
-
-
-am_usb_status_t am_usbd_cdc_vcom_send(am_usbd_cdc_vcom_handle handle, uint8_t *p_buff, uint8_t len);
+am_usb_status_t am_usbd_cdc_vcom_send(am_usbd_cdc_vcom_handle handle,
+                                      uint8_t                *p_buff,
+									  uint8_t                 len);
 
 // 接收回调函数
 am_usb_status_t am_usbd_cdc_vcom_recv_cb (am_usbd_cdc_vcom_handle     handle,
-		                                  am_cdc_vcom_recv_cb_t       pfn,
-                                          void                       *p_arg);
-
-// 发送回调函数
-am_usb_status_t am_usbd_cdc_vcom_send_cb (am_usbd_cdc_vcom_handle     handle,
-                                          am_cdc_vcom_send_cb_t       pfn,
+		                                  pfn_cdc_vcom_recv_cb_t       pfn,
                                           void                       *p_arg);
 
 

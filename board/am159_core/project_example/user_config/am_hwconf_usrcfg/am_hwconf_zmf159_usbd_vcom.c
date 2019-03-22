@@ -1,16 +1,3 @@
-/******************** (C) COPYRIGHT 2018 MindMotion ********************
-* File Name          : usb_desc.c
-* Version            : V1.0.0
-* Date               : 2018/08/21
-* Description        : Descriptors for Virtual Com Port Demo
-********************************************************************************
-* THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-* WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
-* AS A RESULT, MindMotion SHALL NOT BE HELD LIABLE FOR ANY DIRECT,
-* INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING FROM THE
-* CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE CODING
-* INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-*******************************************************************************/
 
 
 #include "am_usbd.h"
@@ -21,6 +8,7 @@
 #include "am_clk.h"
 #include "hw/amhw_zmf159_rcc.h"
 #include "am_usbd_cdc_vcom.h"
+#include "am_zmf159_inst_init.h"
 
 #define VIRTUAL_COM_PORT_SIZ_DEVICE_DESC        18
 #define VIRTUAL_COM_PORT_SIZ_CONFIG_DESC        67
@@ -198,13 +186,13 @@ static const uint8_t Virtual_Com_Port_StringSerial[VIRTUAL_COM_PORT_SIZ_STRING_S
     AM_USB_DESC_TYPE_STRING,                   /* bDescriptorType */
     
 
-    'M', 0, 
+    'Z', 0,
     'M', 0,
-    '3', 0,
-    '2', 0,
-    '0', 0,
-    '6', 0,
-    '2', 0,
+    'F', 0,
+    '1', 0,
+    '5', 0,
+    '9', 0,
+     0,  0,
   };
 
 
@@ -290,7 +278,7 @@ static const am_zmf159_usbd_devinfo_t  __g_zmf159_usbd_vcom_info = {
     &__g_usbd_info,
 };
 
-static uint8_t __buffer_out[64] = {0};
+static uint8_t __buffer_out[64 + 1] = {0};
 
 const am_usbd_cdc_vcom_info_t __g_usbd_vcom_info = {
     2,
@@ -317,17 +305,10 @@ am_usbd_cdc_vcom_handle am_zmf159_usbd_vcom_inst_init (void)
 /** \brief usb_printer解初始化，获得usb_printer标准服务句柄 */
 void am_zmf159_usbd_vcom_inst_deinit (void)
 {
-//    am_usbd_vcom_deinit(&__g_zmf159_dev);
+	am_usbd_cdc_vcom_deinit(&__g_vcom_dev);
+//	am_zmf159_usbd_deinit(&__g_zmf159_usbd_vcom_info);
 }
 
 
-
-
-
-
-
-
-
-
-
+/* end of file */
 

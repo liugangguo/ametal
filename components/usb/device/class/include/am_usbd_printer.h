@@ -76,7 +76,7 @@ extern "C" {
 
 /** \brief 打印机信息结构体 */
 typedef struct am_usbd_printer_info {
-    const uint8_t   *p_printer_id;      /**< \brief 打印机设备id*/
+    uint8_t         *p_printer_id;      /**< \brief 打印机设备id*/
     uint8_t          p_printer_id_len;  /**< \brief 打印机设备id, 长度*/
     uint8_t         *p_printer_buff;    /**< \brief 打印机数据buff*/
 }am_usbd_printer_info_t;

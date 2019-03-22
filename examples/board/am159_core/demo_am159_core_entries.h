@@ -428,8 +428,22 @@ void demo_std_gpio_entry (int input_pin, int output_pin);
 
 
 /**
- * \brief usb device 打印机 例程
+ * \brief usb device vcom 例程
  */
 void demo_zmf159_usbd_vcom_entry (void);
 
+/**
+ * \brief usb device printer 例程
+ */
+void demo_zmf159_usbd_printer_entry (void);
+
+/**
+ * \brief usb device printer 流量计数 例程
+ */
+void demo_zmf159_usbd_printer_counter_entry (void);
+
+/**
+ * \brief usb device keyboard  例程
+ */
+void demo_zmf159_usbd_keyboard_entry (void);
 /* end of file */
