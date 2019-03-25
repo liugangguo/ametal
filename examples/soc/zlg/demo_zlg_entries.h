@@ -12,7 +12,7 @@
 
 /**
  * \file
- * \brief ZLGç³»åˆ—å¤–è®¾é©±åŠ¨çš„æ‰€æœ‰ä¾‹ç¨‹å‡½æ•°å…¥å£å£°æ˜
+ * \brief ZLGÏµÁĞÍâÉèÇı¶¯µÄËùÓĞÀı³Ìº¯ÊıÈë¿ÚÉùÃ÷
  * \sa    demo_zlg_entries.h
  *
  * \internal
@@ -47,17 +47,17 @@ extern "C" {
 #endif
 
 /**
- * \brief ADC ç¡¬ä»¶å±‚ï¼ˆä½¿ç”¨äº†ä¸­æ–­ï¼‰ä¾‹ç¨‹å…¥å£
+ * \brief ADC Ó²¼ş²ã£¨Ê¹ÓÃÁËÖĞ¶Ï£©Àı³ÌÈë¿Ú
  *
- * \param[in] p_hw_adc  : æŒ‡å‘ ADC å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] int_num   : ä¸­æ–­å·
- * \param[in] chan      : å¼•è„šå¯¹åº”çš„ ADC é€šé“å·
- * \param[in] vref_mv   : ADCå‚è€ƒç”µå‹ï¼Œç”¨ä»¥å°†ADCé‡‡æ ·ç»“æœè½¬æ¢ä¸ºç”µå‹å€¼æ˜¾ç¤º
+ * \param[in] p_hw_adc  : Ö¸Ïò ADC ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] int_num   : ÖĞ¶ÏºÅ
+ * \param[in] chan      : Òı½Å¶ÔÓ¦µÄ ADC Í¨µÀºÅ
+ * \param[in] vref_mv   : ADC²Î¿¼µçÑ¹£¬ÓÃÒÔ½«ADC²ÉÑù½á¹û×ª»»ÎªµçÑ¹ÖµÏÔÊ¾
  *
- * \note ä¸€èˆ¬æƒ…å†µä¸‹ï¼Œåœ¨ä½¿ç”¨æœ¬ demo å‰ï¼Œè¿˜éœ€æ‰“å¼€ ADC æ¨¡å—ç›¸åº”çš„æ—¶é’Ÿï¼Œ
- * é…ç½® ADC é€šé“å¯¹åº”çš„å¼•è„šï¼Œè¿™äº›é…ç½®éƒ½ä¸å…·ä½“èŠ¯ç‰‡ç›¸å…³ã€‚
+ * \note Ò»°ãÇé¿öÏÂ£¬ÔÚÊ¹ÓÃ±¾ demo Ç°£¬»¹Ğè´ò¿ª ADC Ä£¿éÏàÓ¦µÄÊ±ÖÓ£¬
+ * ÅäÖÃ ADC Í¨µÀ¶ÔÓ¦µÄÒı½Å£¬ÕâĞ©ÅäÖÃ¶¼Óë¾ßÌåĞ¾Æ¬Ïà¹Ø¡£
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_adc_int_entry (amhw_zlg_adc_t *p_hw_adc,
                                 int             int_num,
@@ -65,58 +65,67 @@ void demo_zlg_hw_adc_int_entry (amhw_zlg_adc_t *p_hw_adc,
                                 uint32_t        vref_mv);
 
 /**
- * \brief CLK ä¾‹ç¨‹ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief ADC Ó²¼ş²ã£¨DMA£©Àı³ÌÈë¿Ú
  *
- * \param[in] p_clk_id_buf ä¿å­˜æ—¶é’Ÿå·çš„ç¼“å†²åŒº
- * \param[in] buf_lenth    æ—¶é’Ÿå·ç¼“å†²åŒºå¤§å°
+ */
+void demo_zlg_hw_adc_dma_entry (amhw_zlg_adc_t *p_hw_adc,
+                                int            *p_adc_chan,
+                                int             adc_chan_num,
+                                uint8_t         dma_chan);
+
+/**
+ * \brief CLK Àı³Ì£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \return æ— 
+ * \param[in] p_clk_id_buf ±£´æÊ±ÖÓºÅµÄ»º³åÇø
+ * \param[in] buf_lenth    Ê±ÖÓºÅ»º³åÇø´óĞ¡
+ *
+ * \return ÎŞ
  */
 void demo_zlg_hw_clk_entry (am_clk_id_t *p_clk_id_buf, uint8_t buf_lenth);
 
 /**
- * \brief DMA å†…å­˜åˆ°å†…å­˜ä¾‹ç¨‹ï¼Œé€šè¿‡é©±åŠ¨å±‚æ¥å£å®ç°
+ * \brief DMA ÄÚ´æµ½ÄÚ´æÀı³Ì£¬Í¨¹ıÇı¶¯²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] dma_chan DMA é€šé“å·
+ * \param[in] dma_chan DMA Í¨µÀºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_drv_dma_m2m_entry (uint32_t dma_chan);
 
 /**
- * \brief FLASH ä¾‹ç¨‹ï¼Œé€šè¿‡é©±åŠ¨å±‚æ¥å£å®ç°
+ * \brief FLASH Àı³Ì£¬Í¨¹ıÇı¶¯²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_flash æŒ‡å‘ FLASH å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
+ * \param[in] p_hw_flash Ö¸Ïò FLASH ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_drv_flash_entry (amhw_zlg_flash_t *p_hw_flash, uint8_t sector);
 
 /**
- * \brief GPIO ä¾‹ç¨‹ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief GPIO Àı³Ì£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_gpio  æŒ‡å‘ GPIO å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] input_pin  è¾“å…¥å¼•è„šå·
- * \param[in] output_pin è¾“å‡ºå¼•è„šå·
+ * \param[in] p_hw_gpio  Ö¸Ïò GPIO ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] input_pin  ÊäÈëÒı½ÅºÅ
+ * \param[in] output_pin Êä³öÒı½ÅºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_gpio_entry (amhw_zlg_gpio_t *p_hw_gpio,
                              int32_t          input_pin,
                              int32_t          output_pin);
 
 /**
- * \brief GPIO å¼•è„šä¸­æ–­ä¾‹ç¨‹ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief GPIO Òı½ÅÖĞ¶ÏÀı³Ì£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_gpio     æŒ‡å‘ GPIO å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] p_hw_syscfg   æŒ‡å‘ SYSCFG å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] p_hw_exti     æŒ‡å‘ EXTI å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] pin           ä¸­æ–­å¼•è„šå·
- * \param[in] portsource    ä¸­æ–­å¼•è„šç«¯å£
- * \param[in] pinsource     ä¸­æ–­å¼•è„šæº
- * \param[in] exti_line_num å¤–éƒ¨ä¸­æ–­çº¿å·
+ * \param[in] p_hw_gpio     Ö¸Ïò GPIO ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] p_hw_syscfg   Ö¸Ïò SYSCFG ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] p_hw_exti     Ö¸Ïò EXTI ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] pin           ÖĞ¶ÏÒı½ÅºÅ
+ * \param[in] portsource    ÖĞ¶ÏÒı½Å¶Ë¿Ú
+ * \param[in] pinsource     ÖĞ¶ÏÒı½ÅÔ´
+ * \param[in] exti_line_num Íâ²¿ÖĞ¶ÏÏßºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_gpio_trigger_entry (amhw_zlg_gpio_t         *p_hw_gpio,
                                      amhw_zlg_syscfg_t       *p_hw_syscfg,
@@ -127,48 +136,48 @@ void demo_zlg_hw_gpio_trigger_entry (amhw_zlg_gpio_t         *p_hw_gpio,
                                      amhw_zlg_exti_line_num_t exti_line_num);
 
 /**
- * \brief I2C è½®è¯¢æ¨¡å¼ä¸‹æ“ä½œ EEPROM ä¾‹ç¨‹ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief I2C ÂÖÑ¯Ä£Ê½ÏÂ²Ù×÷ EEPROM Àı³Ì£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_i2c æŒ‡å‘ I2C å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] clk_rate I2C æ—¶é’Ÿæºé¢‘ç‡
+ * \param[in] p_hw_i2c Ö¸Ïò I2C ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] clk_rate I2C Ê±ÖÓÔ´ÆµÂÊ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_i2c_master_poll_entry (amhw_zlg_i2c_t *p_hw_i2c,
                                         uint32_t        clk_rate);
 
 /**
- * \brief I2C ä»æœºä¾‹ç¨‹(æ­¤ä¾‹ç¨‹å¯ä»¥ç”¨æ¥æ¨¡æ‹Ÿ EEPROM)ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief I2C ´Ó»úÀı³Ì(´ËÀı³Ì¿ÉÒÔÓÃÀ´Ä£Äâ EEPROM)£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_i2c æŒ‡å‘ I2C å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
+ * \param[in] p_hw_i2c Ö¸Ïò I2C ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_i2c_slave_poll_entry (amhw_zlg_i2c_t *p_hw_i2c);
 
 /**
- * \brief SPI ä¸»æœºä¾‹ç¨‹ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief SPI Ö÷»úÀı³Ì£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_spi æŒ‡å‘ SPI å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] cs_pin   ç‰‡é€‰å¼•è„šå·
- * \param[in] clk_rate SPI æ—¶é’Ÿæºé¢‘ç‡
+ * \param[in] p_hw_spi Ö¸Ïò SPI ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] cs_pin   Æ¬Ñ¡Òı½ÅºÅ
+ * \param[in] clk_rate SPI Ê±ÖÓÔ´ÆµÂÊ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_spi_master_entry (amhw_zlg_spi_t *p_hw_spi,
                                    int32_t         cs_pin,
                                    uint32_t        clk_rate);
 
 /**
- * \brief å®šæ—¶å™¨æ•è·ä¾‹ç¨‹ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief ¶¨Ê±Æ÷²¶»ñÀı³Ì£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_tim æŒ‡å‘å®šæ—¶å™¨å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] type     å®šæ—¶å™¨ç±»å‹
- * \param[in] chan     å®šæ—¶å™¨é€šé“
- * \param[in] clk_rate å®šæ—¶å™¨æ—¶é’Ÿæºé¢‘ç‡
- * \param[in] inum     ä¸­æ–­å·
+ * \param[in] p_hw_tim Ö¸Ïò¶¨Ê±Æ÷ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] type     ¶¨Ê±Æ÷ÀàĞÍ
+ * \param[in] chan     ¶¨Ê±Æ÷Í¨µÀ
+ * \param[in] clk_rate ¶¨Ê±Æ÷Ê±ÖÓÔ´ÆµÂÊ
+ * \param[in] inum     ÖĞ¶ÏºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_tim_cap_entry (amhw_zlg_tim_t      *p_hw_tim,
                                 amhw_zlg_tim_type_t  type,
@@ -177,15 +186,15 @@ void demo_zlg_hw_tim_cap_entry (amhw_zlg_tim_t      *p_hw_tim,
                                 int32_t              inum);
 
 /**
- * \brief å®šæ—¶å™¨é€šé“æ¯”è¾ƒåŒ¹é…å¼•è„šç¿»è½¬ä¾‹ç¨‹ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief ¶¨Ê±Æ÷Í¨µÀ±È½ÏÆ¥ÅäÒı½Å·­×ªÀı³Ì£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_tim æŒ‡å‘å®šæ—¶å™¨å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] type     å®šæ—¶å™¨ç±»å‹
- * \param[in] chan     å®šæ—¶å™¨é€šé“
- * \param[in] clk_rate å®šæ—¶å™¨æ—¶é’Ÿæºé¢‘ç‡
- * \param[in] inum     ä¸­æ–­å·
+ * \param[in] p_hw_tim Ö¸Ïò¶¨Ê±Æ÷ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] type     ¶¨Ê±Æ÷ÀàĞÍ
+ * \param[in] chan     ¶¨Ê±Æ÷Í¨µÀ
+ * \param[in] clk_rate ¶¨Ê±Æ÷Ê±ÖÓÔ´ÆµÂÊ
+ * \param[in] inum     ÖĞ¶ÏºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_tim_cmp_toggle_entry (amhw_zlg_tim_t      *p_hw_tim,
                                        amhw_zlg_tim_type_t  type,
@@ -194,15 +203,15 @@ void demo_zlg_hw_tim_cmp_toggle_entry (amhw_zlg_tim_t      *p_hw_tim,
                                        uint8_t              inum);
 
 /**
- * \brief å®šæ—¶å™¨ PWM è¾“å‡ºä¾‹ç¨‹ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief ¶¨Ê±Æ÷ PWM Êä³öÀı³Ì£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_tim æŒ‡å‘å®šæ—¶å™¨å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] type     å®šæ—¶å™¨ç±»å‹
- * \param[in] chan     å®šæ—¶å™¨é€šé“
- * \param[in] clk_rate å®šæ—¶å™¨æ—¶é’Ÿæºé¢‘ç‡
- * \param[in] inum     ä¸­æ–­å·
+ * \param[in] p_hw_tim Ö¸Ïò¶¨Ê±Æ÷ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] type     ¶¨Ê±Æ÷ÀàĞÍ
+ * \param[in] chan     ¶¨Ê±Æ÷Í¨µÀ
+ * \param[in] clk_rate ¶¨Ê±Æ÷Ê±ÖÓÔ´ÆµÂÊ
+ * \param[in] inum     ÖĞ¶ÏºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_tim_pwm_entry (amhw_zlg_tim_t     *p_hw_tim,
                                 amhw_zlg_tim_type_t type,
@@ -211,14 +220,14 @@ void demo_zlg_hw_tim_pwm_entry (amhw_zlg_tim_t     *p_hw_tim,
                                 int32_t             inum);
 
 /**
- * \brief å®šæ—¶å™¨å¸¦æ­»åŒºæ—¶é—´çš„äº’è¡¥ PWM è¾“å‡ºä¾‹ç¨‹ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief ¶¨Ê±Æ÷´øËÀÇøÊ±¼äµÄ»¥²¹ PWM Êä³öÀı³Ì£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_tim æŒ‡å‘å®šæ—¶å™¨å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] type     å®šæ—¶å™¨ç±»å‹
- * \param[in] chan     å®šæ—¶å™¨é€šé“
- * \param[in] clk_rate å®šæ—¶å™¨æ—¶é’Ÿæºé¢‘ç‡
+ * \param[in] p_hw_tim Ö¸Ïò¶¨Ê±Æ÷ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] type     ¶¨Ê±Æ÷ÀàĞÍ
+ * \param[in] chan     ¶¨Ê±Æ÷Í¨µÀ
+ * \param[in] clk_rate ¶¨Ê±Æ÷Ê±ÖÓÔ´ÆµÂÊ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_tim_pwm_dead_entry (amhw_zlg_tim_t     *p_hw_tim,
                                      amhw_zlg_tim_type_t type,
@@ -226,14 +235,14 @@ void demo_zlg_hw_tim_pwm_dead_entry (amhw_zlg_tim_t     *p_hw_tim,
                                      uint32_t            clk_rate);
 
 /**
- * \brief å®šæ—¶å™¨å®šæ—¶ä¾‹ç¨‹ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief ¶¨Ê±Æ÷¶¨Ê±Àı³Ì£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_tim æŒ‡å‘å®šæ—¶å™¨å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] type     å®šæ—¶å™¨ç±»å‹
- * \param[in] clk_rate å®šæ—¶å™¨æ—¶é’Ÿæºé¢‘ç‡
- * \param[in] inum     ä¸­æ–­å·
+ * \param[in] p_hw_tim Ö¸Ïò¶¨Ê±Æ÷ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] type     ¶¨Ê±Æ÷ÀàĞÍ
+ * \param[in] clk_rate ¶¨Ê±Æ÷Ê±ÖÓÔ´ÆµÂÊ
+ * \param[in] inum     ÖĞ¶ÏºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_tim_timing_entry (amhw_zlg_tim_t     *p_hw_tim,
                                    amhw_zlg_tim_type_t type,
@@ -241,14 +250,14 @@ void demo_zlg_hw_tim_timing_entry (amhw_zlg_tim_t     *p_hw_tim,
                                    int32_t             int_num);
 
 /**
- * \brief UART ä¸­æ–­å‘é€ä¾‹ç¨‹ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief UART ÖĞ¶Ï·¢ËÍÀı³Ì£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_uart æŒ‡å‘ UART å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] clk_rate  UART æ—¶é’Ÿæºé¢‘ç‡
- * \param[in] uart_base UART åŸºåœ°å€
- * \param[in] inum_uart UART ä¸­æ–­å·
+ * \param[in] p_hw_uart Ö¸Ïò UART ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] clk_rate  UART Ê±ÖÓÔ´ÆµÂÊ
+ * \param[in] uart_base UART »ùµØÖ·
+ * \param[in] inum_uart UART ÖĞ¶ÏºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_uart_int_entry (amhw_zlg_uart_t *p_hw_uart, 
                                  uint32_t         clk_rate,
@@ -256,102 +265,102 @@ void demo_zlg_hw_uart_int_entry (amhw_zlg_uart_t *p_hw_uart,
                                  unsigned char    inum_uart);
 
 /**
- * \brief UART è½®è¯¢æ–¹å¼ä¾‹ç¨‹ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief UART ÂÖÑ¯·½Ê½Àı³Ì£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_uart æŒ‡å‘ UART å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] clk_rate  UART æ—¶é’Ÿæºé¢‘ç‡
+ * \param[in] p_hw_uart Ö¸Ïò UART ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] clk_rate  UART Ê±ÖÓÔ´ÆµÂÊ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_uart_polling_entry (amhw_zlg_uart_t *p_hw_uart,
                                      uint32_t         clk_rate);
 
 /**
- * \brief UART DMA æ¥æ”¶ä¾‹ç¨‹ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief UART DMA ½ÓÊÕÀı³Ì£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_uart æŒ‡å‘ UART å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] clk_rate  UART æ—¶é’Ÿæºé¢‘ç‡
- * \param[in] dma_chan  DMA é€šé“å·
+ * \param[in] p_hw_uart Ö¸Ïò UART ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] clk_rate  UART Ê±ÖÓÔ´ÆµÂÊ
+ * \param[in] dma_chan  DMA Í¨µÀºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_uart_rx_dma_entry (amhw_zlg_uart_t *p_hw_uart,
                                     uint32_t         clk_rate,
                                     int32_t          dma_chan);
 
 /**
- * \brief UART DMA å‘é€ä¾‹ç¨‹ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief UART DMA ·¢ËÍÀı³Ì£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_uart æŒ‡å‘ UART å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] clk_rate  UART æ—¶é’Ÿæºé¢‘ç‡
- * \param[in] dma_chan  DMA é€šé“å·
+ * \param[in] p_hw_uart Ö¸Ïò UART ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] clk_rate  UART Ê±ÖÓÔ´ÆµÂÊ
+ * \param[in] dma_chan  DMA Í¨µÀºÅ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_uart_tx_dma_entry (amhw_zlg_uart_t *p_hw_uart,
                                     uint32_t         clk_rate,
                                     int32_t          dma_chan);
                                     
 /**
- * \brief ç¡çœ æ¨¡å¼ä¾‹ç¨‹ï¼Œä½¿ç”¨å®šæ—¶å™¨å‘¨æœŸå”¤é†’ï¼Œé€šè¿‡é©±åŠ¨å±‚æ¥å£å®ç°
+ * \brief Ë¯ÃßÄ£Ê½Àı³Ì£¬Ê¹ÓÃ¶¨Ê±Æ÷ÖÜÆÚ»½ĞÑ£¬Í¨¹ıÇı¶¯²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] timer_handle   å®šæ—¶å™¨æ ‡å‡†æœåŠ¡å¥æŸ„
- * \param[in] timer_clk_rate åœ¨ç³»ç»Ÿæ—¶é’Ÿåˆ‡æ¢ä¸º LSI æ—¶ï¼Œå®šæ—¶å™¨çš„æ—¶é’Ÿé¢‘ç‡
+ * \param[in] timer_handle   ¶¨Ê±Æ÷±ê×¼·şÎñ¾ä±ú
+ * \param[in] timer_clk_rate ÔÚÏµÍ³Ê±ÖÓÇĞ»»Îª LSI Ê±£¬¶¨Ê±Æ÷µÄÊ±ÖÓÆµÂÊ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg116_drv_sleepmode_timer_wake_up_entry (am_timer_handle_t timer_handle,
                                                     uint32_t          timer_clk_rate);
 
 /**
- * \brief ç¡çœ æ¨¡å¼ä¾‹ç¨‹ï¼Œé€šè¿‡é©±åŠ¨å±‚æ¥å£å®ç°
+ * \brief Ë¯ÃßÄ£Ê½Àı³Ì£¬Í¨¹ıÇı¶¯²ã½Ó¿ÚÊµÏÖ
  *
- * \param æ— 
+ * \param ÎŞ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg116_drv_sleepmode_wake_up_entry (void);
 
 /**
- * \brief å¾…æœºæ¨¡å¼ä¾‹ç¨‹ï¼Œé€šè¿‡é©±åŠ¨å±‚æ¥å£å®ç°
+ * \brief ´ı»úÄ£Ê½Àı³Ì£¬Í¨¹ıÇı¶¯²ã½Ó¿ÚÊµÏÖ
  *
- * \param æ— 
+ * \param ÎŞ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg116_drv_standbymode_wake_up_entry (void);
 
 /**
- * \brief åœæœºæ¨¡å¼ä¾‹ç¨‹ï¼Œé€šè¿‡é©±åŠ¨å±‚æ¥å£å®ç°
+ * \brief Í£»úÄ£Ê½Àı³Ì£¬Í¨¹ıÇı¶¯²ã½Ó¿ÚÊµÏÖ
  *
- * \param æ— 
+ * \param ÎŞ
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg116_drv_stopmode_wake_up_entry (void);
 
 /**
- * \brief IWDG ä¾‹ç¨‹ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief IWDG Àı³Ì£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_iwdg    æŒ‡å‘ IWDG å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] time_out_ms  çœ‹é—¨ç‹—è¶…æ—¶æ—¶é—´
- * \param[in] feed_time_ms å–‚ç‹—æ—¶é—´
+ * \param[in] p_hw_iwdg    Ö¸Ïò IWDG ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] time_out_ms  ¿´ÃÅ¹·³¬Ê±Ê±¼ä
+ * \param[in] feed_time_ms Î¹¹·Ê±¼ä
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_iwdg_entry (amhw_zlg_iwdg_t *p_hw_iwdg,
                              uint32_t         time_out_ms,
                              uint32_t         feed_time_ms);
 
 /**
- * \brief WWDG ä¾‹ç¨‹ï¼Œé€šè¿‡ HW å±‚æ¥å£å®ç°
+ * \brief WWDG Àı³Ì£¬Í¨¹ı HW ²ã½Ó¿ÚÊµÏÖ
  *
- * \param[in] p_hw_wwdg    æŒ‡å‘ WWDG å¤–è®¾å¯„å­˜å™¨å—çš„æŒ‡é’ˆ
- * \param[in] clk_rate     WWDG æ—¶é’Ÿæºé¢‘ç‡
- * \param[in] time_out_ms  çœ‹é—¨ç‹—è¶…æ—¶æ—¶é—´
- * \param[in] feed_time_ms å–‚ç‹—æ—¶é—´
+ * \param[in] p_hw_wwdg    Ö¸Ïò WWDG ÍâÉè¼Ä´æÆ÷¿éµÄÖ¸Õë
+ * \param[in] clk_rate     WWDG Ê±ÖÓÔ´ÆµÂÊ
+ * \param[in] time_out_ms  ¿´ÃÅ¹·³¬Ê±Ê±¼ä
+ * \param[in] feed_time_ms Î¹¹·Ê±¼ä
  *
- * \return æ— 
+ * \return ÎŞ
  */
 void demo_zlg_hw_wwdg_entry (amhw_zlg_wwdg_t *p_hw_wwdg,
                              uint32_t         clk_rate,
@@ -360,43 +369,43 @@ void demo_zlg_hw_wwdg_entry (amhw_zlg_wwdg_t *p_hw_wwdg,
 
 
 /**
- * \brief ZML166 ADC pt100æµ‹æ¸©ä¾‹ç¨‹
- * \param[in] handle      ZML166 ADC æœåŠ¡å¥æŸ„
- * \param[in] p_para      PT100ç”µé˜»æ ¡å‡†å‚æ•°
- * \return æ— 
+ * \brief ZML166 ADC pt100²âÎÂÀı³Ì
+ * \param[in] handle      ZML166 ADC ·şÎñ¾ä±ú
+ * \param[in] p_para      PT100µç×èĞ£×¼²ÎÊı
+ * \return ÎŞ
  */
 void demo_zml166_adc_pt100_measure_entry(void                   *p_handle,
                                          float                  *p_para);
 
 
 /**
- * \brief ZML166 ADC æµ‹é‡å›ºå®šç”µå‹ä¾‹ç¨‹
- * \param[in] handle      ZML166 ADC æœåŠ¡å¥æŸ„
- * \param[in] p_para      flash ç”µå‹æ ¡å‡†å‚æ•°
- * \param[in] gpa_index   ZML166 ADCå¢ç›Šå€æ•°è®¾ç½®
- * \return æ— 
+ * \brief ZML166 ADC ²âÁ¿¹Ì¶¨µçÑ¹Àı³Ì
+ * \param[in] handle      ZML166 ADC ·şÎñ¾ä±ú
+ * \param[in] p_para      flash µçÑ¹Ğ£×¼²ÎÊı
+ * \param[in] gpa_index   ZML166 ADCÔöÒæ±¶ÊıÉèÖÃ
+ * \return ÎŞ
  */
 void dome_zml166_adc_vol_measure_entry(void                   *p_handle,
                                        float                  *p_para,
                                        uint8_t                 gpa_index);
 
 /**
- * \brief ZML166 ADC çƒ­ç”µå¶æµ‹æ¸©ä¾‹ç¨‹
- * \param[in] handle      ZML166 ADC æœåŠ¡å¥æŸ„
- * \param[in] p_para      æ ¡å‡†å‚æ•°
- * \param[in] type        çƒ­ç”µå¶ç±»å‹
- * \return æ— 
+ * \brief ZML166 ADC ÈÈµçÅ¼²âÎÂÀı³Ì
+ * \param[in] handle      ZML166 ADC ·şÎñ¾ä±ú
+ * \param[in] p_para      Ğ£×¼²ÎÊı
+ * \param[in] type        ÈÈµçÅ¼ÀàĞÍ
+ * \return ÎŞ
  */
 void dome_zml166_adc_thermocouple_measure_entry(void              *p_handle,
                                                 float             *p_para,
                                                 uint8_t            type);
- 
+
 /**
- * \brief ZML166 ADC ç”µå‹æ ¡å‡†ç¨‹åº
- * \param[in] handle      ZML166 ADC æœåŠ¡å¥æŸ„
- * \param[in] uart_handle ä¸²å£å¥æŸ„
- * \param[out] p_para      æ ¡å‡†å‚æ•°è¾“å‡º
- * \return æ— 
+ * \brief ZML166 ADC µçÑ¹Ğ£×¼³ÌĞò
+ * \param[in] handle      ZML166 ADC ·şÎñ¾ä±ú
+ * \param[in] uart_handle ´®¿Ú¾ä±ú
+ * \param[out] p_para      Ğ£×¼²ÎÊıÊä³ö
+ * \return ÎŞ
  */
 void demo_zml166_adc_vol_para_adjuet_entry(void                   *p_handle,
                                            am_uart_handle_t        uart_handle,

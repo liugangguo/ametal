@@ -44,7 +44,7 @@ void dome_zml166_adc_thermocouple_measure_entry(void                   *p_handle
                                                 float                  *p_para,
                                                 uint8_t                 type)
 {
-    am_zml166_adc_handle_t handle = p_handle;
+    am_zml166_adc_handle_t  handle = (am_zml166_adc_handle_t)p_handle;
     int32_t  adc_val[1];
     double   temp;
 

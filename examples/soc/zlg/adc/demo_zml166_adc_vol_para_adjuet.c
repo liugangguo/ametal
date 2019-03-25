@@ -155,7 +155,7 @@ void am_zml166_adc_adjust_entry(void                    *p_handle,
                                 am_uart_handle_t         uart_handle,
                                 float                   *p_para)
 {
-    am_zml166_adc_handle_t handle = p_handle;
+    am_zml166_adc_handle_t  handle = (am_zml166_adc_handle_t)p_handle;
     int     i, j;
     char    uart_data[20] ;
     int32_t val         = 0;

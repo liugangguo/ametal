@@ -44,7 +44,8 @@ void dome_zml166_adc_vol_measure_entry(void                   *p_handle,
                                        float                  *p_para,
                                        uint8_t                 gpa_index)
 {
-    am_zml166_adc_handle_t handle = p_handle;
+    am_zml166_adc_handle_t  handle = (am_zml166_adc_handle_t)p_handle;
+    
     am_zml166_adc_gain_set(handle, 1 << gpa_index);
 
     am_zml166_adc_mux_set(handle, AM_ZML166_ADC_INPS_AIN3 | AM_ZML166_ADC_INNS_AIN2);

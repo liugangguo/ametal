@@ -43,7 +43,9 @@
 #include "hw/amhw_lpc_fmc.h"
 #include "hw/amhw_lpc82x_gpio.h"
 #include "hw/amhw_lpc82x_pmu.h"
-#include "hw/amhw_lpc84x_adc.h"
+//#include "hw/amhw_lpc84x_gpio.h"
+//#include "hw/amhw_lpc84x_dac.h"
+//#include "hw/amhw_lpc84x_adc.h"
 #ifdef __cplusplus
 extern "C" {
 #endif

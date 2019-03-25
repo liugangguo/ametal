@@ -603,7 +603,7 @@ static int __i2c_mst_sm_event (am_zlg_i2c_dev_t *p_dev, uint32_t event)
                 }
 
                 p_dev->is_complete = AM_TRUE;
-
+                amhw_zlg_i2c_con_set(p_hw_i2c, 1 << 9); /* 产生一个停止信号 */
                 __I2C_NEXT_STATE(__I2C_ST_IDLE,
                                  __I2C_EVT_NONE);
 
@@ -719,6 +719,7 @@ static int __i2c_mst_sm_event (am_zlg_i2c_dev_t *p_dev, uint32_t event)
                 /* 下一步是接收数据 */
                 __I2C_NEXT_STATE(__I2C_ST_M_RECV_DATA, __I2C_EVT_NONE);
                 if (p_cur_trans->nbytes <= 1) {
+
                     amhw_zlg_i2c_dat_write(p_hw_i2c, 0x0300);
                 } else {
                     amhw_zlg_i2c_dat_write(p_hw_i2c, 0x0100);
@@ -757,6 +758,7 @@ static int __i2c_mst_sm_event (am_zlg_i2c_dev_t *p_dev, uint32_t event)
                     amhw_zlg_i2c_intr_mask_set(p_hw_i2c,
                                                AMHW_ZLG_INT_FLAG_RX_FULL);
                 } else if (p_dev->data_ptr == (p_cur_trans->nbytes - 1)) {
+
                     amhw_zlg_i2c_dat_write(p_hw_i2c, 0x0300);
                     amhw_zlg_i2c_intr_mask_set(p_hw_i2c,
                                                AMHW_ZLG_INT_FLAG_RX_FULL);
@@ -798,6 +800,7 @@ static int __i2c_mst_sm_event (am_zlg_i2c_dev_t *p_dev, uint32_t event)
 
                 if ((p_dev->data_ptr == (p_cur_trans->nbytes - 1)) &&
                      p_dev->trans_state) {
+
                     amhw_zlg_i2c_dat_write(p_hw_i2c,
                                (p_cur_trans->p_buf)[p_dev->data_ptr++] | 0x200);
                 } else {
