@@ -363,10 +363,9 @@ static void __i2c_slv_timing_callback (void *p_arg)
 {
 	am_fsl_i2c_slv_dev_t *p_dev         = ( am_fsl_i2c_slv_dev_t *) p_arg;
     amhw_fsl_i2c_t       *p_hw_i2c_slv  = (amhw_fsl_i2c_t *)p_dev->p_devinfo->i2c_regbase;
-	uint8_t               data = 0;
 
 	amhw_fsl_i2c_transmode_set (p_hw_i2c_slv , AMHW_FSL_I2C_TRANSMODE_RECV);
-	data = amhw_fsl_i2c_data_read(p_hw_i2c_slv);
+	amhw_fsl_i2c_data_read(p_hw_i2c_slv);
     /** Í£Ö¹¶¨Ê± */
     am_softimer_stop(&p_dev->softimer);
 }
