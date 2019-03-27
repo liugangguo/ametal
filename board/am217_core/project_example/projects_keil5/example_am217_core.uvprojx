@@ -646,6 +646,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\components\drivers\source\lcd\am_ili9341_intfc_3wire.c</FilePath>
             </File>
+            <File>
+              <FileName>am_fm175xx_zlg217.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\..\..\components\drivers\source\fm175xx\am_fm175xx_zlg217.lib</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1311,6 +1316,46 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\examples\board\am217_core\wwdg\demo_zlg217_core_std_wwdg.c</FilePath>
             </File>
+            <File>
+              <FileName>demo_zlg217_core_dr_fm175xx_cpu_card.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\board\am217_core\fm175xx\demo_zlg217_core_dr_fm175xx_cpu_card.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_zlg217_core_dr_fm175xx_picca_halt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\board\am217_core\fm175xx\demo_zlg217_core_dr_fm175xx_picca_halt.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_zlg217_core_dr_fm175xx_picca_lpcd_read_id.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\board\am217_core\fm175xx\demo_zlg217_core_dr_fm175xx_picca_lpcd_read_id.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_zlg217_core_dr_fm175xx_picca_read_block.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\board\am217_core\fm175xx\demo_zlg217_core_dr_fm175xx_picca_read_block.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_zlg217_core_dr_fm175xx_picca_read_id.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\board\am217_core\fm175xx\demo_zlg217_core_dr_fm175xx_picca_read_id.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_zlg217_core_dr_fm175xx_picca_val_operate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\board\am217_core\fm175xx\demo_zlg217_core_dr_fm175xx_picca_val_operate.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_zlg217_core_dr_fm175xx_picca_write_block.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\board\am217_core\fm175xx\demo_zlg217_core_dr_fm175xx_picca_write_block.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_zlg217_core_dr_fm175xx_piccb_read_id.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\board\am217_core\fm175xx\demo_zlg217_core_dr_fm175xx_piccb_read_id.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1335,6 +1380,46 @@
               <FileName>demo_mtd.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\examples\components\service\demo_mtd.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_fm175xx_cpu_card.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\components\drivers\demo_fm175xx_cpu_card.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_fm175xx_picca_halt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\components\drivers\demo_fm175xx_picca_halt.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_fm175xx_picca_lpcd_read_id.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\components\drivers\demo_fm175xx_picca_lpcd_read_id.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_fm175xx_picca_read_block.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\components\drivers\demo_fm175xx_picca_read_block.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_fm175xx_picca_read_id.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\components\drivers\demo_fm175xx_picca_read_id.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_fm175xx_picca_val_operate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\components\drivers\demo_fm175xx_picca_val_operate.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_fm175xx_picca_write_block.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\components\drivers\demo_fm175xx_picca_write_block.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_fm175xx_piccb_read_id.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\components\drivers\demo_fm175xx_piccb_read_id.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1890,6 +1975,16 @@
               <FileName>am_servconf_nvram.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\user_config\am_servconf_usrcfg\am_servconf_nvram.c</FilePath>
+            </File>
+            <File>
+              <FileName>am_hwconf_fm175xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user_config\am_hwconf_usrcfg\am_hwconf_fm175xx.c</FilePath>
+            </File>
+            <File>
+              <FileName>am_hwconf_zlg217_spi_poll.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user_config\am_hwconf_usrcfg\am_hwconf_zlg217_spi_poll.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -451,6 +451,44 @@ am_rtc_handle_t am_zlg217_rtc_inst_init (void);
 void am_zlg217_rtc_inst_deinit (am_rtc_handle_t handle);
 
 /**
+ * \brief SPI1 POLL 实例初始化，获得 SPI 标准服务句柄
+ *
+ * \param 无
+ *
+ * \return SPI 标准服务句柄，若为 NULL，表明初始化失败
+ */
+am_spi_handle_t am_zlg217_spi1_poll_inst_init (void);
+
+/**
+ * \brief SPI1 POLL 实例解初始化
+ *
+ * \param[in] handle 通过 am_zlg217_spi1_poll_inst_init() 函数
+ *                   获得的 SPI 标准服务句柄
+ *
+ * \return 无
+ */
+void am_zlg217_spi1_poll_inst_deinit (am_spi_handle_t handle);
+
+/**
+ * \brief SPI2 POLL 实例初始化，获得 SPI 标准服务句柄
+ *
+ * \param 无
+ *
+ * \return SPI 标准服务句柄，若为 NULL，表明初始化失败
+ */
+am_spi_handle_t am_zlg217_spi2_poll_inst_init (void);
+
+/**
+ * \brief SPI2 POLL 实例解初始化
+ *
+ * \param[in] handle 通过 am_zlg217_spi2_poll_inst_init() 函数
+ *                   获得的 SPI 标准服务句柄
+ *
+ * \return 无
+ */
+void am_zlg217_spi2_poll_inst_deinit (am_spi_handle_t handle);
+
+/**
  * \brief SPI1 DMA 实例初始化，获得 SPI 标准服务句柄
  *
  * \param 无

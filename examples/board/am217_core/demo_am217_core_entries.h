@@ -436,4 +436,42 @@ void demo_zlg_hw_adc_int_entry (amhw_zlg_adc_t *p_hw_adc,
  */
 void demo_std_gpio_entry (int input_pin, int output_pin);
 
+/**
+ * \brief 读CPU卡例程
+ */
+void demo_zlg217_core_dr_fm175xx_cpu_card (void);
+/**
+ * \brief A类卡读卡类型和卡号例程
+ */
+void demo_zlg217_core_dr_fm175xx_picca_read_id(void);
+
+/**
+ * \brief A类卡读休眠卡例程
+ */
+void demo_zlg217_core_dr_fm175xx_picca_halt (void);
+
+/**
+ * \brief A类卡读块例程
+ */
+void demo_zlg217_core_dr_fm175xx_picca_read_block (void);
+
+/**
+ * \brief A类卡值操作例程
+ */
+void demo_zlg217_core_dr_fm175xx_picca_val_operate(void);
+
+/**
+ * \brief A类卡写块例程
+ */
+void demo_zlg217_core_dr_fm175xx_picca_write_block(void);
+
+/**
+ * \brief B类卡读卡号例程
+ */
+void demo_zlg217_core_dr_fm175xx_piccb_read_id(void);
+/**
+ * \brief FM175XX LCPD模式 A类卡读卡类型和卡号例程
+ */
+void demo_zlg217_core_dr_fm175xx_picca_lpcd_read_id(void);                                
+                                
 /* end of file */

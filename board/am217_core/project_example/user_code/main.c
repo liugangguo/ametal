@@ -113,6 +113,15 @@ int am_main (void)
 //    demo_zlg217_core_std_uart_ringbuf_entry();
 //    demo_zlg217_core_hw_wwdg_entry();
 //    demo_zlg217_core_std_wwdg_entry();
+//    demo_zlg217_core_dr_fm175xx_cpu_card();
+//    demo_zlg217_core_dr_fm175xx_picca_read_id();         
+//    demo_zlg217_core_dr_fm175xx_picca_halt();
+//    demo_zlg217_core_dr_fm175xx_picca_read_block ();
+//    demo_zlg217_core_dr_fm175xx_picca_val_operate();
+//    demo_zlg217_core_dr_fm175xx_picca_write_block(); 
+//    demo_zlg217_core_dr_fm175xx_piccb_read_id();      
+//    demo_zlg217_core_dr_fm175xx_picca_lpcd_read_id();
+
     while (1) {
     }
 }
