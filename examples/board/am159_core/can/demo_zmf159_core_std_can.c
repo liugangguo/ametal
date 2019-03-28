@@ -11,25 +11,25 @@
 *******************************************************************************/
 /**
  * \file
- * \brief CANÑİÊ¾Àı³Ì
+ * \brief CANæ¼”ç¤ºä¾‹ç¨‹
  *
- * - ²Ù×÷²½Öè£º
- *   1. ±¾Àı³ÌĞèÔÚam_prj_params.hÍ·ÎÄ¼şÀïÊ¹ÄÜ
- *   - ¶ÔÓ¦Æ½Ì¨µÄCANÉè±¸ºê(AM_DEV_XXXXX_CAN1);
+ * - æ“ä½œæ­¥éª¤ï¼š
+ *   1. æœ¬ä¾‹ç¨‹éœ€åœ¨am_prj_params.hå¤´æ–‡ä»¶é‡Œä½¿èƒ½
+ *   - å¯¹åº”å¹³å°çš„CANè®¾å¤‡å®(AM_DEV_XXXXX_CAN1);
  *   - AM_COM_CONSOLE;
- *   -  ¶ÔÓ¦Æ½Ì¨µÄ´®¿ÚÉè±¸ºê(AM_DEV_XXXXX_UART1)¡£
- *   2. Á¬½ÓCAN1µÄÏà¹ØÒı½Åµ½CANÊÕ·¢Æ÷£¬ÔÙ½«CANÊÕ·¢Æ÷½Ó¿ÚÓëUSBCAN-IIÉè±¸ÏàÁ¬¡£
- *   3. ´ò¿ªCANÉÏÎ»»úºó£¬ÉèÖÃ²¨ÌØÂÊÎª500k¡£
- *   4. ´ò¿ª´®¿Úµ÷ÊÔÖÕ¶Ë£¬²¨ÌØÂÊ115200-8-N-1.
+ *   -  å¯¹åº”å¹³å°çš„ä¸²å£è®¾å¤‡å®(AM_DEV_XXXXX_UART1)ã€‚
+ *   2. è¿æ¥CAN1çš„ç›¸å…³å¼•è„šåˆ°CANæ”¶å‘å™¨ï¼Œå†å°†CANæ”¶å‘å™¨æ¥å£ä¸USBCAN-IIè®¾å¤‡ç›¸è¿ã€‚
+ *   3. æ‰“å¼€CANä¸Šä½æœºåï¼Œè®¾ç½®æ³¢ç‰¹ç‡ä¸º250kã€‚
+ *   4. æ‰“å¼€ä¸²å£è°ƒè¯•ç»ˆç«¯ï¼Œæ³¢ç‰¹ç‡115200-8-N-1.
  *
- * - ÊµÑéÏÖÏó£º
- *   1. ÉÏÎ»»ú·¢ËÍÊı¾İºó£¬ÊÕµ½·¢ËÍµÄÊı¾İ¡£
- *   2. ´®¿Ú´òÓ¡Ïà¹Øµ÷ÊÔĞÅÏ¢¡£
+ * - å®éªŒç°è±¡ï¼š
+ *   1. ä¸Šä½æœºå‘é€æ•°æ®åï¼Œæ”¶åˆ°å‘é€çš„æ•°æ®ã€‚
+ *   2. ä¸²å£æ‰“å°ç›¸å…³è°ƒè¯•ä¿¡æ¯ã€‚
  *
- * - ±¸×¢£º
- *   1. ÆäÖĞ CAN ID ºÍ ²¨ÌØÂÊÅäÖÃ ĞèÒª¸ù¾İ¾ßÌåÓ²¼şÆ½Ì¨ĞŞ¸Ä¡£
+ * - å¤‡æ³¨ï¼š
+ *   1. å…¶ä¸­ CAN ID å’Œ æ³¢ç‰¹ç‡é…ç½® éœ€è¦æ ¹æ®å…·ä½“ç¡¬ä»¶å¹³å°ä¿®æ”¹ã€‚
  *
- * \par Ô´´úÂë
+ * \par æºä»£ç 
  * \snippet test_flexcan.c src_test_flexcan
  *
  * \internal
@@ -41,120 +41,56 @@
 #include "ametal.h"
 #include "am_can.h"
 #include "am_delay.h"
-#include "am_zmf159_inst_init.h"
 #include "am_vdebug.h"
+#include "am_zmf159_inst_init.h"
+#include "demo_std_entries.h"
 
-#define  CAN_CHN              0     /*CAN ID£¬¸ù¾İ¾ßÌåÆ½Ì¨ĞŞ¸Ä*/
-#define  CAN_RCV_BUFF_LENTH   1024
+#define  CAN_CHN         0        /*CAN IDï¼Œæ ¹æ®å…·ä½“å¹³å°ä¿®æ”¹ */
+#define  APB1_CLK        48000000 /*CAN çš„è¾“å…¥æ—¶é’Ÿ */
+#define  CAN_BAUD        250000   /*CAN çš„æ³¢ç‰¹ç‡ */
 
-static am_can_message_t    can_rcv_msg;
-static am_can_bus_err_t    can_bus_err_status;
-static am_can_int_type_t   can_int_status;
-
-
-static am_can_message_t can_send_test_msg = {
-        0x111,
-		AM_CAN_SELF_SEND_FLAG,          /**< \brief ×Ô·¢×ÔÊÕÀàĞÍ */
-        8,                              /**< \brief msglen ±¨ÎÄ³¤¶È */
-    {0x11,0x02,0x13,0x04,0x15,0x06,0x17,0x08}
-};
-
-/** \brief ²¨ÌØÂÊ±íµÄÅäÖÃÈ¡¾öÓÚ¾ßÌåÓ²¼şÆ½Ì¨£¬ĞèÒª¸ù¾İ¾ßÌåÓ²¼şÆ½Ì¨×ö³öÏàÓ¦µÄĞŞ¸Ä*/
-/** \brief ²¨ÌØÂÊ±í£¬Ê¹ÓÃCAN²¨ÌØÂÊ¼ÆËã¹¤¾ß¼ÆËãµÃ³ö,½ö¹©²Î¿¼(Ä¿Ç°ÊäÈëÊ±ÖÓÎªPLL3 6·ÖÆµ ÔÙ2·ÖÆµ 40MHz) */
-/** \brief 6ul²¨ÌØÂÊ¼ÆËãÓë´«Í³²»Í¬,Ê¹ÓÃÊ±½«¹¤¾ß¼ÆËãÖµÖĞµÄtseg1-1¼´¿É */
-/** \brief tseg1 tseg2 sjw brp smp */
-//static am_can_bps_param_t can_btr_1000k = {4 - 1,   1,   1,   0,   4  };   /* 1000k, sample point 75% */
-//static am_can_bps_param_t can_btr_800k  = {4 - 1,   3,   1,   0,   4  };   /* 800k,  sample point 60% */
-static am_can_bps_param_t can_btr_500k  = {4 - 1,   1,   1,   0,   9  };   /* 500k,  sample point 75% */
-//static dam_can_bps_param_t can_btr_250k  = {4 - 1,   1,   1,   0,   19 };   /* 250k,  sample point 75% */
-//static am_can_bps_param_t can_btr_125k  = {4 - 1,   1,   1,   0,   39 };   /* 125k,  sample point 75% */
-//static am_can_bps_param_t can_btr_100k  = {4 - 1,   1,   1,   0,   49 };   /* 100k,  sample point 75% */
-//static am_can_bps_param_t can_btr_50k   = {4 - 1,   1,   1,   0,   99 };   /* 50k,   sample point 75% */
-//static am_can_bps_param_t can_btr_20k   = {4 - 1,   1,   1,   0,   249};   /* 20k,   sample point 75% */
-//static am_can_bps_param_t can_btr_10k   = {8 - 1,   5,   1,   0,   249};   /* 10k,   sample point 62.5% */
-//static am_can_bps_param_t can_btr_6_25k = {15 - 1,  7,   1,   0,   255};   /* £¨×îĞ¡²¨ÌØÂÊ£©6.25k, sample point 68% */
-
-/******************************************************************************/
-void __can_err_sta( am_can_bus_err_t err)
+/**
+ * \brief è·å–å¯¹åº”æ³¢ç‰¹ç‡é…ç½®å€¼
+ */
+void __can_auto_cfg_baud(am_can_bps_param_t  *can_btr_baud,uint32_t src_clk,uint32_t baud )
 {
-
-    if (err & AM_CAN_BUS_ERR_BIT) {    /**< \brief Î»´íÎó */
-        am_kprintf(("AM_CAN_BUS_ERR_BIT\n"));
+    uint32_t i,value = baud,record = 1;
+    uint32_t remain = 0,sum_prescaler = 0;
+    while(( baud == 0 )||( src_clk == 0 ));
+    sum_prescaler = src_clk / baud;
+    sum_prescaler = sum_prescaler / 2;
+    for ( i = 25; i > 3; i-- ) {
+        remain = sum_prescaler - ((sum_prescaler / i)*i);
+        if( remain == 0 ) {
+          record = i;
+          break;
+        } else {
+          if (remain < value) {
+              value = remain;
+              record = i;
+          }
+        }
     }
-    if (err &AM_CAN_BUS_ERR_ACK) {     /**< \brief Ó¦´ğ´íÎó */
-        am_kprintf(("AM_CAN_BUS_ERR_ACK\n"));
-    }
-    if (err &AM_CAN_BUS_ERR_CRC) {     /**< \brief CRC´íÎó */
-        am_kprintf(("AM_CAN_BUS_ERR_CRC\n"));
-    }
-    if (err &AM_CAN_BUS_ERR_FORM) {    /**< \brief ¸ñÊ½´íÎó */
-        am_kprintf(("AM_CAN_BUS_ERR_FORM\n"));
-    }
-    if (err &AM_CAN_BUS_ERR_STUFF) {   /**< \brief Ìî³ä´íÎó */
-        am_kprintf(("AM_CAN_BUS_ERR_STUFF\n"));
-    }
-
+    can_btr_baud->sjw = 0;
+    can_btr_baud->brp = (sum_prescaler/record) - 1;
+    can_btr_baud->tesg2 = (record - 3) / 3;
+    can_btr_baud->tesg1 = (record - 3) - can_btr_baud->tesg2;
 }
 
 /**
- * \brief CAN demo
+ * \brief CAN å†ç¨‹å…¥å£
  *
- * \return ÎŞ
+ * \return æ— 
  */
-void demo__zmf159_core_can_entry (void)
+void demo_zmf159_core_std_can_entry (void)
 {
-    am_can_err_t ret;
+    am_can_bps_param_t  can_btr_baud = {0};
 
-    /** \brief ³õÊ¼»¯CAN */
-    am_can_handle_t  can_handle = NULL;
+    AM_DBG_INFO("demo zmf159_core std can!\r\n");
 
-    can_handle = am_zmf159_can_inst_init ();
+    __can_auto_cfg_baud(&can_btr_baud, APB1_CLK, CAN_BAUD);
 
-    ret = am_can_baudrate_set (can_handle, &can_btr_500k);
-
-    if (ret == AM_CAN_NOERROR) {
-        AM_INFOF(("\r\nCAN: controller initialize ok. \r\n"));
-    } else {
-        AM_INFOF(("\r\nCAN: controller initialize error! %d \r\n", ret));
-    }
-
-    ret = am_can_start (can_handle);
-
-    if (ret == AM_CAN_NOERROR) {
-        AM_INFOF(("\r\nCAN: controller start ok. \r\n"));
-    } else {
-        AM_INFOF(("\r\nCAN: controller start error! %d \r\n", ret));
-    }
-
-    /** \brief Æô¶¯CAN */
-    AM_INFOF(("CAN: controller start!\r\n"));
-
-    AM_FOREVER {
-    	ret = am_can_msg_send (can_handle, &can_send_test_msg);
-
-        if (ret == AM_CAN_NOERROR) {
-            AM_INFOF(("\r\nCAN: controller send ok. \r\n"));
-        } else {
-            AM_INFOF(("\r\nCAN: controller send error! %d \r\n", ret));
-        }
-
-        ret = am_can_msg_recv (can_handle, &can_rcv_msg);
-
-        if (ret == AM_CAN_NOERROR) {
-             AM_INFOF(("\r\nCAN: controller rcv ok. \r\n"));
-        } else {
-             AM_INFOF(("\r\nCAN: controller rcv error! %d \r\n", ret));
-        }
-
-        ret = am_can_status_get (can_handle, &can_int_status, &can_bus_err_status);
-
-            am_mdelay(10); /* ÑÓÊ±10ms */
-            if (can_bus_err_status != AM_CAN_BUS_ERR_NONE) {
-            	__can_err_sta(can_bus_err_status);
-            }
-
-        am_mdelay(1000);
-    }
+    demo_std_can_entry (am_zmf159_can_inst_init (), &can_btr_baud);
 }
 
 /** [src_test_flexcan] */

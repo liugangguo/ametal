@@ -784,6 +784,9 @@ am_can_err_t __can_msg_recv (void *p_drv, am_can_message_t *p_rxmsg)
             p_rxmsg->msgdata[i] =
                      amhw_zmf159_basic_can_rx_data_read(p_hw_can, i);
         }
+
+        /*清除溢出 */
+        amhw_zmf159_can_cmr_set(p_hw_can, AMHW_ZMF159_CAN_CMR_RRB);
     } else {
         /* 获取SFF寄存器值 */
         peli_sff = amhw_zmf159_peli_can_sff_get(p_hw_can);
@@ -798,10 +801,7 @@ am_can_err_t __can_msg_recv (void *p_drv, am_can_message_t *p_rxmsg)
         /* 远程帧处理 */
         if (peli_sff & AMHW_ZMF159_CAN_PELI_SFF_RTR) {
             p_rxmsg->flags |= AM_CAN_REMOTE_FLAG;
-
             p_rxmsg->msglen = 0;
-
-            return AM_CAN_NOERROR;
         }
         /* 获取数据长度 */
         p_rxmsg->msglen = (peli_sff >> AMHW_ZMF159_CAN_PELI_SFF_DLC_SHIFT) &
@@ -811,6 +811,9 @@ am_can_err_t __can_msg_recv (void *p_drv, am_can_message_t *p_rxmsg)
             p_rxmsg->msgdata[i] =
                     amhw_zmf159_peli_can_data_read(p_hw_can, is_extern, i);
         }
+
+        /*清除溢出 */
+        amhw_zmf159_can_cmr_set(p_hw_can, AMHW_ZMF159_CAN_CMR_RRB);
     }
 
     return AM_CAN_NOERROR;
@@ -1144,11 +1147,6 @@ am_can_err_t __can_status_get (void              *p_drv,
     err        = amhw_zmf159_peli_can_ecc_get(p_hw_can);
     err_code = (err >> AMHW_ZMF159_CAN_PELI_ECC_ERRC_SHIFT) &
                        AMHW_ZMF159_CAN_PELI_ECC_ERRC_MASK;
-
-    /* 位错误 */
-    if (AMHW_ZMF159_CAN_PELI_ECC_ERRC_BIT == err_code) {
-        *p_bus_err |= AM_CAN_BUS_ERR_BIT;
-    }
 
     /* 格式错误 */
     if (AMHW_ZMF159_CAN_PELI_ECC_ERRC_MODE == err_code) {

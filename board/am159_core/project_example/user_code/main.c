@@ -95,6 +95,7 @@ int am_main (void)
 //    demo_zmf159_core_hw_uart_tx_dma_entry();
 //    demo_zmf159_core_std_uart_polling_entry();
 //    demo_zmf159_core_std_uart_ringbuf_entry();
+//    demo_zmf159_core_std_can_entry();
 //    demo_zmf159_core_microport_ds1302_entry();
 //    demo_zmf159_core_microport_eeprom_entry();
 //    demo_zmf159_core_microport_eeprom_nvram_entry();

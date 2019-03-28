@@ -446,5 +446,10 @@ void demo_zmf159_usbd_printer_entry (void);
  */
 void demo_zmf159_usbd_vcom_entry (void);
 
+/**
+ * \brief can Àý³ÌÈë¿Ú
+ */
+void demo_zmf159_core_std_can_entry (void);
+
 
 /* end of file */
