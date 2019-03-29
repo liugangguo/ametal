@@ -36,19 +36,19 @@
 
 #define MAX     10
 
-/** \brief ADC平台初始化 */
+/** \brief CAN平台初始化 */
 static void __zmf159_plfm_can_init (void)
 {
-    am_gpio_pin_cfg(PIOA_11, PIOA_11_CAN1_RX);
-    am_gpio_pin_cfg(PIOA_12, PIOA_12_CAN1_TX);
+    am_gpio_pin_cfg(PIOB_8, PIOB_8_CAN1_RX | PIOB_8_INPUT_FLOAT | PIOB_8_SPEED_50MHz);
+    am_gpio_pin_cfg(PIOB_9, PIOB_9_CAN1_TX | PIOB_9_AF_PP | PIOB_9_SPEED_50MHz);
+
     am_clk_enable(CLK_CAN);
+    am_clk_enable(CLK_SYSCFG);
 }
 
-/** \brief 解除ADC平台初始化 */
+/** \brief 解除CAN平台初始化 */
 static void __zmf159_plfm_can_deinit (void)
 {
-    am_gpio_pin_cfg(PIOA_11, PIOA_11_CAN1_RX);
-    am_gpio_pin_cfg(PIOA_12, PIOA_12_CAN1_TX);
     am_clk_disable (CLK_CAN);
 }
 
@@ -57,27 +57,26 @@ static am_zmf159_can_intcb_info_t    __g_can_intcb_info[MAX];
 /** \brief 设备信息 */
 static const am_zmf159_can_devinfo_t __g_can_devinfo = {
 
-    ZMF159_CAN_BASE,                 /**< \brief ADC */
-    INUM_CAN_RX1,                    /**< \brief ADC的中断编号 */
-    AMHW_ZMF159_CAN_BASIC_CAN,       /**< \brief ADC时钟号 */
-    __g_can_intcb_info,              /**< \brief 参考电压 */
-    MAX,                             /**< \brief 转换精度 */
-
-    __zmf159_plfm_can_init,          /**< \brief ADC1的平台初始化 */
-    __zmf159_plfm_can_deinit,        /**< \brief ADC1的平台去初始化 */
+    ZMF159_CAN_BASE,                 /**< \brief CAN */
+    INUM_CAN_RX1,                    /**< \brief CAN的中断编号 */
+	AMHW_ZMF159_CAN_PELI_CAN,        /**< \brief CAN模式定义 */
+    __g_can_intcb_info,              /**< \brief 回调信息 */
+    MAX,                             /**< \brief 回调信息内存大小*/
+    __zmf159_plfm_can_init,          /**< \brief CAN1的平台初始化 */
+    __zmf159_plfm_can_deinit,        /**< \brief CAN1的平台去初始化 */
 
 };
 
 /**< \brief 设备实例 */
 static am_zmf159_can_dev_t  __g_can_dev;
 
-/** \brief ADC实例初始化，获得ADC标准服务句柄 */
+/** \brief CAN实例初始化，获得CAN标准服务句柄 */
 am_can_handle_t am_zmf159_can_inst_init (void)
 {
     return am_zmf159_can_init(&__g_can_dev, &__g_can_devinfo);
 }
 
-/** \brief ADC实例解初始化 */
+/** \brief CAN实例解初始化 */
 void am_zmf159_can_inst_deinit (am_can_handle_t handle)
 {
     am_zmf159_can_deinit(handle);

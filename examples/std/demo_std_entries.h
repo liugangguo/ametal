@@ -33,6 +33,7 @@
 #include "am_spi.h"
 #include "am_spi_slv.h"
 #include "am_adc.h"
+#include "am_can.h"
 #include "am_uart.h"
 #include "am_temp.h"
 #include "am_timer.h"
@@ -381,6 +382,17 @@ void demo_std_rtc_entry (am_rtc_handle_t rtc_handle);
  * \return 无
  */
 void demo_std_nvram_entry (char *p_nvram_name, int32_t nvram_unit, int32_t test_lenth);
+
+/**
+ * \brief can 测试例程
+ *
+ * \param[in] can_handle    can 标准服务句柄
+ * \param[in] can_btr_baud  波特率参数
+ *
+ * \return 无
+ */
+void demo_std_can_entry (am_can_handle_t can_handle, am_can_bps_param_t  *can_btr_baud);
+
 
 /**
  * \brief 温湿度传感器HTS221例程，通过触发模式实现
