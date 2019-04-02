@@ -47,6 +47,13 @@
 #include "am_vdebug.h"
 #include "demo_zlg_entries.h"
 
+static void __zmf159_uart_pins_init (void)
+{
+    /* 初始化引脚 */
+    am_gpio_pin_cfg(PIOA_9,  PIOA_9_UART1_TX | PIOA_9_AF_PP );
+    am_gpio_pin_cfg(PIOA_10, PIOA_10_UART1_RX| PIOA_10_INPUT_FLOAT);
+}
+
 /**
  * \brief 例程入口
  */
@@ -56,15 +63,15 @@ void demo_zmf159_core_hw_uart_int_entry (void)
 
      /* 等待发送数据完成 */
     am_mdelay(100);
-	
-    /* 初始化引脚 */
-    am_gpio_pin_cfg(PIOA_9,  PIOA_9_UART1_TX | PIOA_9_AF_PP );
-    am_gpio_pin_cfg(PIOA_10, PIOA_10_UART1_RX| PIOA_10_INPUT_FLOAT);
 
     /* 使能时钟 */
     am_clk_enable(CLK_UART1);
 
-    demo_zlg_hw_uart_int_entry(ZMF159_UART1, am_clk_rate_get(CLK_UART1),ZMF159_UART1_BASE,INUM_UART1);
+    demo_zlg_hw_uart_int_entry(ZMF159_UART1,
+                               __zmf159_uart_pins_init,
+                               am_clk_rate_get(CLK_UART1),
+                               ZMF159_UART1_BASE,
+                               INUM_UART1);
 }
 /** [src_zmf159_hw_uart_int] */
 
