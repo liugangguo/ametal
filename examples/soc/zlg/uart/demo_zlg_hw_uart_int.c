@@ -18,6 +18,9 @@
  *   1. 指定串口输出 "HW example---UART test in interrupt mode:"；
  *   2. 指定串口输出接收到的字符。
  *
+ * \note
+ *   1.若该串口与调试串口一致，需关闭调试串口以免影响效果
+ *
  * \par 源代码
  * \snippet demo_zlg_hw_uart_int.c src_zlg_hw_uart_int
  *
@@ -130,10 +133,11 @@ static void uart_hw_irq_handler (void *p_arg)
 /**
  * \brief UART hw 中断收发初始化
  */
-void uart_int_init (amhw_zlg_uart_t *p_hw_uart, 
-                           uint32_t         clk_rate,
-                           unsigned long    uart_base,
-                           unsigned char    inum_uart)
+void uart_int_init (amhw_zlg_uart_t *p_hw_uart,
+                    void (* pfn_init)(void),
+                    uint32_t         clk_rate,
+                    unsigned long    uart_base,
+                    unsigned char    inum_uart)
 {
     uint8_t inum = 0;
 
@@ -165,18 +169,23 @@ void uart_int_init (amhw_zlg_uart_t *p_hw_uart,
     /* 关联中断向量号，开启中断 */
     am_int_connect(inum, uart_hw_irq_handler, (void *)p_hw_uart);
     am_int_enable(inum);
+
+    pfn_init();
 }
 
 /**
  * \brief 例程入口
  */
 void demo_zlg_hw_uart_int_entry (amhw_zlg_uart_t *p_hw_uart, 
+                                 void (* pfn_init)(void),
                                  uint32_t         clk_rate,
                                  unsigned long    uart_base,
                                  unsigned char    inum_uart)
 {
-
-    uart_int_init(p_hw_uart, clk_rate , uart_base, inum_uart);
+    if (pfn_init == NULL) {
+        return;
+    }
+    uart_int_init(p_hw_uart, pfn_init, clk_rate , uart_base, inum_uart);
 
     uart_int_send(p_hw_uart, hw_polling_str, sizeof(hw_polling_str));
 

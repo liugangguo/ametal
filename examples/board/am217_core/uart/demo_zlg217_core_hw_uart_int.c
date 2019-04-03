@@ -47,6 +47,14 @@
 #include "demo_zlg_entries.h"
 #include "demo_am217_core_entries.h"
 
+static void __zlg217_uart_pins_intit (void)
+{
+    /* 初始化引脚 */
+    am_gpio_pin_cfg(PIOA_9,  PIOA_9_UART1_TX_REMAP0 | PIOA_9_AF_PP);
+    am_gpio_pin_cfg(PIOA_10, PIOA_10_UART1_RX_REMAP0 | PIOA_10_INPUT_FLOAT);
+
+}
+
 /**
  * \brief 例程入口
  */
@@ -56,15 +64,15 @@ void demo_zlg217_core_hw_uart_int_entry (void)
 
      /* 等待发送数据完成 */
     am_mdelay(100);
-	
-    /* 初始化引脚 */
-    am_gpio_pin_cfg(PIOA_9,  PIOA_9_UART1_TX_REMAP0 | PIOA_9_AF_PP);
-    am_gpio_pin_cfg(PIOA_10, PIOA_10_UART1_RX_REMAP0 | PIOA_10_INPUT_FLOAT);
 
     /* 使能时钟 */
     am_clk_enable(CLK_UART1);
 
-    demo_zlg_hw_uart_int_entry(ZLG217_UART1, am_clk_rate_get(CLK_UART1),ZLG217_UART1_BASE,INUM_UART1);
+    demo_zlg_hw_uart_int_entry(ZLG217_UART1,
+                               __zlg217_uart_pins_intit,
+                               am_clk_rate_get(CLK_UART1),
+                               ZLG217_UART1_BASE,
+                               INUM_UART1);
 }
 /** [src_zlg217_hw_uart_int] */
 

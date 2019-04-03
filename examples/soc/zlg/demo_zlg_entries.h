@@ -253,13 +253,15 @@ void demo_zlg_hw_tim_timing_entry (amhw_zlg_tim_t     *p_hw_tim,
  * \brief UART 中断发送例程，通过 HW 层接口实现
  *
  * \param[in] p_hw_uart 指向 UART 外设寄存器块的指针
+ * \param[in] pfn_init  指向 UART 引脚初始化函数的指针
  * \param[in] clk_rate  UART 时钟源频率
  * \param[in] uart_base UART 基地址
  * \param[in] inum_uart UART 中断号
  *
  * \return 无
  */
-void demo_zlg_hw_uart_int_entry (amhw_zlg_uart_t *p_hw_uart, 
+void demo_zlg_hw_uart_int_entry (amhw_zlg_uart_t *p_hw_uart,
+                                 void (* pfn_init)(void),
                                  uint32_t         clk_rate,
                                  unsigned long    uart_base,
                                  unsigned char    inum_uart);
