@@ -101,42 +101,11 @@ extern "C" {
 #define PIOD_0          48        /**< \brief PIOD_0 引脚号 */
 #define PIOD_1          49        /**< \brief PIOD_1 引脚号 */
 #define PIOD_2          50        /**< \brief PIOD_2 引脚号 */
-#define PIOD_3          51        /**< \brief PIOD_3 引脚号 */
-#define PIOD_4          52        /**< \brief PIOD_4 引脚号 */
-#define PIOD_5          53        /**< \brief PIOD_5 引脚号 */
-#define PIOD_6          54        /**< \brief PIOD_6 引脚号 */
-#define PIOD_7          55        /**< \brief PIOD_7 引脚号 */
-#define PIOD_8          56        /**< \brief PIOD_8 引脚号 */
-#define PIOD_9          57        /**< \brief PIOD_9 引脚号 */
-#define PIOD_10         58        /**< \brief PIOD_10引脚号 */
-#define PIOD_11         59        /**< \brief PIOD_11引脚号 */
-#define PIOD_12         60        /**< \brief PIOD_12引脚号 */
-#define PIOD_13         61        /**< \brief PIOD_13引脚号 */
-#define PIOD_14         62        /**< \brief PIOD_14引脚号 */
-#define PIOD_15         63        /**< \brief PIOD_15引脚号 */
-
-#define PIOE            64        /**< \brief 端口E引脚起始号 */
-#define PIOE_0          64        /**< \brief PIOE_0 引脚号 */
-#define PIOE_1          65        /**< \brief PIOE_1 引脚号 */
-#define PIOE_2          66        /**< \brief PIOE_2 引脚号 */
-#define PIOE_3          67        /**< \brief PIOE_3 引脚号 */
-#define PIOE_4          68        /**< \brief PIOE_4 引脚号 */
-#define PIOE_5          69        /**< \brief PIOE_5 引脚号 */
-#define PIOE_6          70        /**< \brief PIOE_6 引脚号 */
-#define PIOE_7          71        /**< \brief PIOE_7 引脚号 */
-#define PIOE_8          72        /**< \brief PIOE_8 引脚号 */
-#define PIOE_9          73        /**< \brief PIOE_9 引脚号 */
-#define PIOE_10         74        /**< \brief PIOE_10引脚号 */
-#define PIOE_11         75        /**< \brief PIOE_11引脚号 */
-#define PIOE_12         76        /**< \brief PIOE_12引脚号 */
-#define PIOE_13         77        /**< \brief PIOE_13引脚号 */
-#define PIOE_14         78        /**< \brief PIOE_14引脚号 */
-#define PIOE_15         79        /**< \brief PIOE_15引脚号 */
 
 /**
- * \brief 引脚数目为72
+ * \brief 引脚数目为51
  */
-#define PIN_NUM         80
+#define PIN_NUM         51
 
 /**
  * \brief 支持同时发生最大引脚中断数是16

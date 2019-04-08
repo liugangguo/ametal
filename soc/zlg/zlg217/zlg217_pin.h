@@ -101,12 +101,11 @@ extern "C" {
 #define PIOD_0          48        /**< \brief PIOD_0引脚号 */
 #define PIOD_1          49        /**< \brief PIOD_1引脚号 */
 #define PIOD_2          50        /**< \brief PIOD_2引脚号 */
-#define PIOD_3          51        /**< \brief PIOD_3引脚号 */
 
 /**
- * \brief 引脚数目为39
+ * \brief 引脚数目为51
  */
-#define PIN_NUM         52
+#define PIN_NUM         51
 
 /**
  * \brief 支持同时发生最大引脚中断数是16
