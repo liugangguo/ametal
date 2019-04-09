@@ -104,7 +104,7 @@ static const am_zlg217_clk_devinfo_t __g_clk_devinfo =
     0,
 
     /**
-     * \brief ADC分频系数，APB2CLK = APB2 / (2 ^ adc_div)
+     * \brief ADC分频系数，ADCCLK = APB2 / (2 ^ adc_div)
      *        ADC最大频率为48Mhz
      */
     1,
