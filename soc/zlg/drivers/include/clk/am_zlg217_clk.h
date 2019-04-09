@@ -109,7 +109,7 @@ typedef struct am_zlg217_clk_devinfo {
     uint8_t apb2_div;
 
     /**
-     * \brief ADC分频系数，APB2CLK = APB2 / (2 ^ adc_div)
+     * \brief ADC分频系数，ADCCLK = APB2 / (2 ^ adc_div)
      *        ADC最大频率为48Mhz
      */
     uint8_t adc_div;

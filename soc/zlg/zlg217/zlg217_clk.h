@@ -42,13 +42,13 @@ extern "C" {
 /* APB1外设时钟 */
 #define CLK_TIM2    (0x01ul << 8 | 0ul)   /**< \brief TIM2定时器 时钟 */
 #define CLK_TIM3    (0x01ul << 8 | 1ul)   /**< \brief TIM3定时器 时钟 */
-#define CLK_TIM4    (0x01ul << 8 | 2ul)   /**< \brief TIM3定时器 时钟 */
+#define CLK_TIM4    (0x01ul << 8 | 2ul)   /**< \brief TIM4定时器 时钟 */
 #define CLK_WWDG    (0x01ul << 8 | 11ul)  /**< \brief WWDG窗口看门狗 时钟 */
 #define CLK_SPI2    (0x01ul << 8 | 14ul)  /**< \brief SPI2 时钟 */
 #define CLK_UART2   (0x01ul << 8 | 17ul)  /**< \brief UART2 时钟 */
 #define CLK_UART3   (0x01ul << 8 | 18ul)  /**< \brief UART3 时钟 */
 #define CLK_I2C1    (0x01ul << 8 | 21ul)  /**< \brief I2C1 时钟 */
-#define CLK_I2C2    (0x01ul << 8 | 22ul)  /**< \brief I2C1 时钟 */
+#define CLK_I2C2    (0x01ul << 8 | 22ul)  /**< \brief I2C2 时钟 */
 #define CLK_USB     (0x01ul << 8 | 23ul)  /**< \brief USB 时钟 */
 #define CLK_CAN     (0x01ul << 8 | 25ul)  /**< \brief CAN 时钟 */
 #define CLK_BKP     (0x01ul << 8 | 27ul)  /**< \brief CRS 时钟 */
@@ -63,7 +63,7 @@ extern "C" {
 #define CLK_IOPD    (0x02ul << 8 | 5ul)  /**< \brief 系统配置寄存器 时钟 */
 #define CLK_IOPE    (0x02ul << 8 | 6ul)  /**< \brief 系统配置寄存器 时钟 */
 #define CLK_ADC1    (0x02ul << 8 | 9ul)  /**< \brief ADC1接口 时钟 */
-#define CLK_ADC2    (0x02ul << 8 | 10ul) /**< \brief ADC1接口 时钟 */
+#define CLK_ADC2    (0x02ul << 8 | 10ul) /**< \brief ADC2接口 时钟 */
 #define CLK_TIM1    (0x02ul << 8 | 11ul) /**< \brief TIM1定时器 时钟 */
 #define CLK_SPI1    (0x02ul << 8 | 12ul) /**< \brief SPI1 时钟 */
 #define CLK_UART1   (0x02ul << 8 | 14ul) /**< \brief UART1 时钟 */
