@@ -73,7 +73,7 @@
 		<link>
 			<name>user_config</name>
 			<type>2</type>
-			<location>D:/workspace/ametal/board/amks16rfid8/project_example/user_config</location>
+			<locationURI>PARENT-1-PROJECT_LOC/user_config</locationURI>
 		</link>
 	</linkedResources>
 	<variableList>

@@ -138,9 +138,10 @@ void am_zmf159_spi2_int_inst_deinit (am_spi_handle_t handle)
 /** \brief SPI3 平台初始化 */
 static void __zlg_plfm_spi3_int_init (void)
 {
-    am_gpio_pin_cfg(PIOB_13, PIOB_13_SPI2_SCK | PIOB_13_INPUT_FLOAT);
-    am_gpio_pin_cfg(PIOB_14, PIOB_14_SPI2_MISO | PIOB_14_AF_PP);
-    am_gpio_pin_cfg(PIOB_15, PIOB_15_SPI2_MOSI  | PIOB_15_AF_PP);
+
+    am_gpio_pin_cfg(PIOC_10, PIOC_10_SPI3_SCK  | PIOC_10_INPUT_FLOAT);
+    am_gpio_pin_cfg(PIOC_11, PIOC_11_SPI3_MISO | PIOC_11_AF_PP);
+    am_gpio_pin_cfg(PIOC_12, PIOC_12_SPI3_MOSI | PIOC_12_AF_PP);
 
     am_clk_enable(CLK_SPI3);
 }
@@ -148,9 +149,9 @@ static void __zlg_plfm_spi3_int_init (void)
 /** \brief 解除 SPI2 平台初始化 */
 static void __zlg_plfm_spi3_int_deinit (void)
 {
-    am_gpio_pin_cfg(PIOB_13, AM_GPIO_INPUT);
-    am_gpio_pin_cfg(PIOB_14, AM_GPIO_INPUT);
-    am_gpio_pin_cfg(PIOB_15, AM_GPIO_INPUT);
+    am_gpio_pin_cfg(PIOC_10, AM_GPIO_INPUT);
+    am_gpio_pin_cfg(PIOC_11, AM_GPIO_INPUT);
+    am_gpio_pin_cfg(PIOC_12, AM_GPIO_INPUT);
 
     am_clk_disable(CLK_SPI3);
 }
@@ -161,8 +162,8 @@ const  struct am_zlg_spi_int_devinfo  __g_spi3_int_devinfo = {
     ZMF159_SPI3_BASE,                      /**< \brief SPI2 寄存器指针 */
     CLK_SPI3,                              /**< \brief 时钟 ID 号 */
     INUM_SPI3,                             /**< \brief SPI3 中断号 */
-    PIOB_15_SPI2_MOSI | PIOB_14_AF_PP,     /**< \brief SPI3 配置标识 */
-    PIOB_14,                               /**< \brief MOSI 引脚号 */
+    PIOC_11_SPI3_MISO | PIOC_11_AF_PP,       /**< \brief SPI3 配置标识 */
+    PIOC_11,                                /**< \brief MOSI 引脚号 */
     __zlg_plfm_spi3_int_init,              /**< \brief SPI3 平台初始化函数 */
     __zlg_plfm_spi3_int_deinit             /**< \brief SPI3 平台解初始化函数 */
 };
@@ -181,6 +182,7 @@ void am_zmf159_spi3_int_inst_deinit (am_spi_handle_t handle)
 {
     am_zlg_spi_int_deinit(handle);
 }
+
 
 /**
  * @}

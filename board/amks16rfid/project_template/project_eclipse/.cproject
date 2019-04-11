@@ -164,7 +164,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="startup/am_kl26_armcc_system_init.c|soc/nxp|bsp_common/source/am_bsp_microlib.c|bsp_common/source/am_bsp_armlib.c|components/libc/microlib_adapter|components/libc/armlib_adapter|startup/am_kl26_armcc_startup.s|soc/zlg|ametal/common/components/usb|ametal/soc/freescale/common/drivers/source/am_fsl_usbh_khci.c|ametal/soc/freescale/common/drivers/source/am_fsl_usbd_khci.c|ametal/common/components/libc/microlib_adapter|ametal/common/components/libc/armlib_adapter|ametal/soc/freescale/s32|ametal/board/amks16z_core/am_kl26_armcc_startup.c|ametal/board/amks16z_core/am_kl26_armcc_startup.h|ametal/board/amks16z_core/am_kl26_armcc_startup.s|ametal/board/amks16z_core/am_bsp_armlib.c|ametal/board/amks16z_core/am_bsp_armlib.h|ametal/board/amks16z_core/am_bsp_microlib.c|ametal/board/amks16z_core/am_bsp_microlib.h|ametal/soc/freescale/kinetis/KL/KL26/kl26_sdk_version.c|ametal/soc/freescale/common/drivers/include/am_fsl_usbd_khci.h|ametal/soc/freescale/common/drivers/include/am_fsl_usbh_khci.h|ametal/soc/freescale/common/hw/include/amhw_fsl_usb.h" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry excluding="components/usb|components/bootloader|startup/am_kl26_armcc_system_init.c|soc/nxp|bsp_common/source/am_bsp_microlib.c|bsp_common/source/am_bsp_armlib.c|components/libc/microlib_adapter|components/libc/armlib_adapter|startup/am_kl26_armcc_startup.s|soc/zlg|ametal/common/components/usb|ametal/soc/freescale/common/drivers/source/am_fsl_usbh_khci.c|ametal/soc/freescale/common/drivers/source/am_fsl_usbd_khci.c|ametal/common/components/libc/microlib_adapter|ametal/common/components/libc/armlib_adapter|ametal/soc/freescale/s32|ametal/board/amks16z_core/am_kl26_armcc_startup.c|ametal/board/amks16z_core/am_kl26_armcc_startup.h|ametal/board/amks16z_core/am_kl26_armcc_startup.s|ametal/board/amks16z_core/am_bsp_armlib.c|ametal/board/amks16z_core/am_bsp_armlib.h|ametal/board/amks16z_core/am_bsp_microlib.c|ametal/board/amks16z_core/am_bsp_microlib.h|ametal/soc/freescale/kinetis/KL/KL26/kl26_sdk_version.c|ametal/soc/freescale/common/drivers/include/am_fsl_usbd_khci.h|ametal/soc/freescale/common/drivers/include/am_fsl_usbh_khci.h|ametal/soc/freescale/common/hw/include/amhw_fsl_usb.h" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -239,19 +239,19 @@
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.368630047" name="Cross ARM C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler">
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths.1995744453" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/kl26}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ametal/soc/freescale/common/drivers/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/components/libc/newlib_adapter/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/bme}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/components/util/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/bsp_common/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/arch/arm/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/3rdparty/CMSIS/Include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/gpio}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/adc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/bme}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/components/service/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/clk}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/cmp}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/dac}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/dma}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/ftfa}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/gpio}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/i2c}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/i2s}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/llwu}&quot;"/>
@@ -272,29 +272,13 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/uart}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/usb}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/wdt}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/components/util/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/components/service/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/soc/freescale/drivers/include/adc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/components/drivers/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/interface}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ametal/common/components/libc/newlib_adapter/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ametal/soc/freescale/common/hw/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/user_code}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ametal/board/amks16z_core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/user_config}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ametal/common/3rdparty/CMSIS/Include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ametal/common/device/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ametal/common/interface}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ametal/common/components/service/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ametal/arch/arm/common/hw/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ametal/arch/arm/common/drivers/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ametal/examples/amks16z_core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/user_config/am_hwconf_usrcfg}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ametal/soc/freescale/kinetis/KL/KL26}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ametal/soc/freescale/kinetis/KL/KL26/drivers/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ametal/soc/freescale/kinetis/KL/KL26/hw/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ametal/soc/freescale/common}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/user_config/am_servconf_usrcfg}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ametal/examples}&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.332063513" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="AM_VDEBUG"/>
@@ -353,7 +337,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="startup/am_kl26_armcc_system_init.c|soc/nxp|bsp_common/source/am_bsp_microlib.c|bsp_common/source/am_bsp_armlib.c|components/libc/microlib_adapter|components/libc/armlib_adapter|startup/am_kl26_armcc_startup.s|soc/zlg|ametal/common/components/usb|ametal/soc/freescale/common/drivers/source/am_fsl_usbh_khci.c|ametal/soc/freescale/common/drivers/source/am_fsl_usbd_khci.c|ametal/common/components/libc/microlib_adapter|ametal/common/components/libc/armlib_adapter|ametal/soc/freescale/s32|ametal/board/amks16z_core/am_bsp_armlib.c|ametal/board/amks16z_core/am_bsp_armlib.h|ametal/board/amks16z_core/am_bsp_microlib.c|ametal/board/amks16z_core/am_bsp_microlib.h|ametal/board/amks16z_core/am_kl26_armcc_startup.c|ametal/board/amks16z_core/am_kl26_armcc_startup.h|ametal/board/amks16z_core/am_kl26_armcc_startup.s|ametal/soc/freescale/kinetis/KL/KL26/kl26_sdk_version.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry excluding="components/usb|components/bootloader|startup/am_kl26_armcc_system_init.c|soc/nxp|bsp_common/source/am_bsp_microlib.c|bsp_common/source/am_bsp_armlib.c|components/libc/microlib_adapter|components/libc/armlib_adapter|startup/am_kl26_armcc_startup.s|soc/zlg|ametal/common/components/usb|ametal/soc/freescale/common/drivers/source/am_fsl_usbh_khci.c|ametal/soc/freescale/common/drivers/source/am_fsl_usbd_khci.c|ametal/common/components/libc/microlib_adapter|ametal/common/components/libc/armlib_adapter|ametal/soc/freescale/s32|ametal/board/amks16z_core/am_bsp_armlib.c|ametal/board/amks16z_core/am_bsp_armlib.h|ametal/board/amks16z_core/am_bsp_microlib.c|ametal/board/amks16z_core/am_bsp_microlib.h|ametal/board/amks16z_core/am_kl26_armcc_startup.c|ametal/board/amks16z_core/am_kl26_armcc_startup.h|ametal/board/amks16z_core/am_kl26_armcc_startup.s|ametal/soc/freescale/kinetis/KL/KL26/kl26_sdk_version.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

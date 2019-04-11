@@ -143,9 +143,9 @@ void am_zlg_spi2_dma_inst_deinit (am_spi_handle_t handle)
 /** \brief SPI3 平台初始化 */
 static void __zmf159_plfm_spi3_dma_init (void)
 {
-    am_gpio_pin_cfg(PIOB_13, PIOB_13_SPI2_SCK | PIOB_13_INPUT_FLOAT);
-    am_gpio_pin_cfg(PIOB_14, PIOB_14_SPI2_MISO | PIOB_14_AF_PP);
-    am_gpio_pin_cfg(PIOB_15, PIOB_15_SPI2_MOSI  | PIOB_15_AF_PP);
+    am_gpio_pin_cfg(PIOC_10, PIOC_10_SPI3_SCK  | PIOC_10_INPUT_FLOAT);
+    am_gpio_pin_cfg(PIOC_11, PIOC_11_SPI3_MISO | PIOC_11_AF_PP);
+    am_gpio_pin_cfg(PIOC_12, PIOC_12_SPI3_MOSI | PIOC_12_AF_PP);
 
     am_clk_enable(CLK_SPI3);
 }
@@ -153,9 +153,9 @@ static void __zmf159_plfm_spi3_dma_init (void)
 /** \brief 解除 SPI3 平台初始化 */
 static void __zmf159_plfm_spi3_dma_deinit (void)
 {
-    am_gpio_pin_cfg(PIOB_13, AM_GPIO_INPUT);
-    am_gpio_pin_cfg(PIOB_14, AM_GPIO_INPUT);
-    am_gpio_pin_cfg(PIOB_15, AM_GPIO_INPUT);
+    am_gpio_pin_cfg(PIOC_10, AM_GPIO_INPUT);
+    am_gpio_pin_cfg(PIOC_11, AM_GPIO_INPUT);
+    am_gpio_pin_cfg(PIOC_12, AM_GPIO_INPUT);
 
     am_clk_disable(CLK_SPI3);
 }
@@ -189,6 +189,7 @@ void am_zlg_spi3_dma_inst_deinit (am_spi_handle_t handle)
 {
     am_zlg_spi_dma_deinit(handle);
 }
+
 
 
 /**
