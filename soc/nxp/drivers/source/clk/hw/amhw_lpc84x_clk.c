@@ -275,6 +275,7 @@ uint32_t amhw_lpc84x_clk_sct_baseclkrate_get (void)
 uint32_t amhw_lpc84x_clk_usart_i2c_spi_baseclkrate_get (int id)
 {
     uint64_t inclk;
+    uint32_t inclk_temp;
     uint8_t  clk_sel = 0xf;
     uint32_t mult, div, infrg0;
 
@@ -334,7 +335,11 @@ uint32_t amhw_lpc84x_clk_usart_i2c_spi_baseclkrate_get (int id)
  	      /* 小数部分使能，得到倍频系数*/
  	      mult = LPC84X_SYSCON->frg0mult & 0xFF;
 
- 	      inclk = inclk / (1 + ((float)mult / (div + 1)));
+ 	     inclk_temp = inclk;
+ 	     inclk_temp = inclk_temp  / (1 * 1000 + ((mult * 1000) / (div + 1)));
+ 	     inclk = inclk_temp * 1000;
+
+ 	     //inclk = (inclk * 1000) / (1 * 1000 + ((mult * 1000) / (div + 1)));
  	   }
         break;
     case DEV_FRG1:
@@ -358,7 +363,11 @@ uint32_t amhw_lpc84x_clk_usart_i2c_spi_baseclkrate_get (int id)
   	      /* 小数部分使能，得到倍频系数*/
   	      mult = LPC84X_SYSCON->frg1mult & 0xFF;
 
-  	      inclk = inclk / (1 + ((float)mult / (div + 1)));
+  	       inclk_temp = inclk;
+  	       inclk_temp = inclk_temp  / (1 * 1000 + ((mult * 1000) / (div + 1)));
+  	       inclk = inclk_temp * 1000;
+
+       //   inclk = (inclk * 1000) / (1 * 1000 + ((mult * 1000) / (div + 1)));
  	   }
         break;
     case DEV_FRO_DIV:
