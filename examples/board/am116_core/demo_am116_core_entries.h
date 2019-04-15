@@ -506,6 +506,16 @@ void demo_am116_core_sensor_bmg160_entry (void);
  */
 void demo_am116_core_sensor_mmc5883ma_entry (void);
 
+/**
+ * \brief bootloader demo例程入口
+ */
+void demo_am116_core_bootloader_entry(void);
+
+/**
+ * \brief bootloader 应用程序demo例程入口
+ */
+void demo_am116_core_application_entry(void);
+
 #ifdef __cplusplus
 }
 #endif
