@@ -1356,6 +1356,16 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\examples\board\am217_core\fm175xx\demo_zlg217_core_dr_fm175xx_piccb_read_id.c</FilePath>
             </File>
+            <File>
+              <FileName>demo_zlg217_core_hw_adc_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\board\am217_core\adc\demo_zlg217_core_hw_adc_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_zlg217_core_std_multichan_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\board\am217_core\adc\demo_zlg217_core_std_multichan_adc.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1546,6 +1556,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\examples\soc\zlg\clk\demo_zlg_hw_clk.c</FilePath>
             </File>
+            <File>
+              <FileName>demo_zlg_hw_adc_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\soc\zlg\adc\demo_zlg_hw_adc_dma.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1720,6 +1735,11 @@
               <FileName>demo_std_wdt.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\examples\std\wdt\demo_std_wdt.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_std_multichan_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\examples\std\adc\demo_std_multichan_adc.c</FilePath>
             </File>
           </Files>
         </Group>
