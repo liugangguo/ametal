@@ -99,6 +99,7 @@ static am_softimer_t             receive_callback_timer;
 
 static uint32_t  write_offset = 0, read_offset = 0;
 
+am_uart_handle_t uart_handle;
 /**
  * \brief 串口接收回调函数
  */
@@ -117,7 +118,7 @@ void ___pfn_uart_rec_callback(void *p_arg, char inchar)
 
 static void __delay(void)
 {
-    int i = 1000000;
+    volatile int i = 1000000;
     while(i--);
 }
 
@@ -276,17 +277,19 @@ static void __detect_firmware_receive(void)
        /* 设置升级标志为升级区有效  */
        am_boot_update_flag_set(AM_BOOTLOADER_FLAG_UPDATE);
        am_kprintf("application : device will restart...\r\n");
-
+		 
        /*在设备重启之前最好进行一小段的延时，让串口有时间将缓冲区数据处理完*/
        __delay();
-       /* 重启设备  */
+//			 am_lpc84x_usart0_inst_deinit(uart_handle);
+//       am_lpc84x_clk_inst_deinit();
+       /* 重启设备 */
        am_boot_reset();
     }
 }
 
 void demo_am845_core_application_entry (void)
 {
-	  am_uart_handle_t uart_handle = am_lpc84x_usart0_inst_init();
+	  uart_handle = am_lpc84x_usart0_inst_init();
 	  am_debug_init(uart_handle, UART_BAUD);
 	
     am_kprintf("application : am845_core_bootloader_double_application start up successful!\r\n");

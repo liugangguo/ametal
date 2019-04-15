@@ -25,6 +25,7 @@
 #include "am_boot_firmware.h"
 #include "am_lpc845_boot_flash.h"
 #include "am_lpc845_boot.h"
+#include "am_boot_config.h"
 
 /*******************************************************************************
  * flash配置
@@ -73,9 +74,9 @@ am_boot_flash_handle_t am_lpc845_boot_flash_inst_init(void)
 static am_lpc845_boot_firmware_flash_devinfo_t __g_firmware_flash_devinfo = {
     /** \brief 固件在flash中存放的起始地址 */
 #if AM_DOUBLE_BOOT
-        0X3000,
+    0X3000,
 #else
-        0x3000,
+    0x3000,
 #endif
 
     /** \brief 驱动存放固件缓冲区大小，也是flash最小写入的字节数，最大不可超过1024 */
@@ -104,16 +105,16 @@ am_boot_firmware_handle_t am_lpc845_boot_firmware_flash(am_boot_flash_handle_t f
  */
 static am_lpc845_boot_devinfo_t __g_lpc845_boot_devinfo = {
 #if AM_DOUBLE_BOOT
-        0X3000,
+    0X3000,
 #else
-        0x3000,
+    0x3000,
 #endif
 
     /**< \brief 升级标志的存放地址*/
 #if AM_DOUBLE_BOOT
-        0X3000 - 64,
+    0X3000 - 64,
 #else
-       0,
+    0,
 #endif
     /** \brief flash起始地址*/
     0,

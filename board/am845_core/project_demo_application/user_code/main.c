@@ -31,12 +31,15 @@
 #include "am_fm175xx.h"
 #include "demo_am845_core_entries.h"
 
+#include "am_lpc84x.h"
+#include "am_uart.h"
+#include "am_lpc84x_inst_init.h"
 /**
  * \brief AMetal 应用程序入口
  */
 void am_main (void) 
 {
-    demo_am845_core_application_entry();
+      demo_am845_core_application_entry();
 
     while(1) {
 

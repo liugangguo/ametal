@@ -26,6 +26,7 @@
 #include "am_vdebug.h"
 #include "hw/amhw_lpc84x_iap.h"
 #include "hw/amhw_arm_systick.h"
+#include "am_boot_config.h"
 
 static am_lpc845_boot_dev_t *__gp_boot_dev = NULL;
 static int __boot_source_release(void);
@@ -193,6 +194,7 @@ static int __boot_update_flag_get_and_dispose ()
    if (flags == AM_BOOTLOADER_FLAG_APP) {
        return AM_OK;
    } else if(flags == AM_BOOTLOADER_FLAG_UPDATE) {
+		 am_kprintf("bootloader : copying firmware from backup...\r\n");
        for(i = 0; i < app_sector_count; i++) {
            am_boot_flash_erase_region(
                __gp_boot_dev->flash_handle,

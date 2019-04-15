@@ -41,9 +41,7 @@
 #include "am_lpc84x_inst_init.h"
 #include "am_bootconf_lpc845.h"
 #include "am_int.h"
-
-/** \brief 0:单区bootloader；1:双区bootloader */
-#define AM_DOUBLE_BOOT              1
+#include "am_boot_config.h"
 
 /** \brief 串口数据接收缓存大小 */
 #define UART_CALLBACK_BUF_SIZE      4096
@@ -107,8 +105,7 @@ static void __uart_callback(void *p_arg, char inchar)
         boot_state = BOOT_STARTUP_STATE;
     }
 
-    if(boot_state == APP_RECEIVE_STATE)
-    {
+    if(boot_state == APP_RECEIVE_STATE) {
         uart_callback_buffer[write_offset++] = (uint8_t)inchar;
         write_offset &= UART_CALLBACK_BUF_SIZE - 1;
     }

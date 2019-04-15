@@ -14,16 +14,16 @@
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
-          <Device>LPC824M201JDH20</Device>
+          <Device>LPC845M301JHI48</Device>
           <Vendor>NXP</Vendor>
-          <PackID>Keil.LPC800_DFP.1.2.0</PackID>
-          <PackURL>http://www.keil.com/pack/</PackURL>
-          <Cpu>IROM(0x00000000,0x8000) IRAM(0x10000000,0x2000) CPUTYPE("Cortex-M0+") CLOCK(12000000) ELITTLE</Cpu>
+          <PackID>NXP.LPC845_DFP.11.0.0</PackID>
+          <PackURL>http://mcuxpresso.nxp.com/cmsis_pack/repo/</PackURL>
+          <Cpu>IRAM(0x10000000,0x4000) IROM(0x00000000,0x010000) CPUTYPE("Cortex-M0+") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD10000000 -FCFE0 -FN1 -FF0LPC8xx_32 -FS00 -FL08000 -FP0($$Device:LPC824M201JDH20$Flash\LPC8xx_32.FLM))</FlashDriverDll>
+          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD10000000 -FC1000 -FN1 -FF0LPC84x_64 -FS00 -FL010000 -FP0($$Device:LPC845M301JHI48$arm\LPC84x_64.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:LPC824M201JDH20$Device\Include\LPC82x.h</RegisterFile>
+          <RegisterFile>$$Device:LPC845M301JHI48$fsl_device_registers.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -33,7 +33,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:LPC824M201JDH20$SVD\LPC82x.svd</SFDFile>
+          <SFDFile>$$Device:LPC845M301JHI48$LPC845.xml</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -245,12 +245,12 @@
               <IRAM>
                 <Type>0</Type>
                 <StartAddress>0x10000000</StartAddress>
-                <Size>0x2000</Size>
+                <Size>0x4000</Size>
               </IRAM>
               <IROM>
                 <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x8000</Size>
+                <Size>0x10000</Size>
               </IROM>
               <XRAM>
                 <Type>0</Type>
@@ -275,7 +275,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x8000</Size>
+                <Size>0x10000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -300,7 +300,7 @@
               <OCR_RVCT9>
                 <Type>0</Type>
                 <StartAddress>0x10000000</StartAddress>
-                <Size>0x2000</Size>
+                <Size>0x4000</Size>
               </OCR_RVCT9>
               <OCR_RVCT10>
                 <Type>0</Type>
@@ -2077,6 +2077,11 @@
               <FileType>1</FileType>
               <FilePath>..\user_config\am_double_app_conf_usrcfg\am_double_app_conf_lpc845.c</FilePath>
             </File>
+            <File>
+              <FileName>am_boot_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\user_config\am_double_app_conf_usrcfg\am_boot_config.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -2085,7 +2090,7 @@
       <TargetName>release</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060061::V5.06 update 1 (build 61)::ARMCC</pCCUsed>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -2124,7 +2129,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\debug\</OutputDirectory>
-          <OutputName>template_am824_core</OutputName>
+          <OutputName>demo_am845_core_application</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -2155,10 +2160,10 @@
             <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
-            <RunUserProg1>0</RunUserProg1>
-            <RunUserProg2>0</RunUserProg2>
+            <RunUserProg1>1</RunUserProg1>
+            <RunUserProg2>1</RunUserProg2>
             <UserProg1Name>$K\ARM\BIN\ELFDWT.EXE !L BASEADDRESS(0x00000000)</UserProg1Name>
-            <UserProg2Name></UserProg2Name>
+            <UserProg2Name>fromelf --bin -o "$L@L.bin" "$L@L.axf"</UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
             <nStopA1X>0</nStopA1X>
@@ -2213,7 +2218,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -2413,7 +2418,7 @@
               <MiscControls></MiscControls>
               <Define>AM_VDEBUG AM_CORTEX_M0</Define>
               <Undefine></Undefine>
-              <IncludePath>..\user_code;..\user_config;..\user_config\am_hwconf_usrcfg;..\user_config\am_servconf_usrcfg;..\..\..\..\3rdparty\CMSIS\Include;..\..\..\..\arch\arm\include;..\..\..\bsp_common\include;..\..\..\..\components\drivers\include;..\..\..\..\components\libc\microlib_adapter\include;..\..\..\..\components\libc\armlib_adapter\include;..\..\..\..\components\service\include;..\..\..\..\components\util\include;..\..\..\..\examples\board\am824_core;..\..\..\..\examples\components;..\..\..\..\examples\soc\nxp;..\..\..\..\examples\std;..\..\..\..\interface;..\..\..\..\soc\nxp\lpc824;..\..\..\..\soc\nxp\drivers\include\acmp;..\..\..\..\soc\nxp\drivers\include\adc;..\..\..\..\soc\nxp\drivers\include\clk;..\..\..\..\soc\nxp\drivers\include\crc;..\..\..\..\soc\nxp\drivers\include\dma;..\..\..\..\soc\nxp\drivers\include\fmc;..\..\..\..\soc\nxp\drivers\include\gpio;..\..\..\..\soc\nxp\drivers\include\i2c;..\..\..\..\soc\nxp\drivers\include\iap;..\..\..\..\soc\nxp\drivers\include\inmux;..\..\..\..\soc\nxp\drivers\include\iocon;..\..\..\..\soc\nxp\drivers\include\mrt;..\..\..\..\soc\nxp\drivers\include\pint;..\..\..\..\soc\nxp\drivers\include\pmu;..\..\..\..\soc\nxp\drivers\include\rit;..\..\..\..\soc\nxp\drivers\include\rtc;..\..\..\..\soc\nxp\drivers\include\sct;..\..\..\..\soc\nxp\drivers\include\spi;..\..\..\..\soc\nxp\drivers\include\swm;..\..\..\..\soc\nxp\drivers\include\syscon;..\..\..\..\soc\nxp\drivers\include\timer;..\..\..\..\soc\nxp\drivers\include\usart;..\..\..\..\soc\nxp\drivers\include\utick;..\..\..\..\soc\nxp\drivers\include\wkt;..\..\..\..\soc\nxp\drivers\include\wwdt</IncludePath>
+              <IncludePath>..\user_code;..\user_config;..\user_config\am_hwconf_usrcfg;..\user_config\am_servconf_usrcfg;..\..\..\..\3rdparty\CMSIS\Include;..\..\..\..\arch\arm\include;..\..\..\bsp_common\include;..\..\..\..\components\drivers\include;..\..\..\..\components\libc\microlib_adapter\include;..\..\..\..\components\libc\armlib_adapter\include;..\..\..\..\components\service\include;..\..\..\..\components\util\include;..\..\..\..\examples\board\am824_core;..\..\..\..\examples\components;..\..\..\..\examples\soc\nxp;..\..\..\..\examples\std;..\..\..\..\interface;..\..\..\..\soc\nxp\lpc824;..\..\..\..\soc\nxp\drivers\include\acmp;..\..\..\..\soc\nxp\drivers\include\adc;..\..\..\..\soc\nxp\drivers\include\clk;..\..\..\..\soc\nxp\drivers\include\crc;..\..\..\..\soc\nxp\drivers\include\dma;..\..\..\..\soc\nxp\drivers\include\fmc;..\..\..\..\soc\nxp\drivers\include\gpio;..\..\..\..\soc\nxp\drivers\include\i2c;..\..\..\..\soc\nxp\drivers\include\iap;..\..\..\..\soc\nxp\drivers\include\inmux;..\..\..\..\soc\nxp\drivers\include\iocon;..\..\..\..\soc\nxp\drivers\include\mrt;..\..\..\..\soc\nxp\drivers\include\pint;..\..\..\..\soc\nxp\drivers\include\pmu;..\..\..\..\soc\nxp\drivers\include\rit;..\..\..\..\soc\nxp\drivers\include\rtc;..\..\..\..\soc\nxp\drivers\include\sct;..\..\..\..\soc\nxp\drivers\include\spi;..\..\..\..\soc\nxp\drivers\include\swm;..\..\..\..\soc\nxp\drivers\include\syscon;..\..\..\..\soc\nxp\drivers\include\timer;..\..\..\..\soc\nxp\drivers\include\usart;..\..\..\..\soc\nxp\drivers\include\utick;..\..\..\..\soc\nxp\drivers\include\wkt;..\..\..\..\soc\nxp\drivers\include\wwdt;..\..\..\..\soc\nxp\lpc845;..\..\..\..\soc\nxp\drivers\include\dac\hw;..\..\..\..\soc\nxp\lpc845\bootloader\include;..\..\..\..\soc\nxp\drivers\include\dac;..\..\..\..\components\bootloader\include\core;..\..\..\..\examples\board\am845_core;..\user_config\am_double_app_conf_usrcfg</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -2435,7 +2440,7 @@
             </VariousControls>
           </Aads>
           <LDads>
-            <umfTarg>1</umfTarg>
+            <umfTarg>0</umfTarg>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
             <noStLib>0</noStLib>
@@ -2444,7 +2449,7 @@
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0x10000000</DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile></ScatterFile>
+            <ScatterFile>.\demo_am845_core_application.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc></Misc>
@@ -4151,6 +4156,11 @@
               <FileName>am_double_app_conf_lpc845.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\user_config\am_double_app_conf_usrcfg\am_double_app_conf_lpc845.c</FilePath>
+            </File>
+            <File>
+              <FileName>am_boot_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\user_config\am_double_app_conf_usrcfg\am_boot_config.h</FilePath>
             </File>
           </Files>
         </Group>
