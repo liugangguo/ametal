@@ -76,11 +76,6 @@ static volatile uint32_t write_offset = 0, read_offset = 0;
 /** \brief bootloader启动延时软件定时器结构体 */
 static am_softimer_t timeout_timer;
 
-/** \brief 定时器定时时间 */
-//static uint8_t timer            = BOOT_WAITE_TIME;
-
-/** \brief bootloader状态*/
-//static uint8_t boot_state       = BOOT_WAIT_STATE;
 
 /** \brief 一些常用的标志和初始值 */
 static volatile uint8_t second_timeout = 0, firmware_timeout = 0, timer = BOOT_WAITE_TIME, boot_state = BOOT_WAIT_STATE;

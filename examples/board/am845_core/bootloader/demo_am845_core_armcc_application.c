@@ -28,8 +28,8 @@
  */
 
 /**
- * \addtogroup demo_if_am845_core_double_application
- * \copydoc demo_am845_core_double_application.c
+ * \addtogroup demo_if_am845_core_armcc_application
+ * \copydoc demo_am845_core_armcc_application.c
  */
 #include "ametal.h"
 #include "am_board.h"
@@ -42,7 +42,6 @@
 #include "am_double_app_conf_lpc845.h"
 #include "am_lpc84x_inst_init.h"
 #include <string.h>
-
 
 /**
  * \name 数据接收状态
