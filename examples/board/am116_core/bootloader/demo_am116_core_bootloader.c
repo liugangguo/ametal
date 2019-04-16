@@ -42,7 +42,7 @@
 #include <string.h>
 
 /** \brief 串口数据接收缓存大小  */
-#define UART_CALLBACK_BUF_SIZE      64
+#define UART_CALLBACK_BUF_SIZE      512
 
 /** \brief 启动延时时间（秒） */
 #define BOOT_WAITE_TIME             5
@@ -64,7 +64,7 @@
 #define APP_RECEIVE_STATE           3
 /** @} */
 
-static uint32_t write_offset = 0, read_offset = 0;
+volatile static uint32_t write_offset = 0, read_offset = 0;
 
 /** \brief bootloader启动延时软件定时器结构体 */
 static am_softimer_t timeout_timer;
@@ -100,8 +100,7 @@ static void __uart_callback(void *p_arg, char inchar)
         boot_state = BOOT_STARTUP_STATE;
     }
 
-    if(boot_state == APP_RECEIVE_STATE)
-    {
+    if(boot_state == APP_RECEIVE_STATE) {
         uart_callback_buffer[write_offset++] = (uint8_t)inchar;
         write_offset &= UART_CALLBACK_BUF_SIZE - 1;
     }
@@ -224,7 +223,7 @@ void demo_am116_core_bootloader_entry (void)
                 am_kprintf("bootloader : firmware transmission is timeout, bootloader will restart!\r\n");
                 break;
             }
-            /* 固件存放  ，每次存放4字节 */
+            /* 固件存放，每次存放4字节 */
             ret = am_boot_firmware_store_bytes(firmware_handle, (uint8_t *)&rev, sizeof(rev));
             if(ret != AM_OK) {
                 am_kprintf("bootloader : firmware store is error, bootloader will restart!\r\n");
@@ -251,6 +250,7 @@ void demo_am116_core_bootloader_entry (void)
                 continue;
             }
         }
+	
         /* 固件存放结束  */
         am_boot_firmware_store_final(firmware_handle);
         am_kprintf("bootloader : firmware receive successful\r\n");

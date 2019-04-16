@@ -58,25 +58,25 @@
 
 void am_board_init (void)
 {
-    am_uart_handle_t  dbg_handle = NULL;
+//    am_uart_handle_t  dbg_handle = NULL;
 
-#ifdef  __GNUC__
-    extern char __heap_start__;            /* Defined by the linker */
-    extern char __heap_end__;              /* Defined by the linker */
+//#ifdef  __GNUC__
+//    extern char __heap_start__;            /* Defined by the linker */
+//    extern char __heap_end__;              /* Defined by the linker */
 
-    static char *heap_start = &__heap_start__;
-    static char *heap_end   = &__heap_end__;
+//    static char *heap_start = &__heap_start__;
+//    static char *heap_end   = &__heap_end__;
 
-#elif defined(__CC_ARM)
+//#elif defined(__CC_ARM)
 
-    extern int Image$$RW_IRAM1$$ZI$$Limit; /* Defined by the linker */
-	
-    int *heap_start = (int *)&Image$$RW_IRAM1$$ZI$$Limit;
-    int *heap_end   = (int *)SRAM_END;
-#endif
+//    extern int Image$$RW_IRAM1$$ZI$$Limit; /* Defined by the linker */
+//	
+//    int *heap_start = (int *)&Image$$RW_IRAM1$$ZI$$Limit;
+//    int *heap_end   = (int *)SRAM_END;
+//#endif
 
-    /* 系统堆栈初始化 */
-    am_bsp_system_heap_init((void *)heap_start, (void *)heap_end);
+//    /* 系统堆栈初始化 */
+//    am_bsp_system_heap_init((void *)heap_start, (void *)heap_end);
 
 #ifdef AM_VDEBUG
 #if (AM_CFG_DEBUG_ENABLE == 1)
