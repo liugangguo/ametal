@@ -472,6 +472,16 @@ void demo_zlg217_core_dr_fm175xx_piccb_read_id(void);
 /**
  * \brief FM175XX LCPD模式 A类卡读卡类型和卡号例程
  */
-void demo_zlg217_core_dr_fm175xx_picca_lpcd_read_id(void);                                
+void demo_zlg217_core_dr_fm175xx_picca_lpcd_read_id(void);
+
+/**
+ * \brief 基于KinetisFlashTool上位机的bootloader 例程
+ */
+void demo_zlg217_core_boot_kft_bootloader_entry (void);
+
+/**
+ * \brief 基于KinetisFlashTool上位机的bootloader的测试应用程序例程
+ */
+void demo_zlg217_core_boot_kft_application_entry (void);
                                 
 /* end of file */
