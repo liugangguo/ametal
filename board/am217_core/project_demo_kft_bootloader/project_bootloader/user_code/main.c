@@ -34,8 +34,6 @@
 
 int am_main (void)
 {
-    AM_DBG_INFO("Start up successful!\r\n");
-
     demo_zlg217_core_boot_kft_bootloader_entry();
 
     while (1) {

@@ -29,10 +29,10 @@
 
 typedef struct am_zlg217_boot_devinfo {
     uint32_t  app_start_addr;      /**< \brief 应用代码区起始地址*/
-    uint32_t  update_start_addr;   /**< \brief 升级区起始地址*/
+    //uint32_t  update_start_addr;   /**< \brief 升级区起始地址*/
     uint32_t  update_flag_addr;    /**< \brief 升级标志的存放地址，一般是放在应用代码区起始地址的前4字节*/
     /**< \brief 应用代码占用的扇区数，升级区占用的扇区数相同*/
-    uint32_t  app_region_sector_count;
+    //uint32_t  app_region_sector_count;
     uint32_t  flash_start_addr;    /**< \brief flash的起始地址*/
     uint32_t  flash_size;          /**< \brief flash的大小 */
 

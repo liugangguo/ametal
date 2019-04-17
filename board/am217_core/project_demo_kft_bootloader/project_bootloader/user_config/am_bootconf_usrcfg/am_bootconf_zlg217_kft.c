@@ -164,12 +164,8 @@ am_boot_flash_handle_t am_zlg217_boot_flash_inst_init(void)
 static am_zlg217_boot_devinfo_t __g_zlg217_boot_devinfo = {
     /**< \brief 应用代码区起始地址*/
     0x08005800,
-    /**< \brief 升级区起始地址*/
-    0x08005800,
     /**< \brief 升级标志的存放地址*/
     0x0801FC00,
-    /**< \brief 应用代码占用的扇区数，升级区占用的扇区数相同*/
-    95,
     /** \brief flash起始地址*/
     0x08000000,
     /** \brief flash大小 */

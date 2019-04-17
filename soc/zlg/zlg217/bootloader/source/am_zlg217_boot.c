@@ -144,7 +144,7 @@ int am_boot_update_flag_set(uint32_t flag)
 static int __boot_update_flag_get_and_dispose ()
 {
     uint32_t flags;
-    uint16_t i = 0, ret;
+    //uint16_t i = 0, ret;
     if(__gp_boot_dev == NULL) {
         return -AM_ERROR;
     }
@@ -155,29 +155,31 @@ static int __boot_update_flag_get_and_dispose ()
 
    if (flags == AM_BOOTLOADER_FLAG_APP) {
        return AM_OK;
-   } else if(flags == AM_BOOTLOADER_FLAG_UPDATE) {
-       for(i = 0; i < __gp_boot_dev->p_devinfo->app_region_sector_count; i++) {
-           am_boot_flash_erase_region(
-               __gp_boot_dev->flash_handle,
-               __gp_boot_dev->p_devinfo->app_start_addr + i * 1024,
-               1024);
-       }
-
-       for (i = 0 ; i < __gp_boot_dev->p_devinfo->app_region_sector_count ; i++) {
-
-           ret = am_boot_flash_program(
-               __gp_boot_dev->flash_handle,
-               __gp_boot_dev->p_devinfo->app_start_addr + i * 1024,
-               (uint8_t *)(i * 1024 + __gp_boot_dev->p_devinfo->update_start_addr) ,
-               1024);
-
-           if (ret != AM_OK) {
-               am_kprintf("bootloader : firmware update error\r\n");
-               return AM_ERROR;
-           }
-       }
-       am_boot_update_flag_set(AM_BOOTLOADER_FLAG_APP);
-   } else {
+   }
+//   else if(flags == AM_BOOTLOADER_FLAG_UPDATE) {
+//       for(i = 0; i < __gp_boot_dev->p_devinfo->app_region_sector_count; i++) {
+//           am_boot_flash_erase_region(
+//               __gp_boot_dev->flash_handle,
+//               __gp_boot_dev->p_devinfo->app_start_addr + i * 1024,
+//               1024);
+//       }
+//
+//       for (i = 0 ; i < __gp_boot_dev->p_devinfo->app_region_sector_count ; i++) {
+//
+//           ret = am_boot_flash_program(
+//               __gp_boot_dev->flash_handle,
+//               __gp_boot_dev->p_devinfo->app_start_addr + i * 1024,
+//               (uint8_t *)(i * 1024 + __gp_boot_dev->p_devinfo->update_start_addr) ,
+//               1024);
+//
+//           if (ret != AM_OK) {
+//               am_kprintf("bootloader : firmware update error\r\n");
+//               return AM_ERROR;
+//           }
+//       }
+//       am_boot_update_flag_set(AM_BOOTLOADER_FLAG_APP);
+//   }
+   else {
        return AM_ERROR;
    }
 
