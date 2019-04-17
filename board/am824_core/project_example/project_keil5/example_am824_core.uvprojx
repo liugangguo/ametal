@@ -981,6 +981,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\soc\nxp\lpc824\lpc82x_sdk_version.c</FilePath>
             </File>
+            <File>
+              <FileName>amhw_lpc82x_pmu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\soc\nxp\drivers\source\pmu\hw\amhw_lpc82x_pmu.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3169,6 +3174,11 @@
               <FileName>lpc82x_sdk_version.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\soc\nxp\lpc824\lpc82x_sdk_version.c</FilePath>
+            </File>
+            <File>
+              <FileName>amhw_lpc82x_pmu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\soc\nxp\drivers\source\pmu\hw\amhw_lpc82x_pmu.c</FilePath>
             </File>
           </Files>
         </Group>
