@@ -53,7 +53,7 @@ void demo_zlg217_core_boot_kft_bootloader_entry (void)
 
     am_zlg217_std_boot_inst_init(flash_handle);
 
-    if (am_gpio_get(__ENABLE_PIN)/* && am_boot_app_is_ready()*/) {
+    if (am_gpio_get(__ENABLE_PIN) && am_boot_app_is_ready()) {
 
         am_gpio_pin_cfg(__ENABLE_PIN, AM_GPIO_INPUT | AM_GPIO_FLOAT);
 #if DEBUG_PRINT

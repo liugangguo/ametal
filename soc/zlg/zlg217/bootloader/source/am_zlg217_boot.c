@@ -118,17 +118,18 @@ int am_boot_update_flag_set(uint32_t flag)
         return -AM_ERROR;
     }
 
+
     ret = am_boot_flash_erase_region(__gp_boot_dev->flash_handle,
                                      __gp_boot_dev->p_devinfo->update_flag_addr,
-                                     1024);
+                                     4);
     if(ret != AM_OK) {
         return AM_ERROR;
     }
 
     ret = am_boot_flash_program(__gp_boot_dev->flash_handle,
                                 __gp_boot_dev->p_devinfo->update_flag_addr,
-                                (uint8_t *)&flag,
-                                 4);
+                                &flag,
+                                 sizeof(flag));
     if(ret != AM_OK) {
         return AM_ERROR;
     }
