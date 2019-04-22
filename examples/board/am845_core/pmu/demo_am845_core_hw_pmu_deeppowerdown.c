@@ -49,12 +49,14 @@
 #include "am_board.h"
 #include "demo_nxp_entries.h"
 #include "lpc84x_periph_map.h"
+#include "am_lpc84x_inst_init.h"
 
 /*******************************************************************************
   外部函数定义
 *******************************************************************************/
 
-extern void demo_lpc845_hw_pmu_deeppowerdown_entry(amhw_lpc82x_pmu_t  *p_hw_pmu);
+extern void demo_lpc845_hw_pmu_deeppowerdown_entry (amhw_lpc82x_pmu_t *p_hw_pmu,
+                                                    am_timer_handle_t  wkt_handle);
 /**
  * \brief 例程入口
  */
@@ -62,8 +64,10 @@ void demo_am845_core_hw_pmu_deeppowerdown_entry (void)
 {
     am_kprintf("demo am845_core hw pmu deeppowerdown!\r\n");
   
+    am_timer_handle_t wkt_handle = am_lpc84x_wkt_inst_init();
+
     /* 进入 DeepPowerDown 模式 */
-    demo_lpc845_hw_pmu_deeppowerdown_entry(LPC84X_PMU);
+    demo_lpc845_hw_pmu_deeppowerdown_entry(LPC84X_PMU, wkt_handle);
 
 
 }

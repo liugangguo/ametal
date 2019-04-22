@@ -77,6 +77,31 @@ typedef enum amhw_lpc82x_pmu_gp_reg_src {
 } amhw_lpc82x_pmu_gp_reg_src_t;
 
 /**
+ * \name 系统控制寄存器宏定义
+ * @{
+ */
+/** \brief 处理器返回到线程模式时不进入睡眠 */
+#define AMHW_LPC82X_SCR_ISRBACK_NTO_SLP     AM_SBF(0, 1)
+
+/** \brief 处理器返回到线程模式时进入睡眠 */
+#define AMHW_LPC82X_SCR_ISRBACK_TO_SLP      AM_SBF(1, 1)
+
+/** \brief 将睡眠模式作为低功耗模式 */
+#define AMHW_LPC82X_SCR_LOWPWR_MODE_SLP     AM_SBF(0, 2)
+
+/** \brief 将深度睡眠模式作为低功耗模式 */
+#define AMHW_LPC82X_SCR_LOWPWR_MODE_DPSLP   AM_SBF(1, 2)
+
+/** \brief 只有使能的中断能够唤醒处理器 */
+#define AMHW_LPC82X_SCR_WKUP_BY_ENAISR      AM_SBF(0, 4)
+
+/** \brief 所有中断能够唤醒处理器 */
+#define AMHW_LPC82X_SCR_WKUP_BY_ALLISR      AM_SBF(1, 4)
+/**
+ * @}
+ */
+
+/**
  * \brief PMU PCON PM 选择电源模式
  *
  * \param[in] p_hw_pmu : 指向PMU电源控制寄存器块的指针
@@ -321,6 +346,18 @@ void amhw_lpc82x_pmu_wakeclkpad_disable (amhw_lpc82x_pmu_t *p_hw_pmu)
 {
     AM_BIT_CLR(p_hw_pmu->dpdctrl, 5);
 }
+
+/**
+ * \brief 低功耗模式设置
+ *
+ * \param[in] p_hw_pmu : 指向PMU电源控制寄存器块的指针
+ * \param[in] mode     : 需要配置的模式
+ *
+ * \return AM_ERROR    : 设置失败
+ *         AM_OK       : 设置成功
+ */
+int amhw_lpc82x_lowpower_mode_set (amhw_lpc82x_pmu_t       *p_hw_pmu,
+                                   amhw_lpc82x_pmu_pm_src_t mode);
 
 
 /**

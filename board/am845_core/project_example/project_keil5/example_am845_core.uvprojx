@@ -1006,6 +1006,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\soc\nxp\drivers\source\iap\hw\amhw_lpc84x_iap.c</FilePath>
             </File>
+            <File>
+              <FileName>amhw_lpc84x_pmu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\soc\nxp\drivers\source\pmu\hw\amhw_lpc84x_pmu.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3089,6 +3094,11 @@
               <FileName>amhw_lpc84x_iap.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\soc\nxp\drivers\source\iap\hw\amhw_lpc84x_iap.c</FilePath>
+            </File>
+            <File>
+              <FileName>amhw_lpc84x_pmu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\soc\nxp\drivers\source\pmu\hw\amhw_lpc84x_pmu.c</FilePath>
             </File>
           </Files>
         </Group>

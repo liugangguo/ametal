@@ -34,6 +34,7 @@
  *
  * \internal
  * \par Modification history
+ * - 1.02 19-04-17  ipk, modified
  * - 1.01 15-12-01  sky, modified
  * - 1.00 15-07-14  zxl, first implementation
  * \endinternal
@@ -49,46 +50,9 @@
 #include "am_int.h"
 #include "am_vdebug.h"
 #include "am_board.h"
-#include "hw/amhw_lpc82x_pmu.h"
+#include "hw/amhw_lpc84x_pmu.h"
 #include "hw/amhw_lpc_wkt.h"
 #include "hw/amhw_lpc84x_clk.h"
-
-/*******************************************************************************
-  宏定义
-*******************************************************************************/
-
-/** \brief 选择 IRC 时钟 频率为 750kHz */
-#define __IRC_CLOCK_FREQ          750
-
-/** \brief 选择低功耗时钟 频率为 10kHz */
-#define __LOW_POWER_CLOCK_FREQ    10
-
-/**
- * \name 系统控制寄存器宏定义
- * @{
- */
-
-/** \brief 处理器返回到线程模式时不进入睡眠 */
-#define __AMHW_LPC84X_SCR_ISRBACK_NTO_SLP     AM_SBF(0, 1)
-
-/** \brief 处理器返回到线程模式时进入睡眠 */
-#define __AMHW_LPC84X_SCR_ISRBACK_TO_SLP      AM_SBF(1, 1)
-
-/** \brief 将睡眠模式作为低功耗模式 */
-#define __AMHW_LPC84X_SCR_LOWPWR_MODE_SLP     AM_SBF(0, 2)
-
-/** \brief 将深度睡眠模式作为低功耗模式 */
-#define __AMHW_LPC84X_SCR_LOWPWR_MODE_DPSLP   AM_SBF(1, 2)
-
-/** \brief 只有使能的中断能够唤醒处理器 */
-#define __AMHW_LPC84X_SCR_WKUP_BY_ENAISR      AM_SBF(0, 4)
-
-/** \brief 所有中断能够唤醒处理器 */
-#define __AMHW_LPC84X_SCR_WKUP_BY_ALLISR      AM_SBF(1, 4)
-
-/**
- * @}
- */
 
 /*******************************************************************************
   本地全局变量定义
@@ -102,37 +66,6 @@ am_local volatile uint8_t __g_deeppowerdown_wkt_flag = 0;
 *******************************************************************************/
 
 /**
- * \brief 设置当前定时器的计数值
- *
- * \param[in] delay_inms 设置定时时间 delay_inms，延时时间(单位：ms)
- *
- * \return 无
- */
-am_local void __wkt_delayms_set (uint32_t delay_inms)
-{
-
-    /* 定时 (delay_inms) ms */
-    if(amhw_lpc_wkt_clksel_get(LPC84X_WKT)) {
-        amhw_lpc_wkt_count_set(LPC84X_WKT,
-                               __LOW_POWER_CLOCK_FREQ * delay_inms);
-    } else {
-        amhw_lpc_wkt_count_set(LPC84X_WKT, __IRC_CLOCK_FREQ * delay_inms);
-    }
-}
-
-/**
- * \brief 系统控制寄存器设定
- *
- * \param[in] flags 系统控制寄存器宏 (#__AMHW_LPC84X_SCR_ISRBACK_NTO_SLP)
- *
- * \return 无
- */
-am_local void __scb_scr_set (uint32_t flags)
-{
-    SCB->SCR = flags;
-}
-
-/**
  * \brief WKT 中断服务函数
  */
 am_local void __deeppowerdown_wkt_isr (void *p_arg)
@@ -144,34 +77,10 @@ am_local void __deeppowerdown_wkt_isr (void *p_arg)
 }
 
 /**
- * \brief WKT 初始化
- */
-am_local void __wkt_init (void)
-{
-
-    /* 初始化 WKT AHB 时钟 */
-    amhw_lpc84x_clk_periph_enable(AMHW_LPC84X_CLK_WKT);
-
-    /* 复位 WFT */
-    amhw_lpc84x_syscon_periph_reset(AMHW_LPC84X_RESET_WKT);
-
-    /* 低功耗时钟源 */
-    amhw_lpc_wkt_clksel_cfg(LPC84X_WKT, AMHW_LPC_WKT_LOW_POWER_CLOCK);
-
-    /* 定时 (delayInMs) 5s */
-    __wkt_delayms_set(5000);
-
-    /* 打开 WKT 中断 */
-    am_int_enable(INUM_WKT);
-
-    /* 连接中断服务函数 */
-    am_int_connect(INUM_WKT, __deeppowerdown_wkt_isr, (void *)0);
-}
-
-/**
  * \brief PMU 深度掉电模式初始化
  */
-void demo_lpc845_hw_pmu_deeppowerdown_entry (amhw_lpc82x_pmu_t  *p_hw_pmu)
+void demo_lpc845_hw_pmu_deeppowerdown_entry (amhw_lpc82x_pmu_t  *p_hw_pmu,
+                                             am_timer_handle_t  wkt_handle)
 {
   
     /* 延时一秒，方便下次下载程序 */
@@ -212,26 +121,17 @@ void demo_lpc845_hw_pmu_deeppowerdown_entry (amhw_lpc82x_pmu_t  *p_hw_pmu)
         /* 禁用引脚 PIO0_4 上的唤醒功能 */
         amhw_lpc82x_pmu_wakepad_disable(p_hw_pmu);
 
-        /* ARM Cortex-M0+ 内核的低功耗模式，设置为深度睡眠模式 */
-        __scb_scr_set(__AMHW_LPC84X_SCR_LOWPWR_MODE_DPSLP);
+        amhw_lpc84x_lowpower_mode_set(p_hw_pmu, AMHW_LPC82X_PMU_PCON_MODE_DEEPPD);
 
-        /* 使能低功耗振荡器 */
-        amhw_lpc82x_pmu_lposcen_enable(p_hw_pmu);
+        /* WKT 连接中断回调 */
+        am_timer_callback_set(wkt_handle, 0, __deeppowerdown_wkt_isr, NULL);
 
-        /* 深度掉电模式下使能低功耗振荡器 */
-        amhw_lpc82x_pmu_lposcdpden_enable(p_hw_pmu);
-
-        /* ARM WFI 将进入深度掉电模式 */
-        amhw_lpc82x_pmu_pm_cfg(p_hw_pmu,
-                               AMHW_LPC82X_PMU_PCON_MODE_DEEPPD);
-
-        /* WKT 初始化 */
-        __wkt_init();
+        /* 设置 WKT 定时时间 5s */
+        am_timer_enable_us(wkt_handle, 0, 5000000);
 
         /* 进入深度掉电模式 */
         __WFI();
     }
-    
     /* 从深度掉电模式唤醒后，通用寄存器数据检查正确，LED0 闪烁一次 */
     am_led_on(LED0);
     am_mdelay(500);

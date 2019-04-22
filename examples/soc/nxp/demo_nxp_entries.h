@@ -329,7 +329,8 @@ void demo_lpc824_hw_pll_entry(void);
  *
  * \param[in] p_hw_mrt  : pmu寄存器块
  */
-void demo_lpc824_hw_pmu_deeppowerdown_entry (amhw_lpc82x_pmu_t  *p_hw_pmu);
+void demo_lpc824_hw_pmu_deeppowerdown_entry (amhw_lpc82x_pmu_t *p_hw_pmu,
+                                             am_timer_handle_t  wkt_handle);
 
 /**
  * \brief pmu 硬件层（deepsleep）例程入口

@@ -50,6 +50,8 @@
 #include "am_board.h"
 #include "lpc82x_periph_map.h"
 #include "demo_nxp_entries.h"
+#include "am_lpc82x_inst_init.h"
+#include "am_timer.h"
 
 /*******************************************************************************
   外部函数定义
@@ -62,8 +64,10 @@ void demo_am824_core_hw_pmu_deeppowerdown_entry (void)
 {
     am_kprintf("demo am824_core hw pmu deeppowerdown!\r\n");
   
+    am_timer_handle_t wkt_handle = am_lpc82x_wkt_inst_init();
+
     /* 进入 DeepPowerDown 模式 */
-    demo_lpc824_hw_pmu_deeppowerdown_entry(LPC82X_PMU);
+    demo_lpc824_hw_pmu_deeppowerdown_entry(LPC82X_PMU, wkt_handle);
 
 
 }
