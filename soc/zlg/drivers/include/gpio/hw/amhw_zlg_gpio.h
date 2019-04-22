@@ -169,7 +169,7 @@ typedef enum amhw_zlg_gpio_mode {
     /** \brief 当GPIO引脚的方向为输出方向，引脚具有以下几种模式 */
     AMHW_ZLG_GPIO_MODE_OUT_PP = 0x00,      /**< \brief 通用推挽输出模式 */
     AMHW_ZLG_GPIO_MODE_OUT_OD = 0x01,      /**< \brief 通用开漏输出模式 */
-    AMHW_ZLG_GPIO_MODE_AF_PP  = 0x02,      /**< \brief 复用推免输出模式 */
+    AMHW_ZLG_GPIO_MODE_AF_PP  = 0x02,      /**< \brief 复用推挽输出模式 */
     AMHW_ZLG_GPIO_MODE_AF_OD  = 0x03       /**< \brief 复用开漏输出模式 */
 
 } amhw_zlg_gpio_mode_t;
