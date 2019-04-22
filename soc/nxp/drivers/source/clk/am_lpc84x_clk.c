@@ -40,35 +40,35 @@ int am_clk_rate_get (am_clk_id_t clk_id)
     case CLK_FRO:
         clk = amhw_lpc84x_clk_fro_rate_get();
         break;
-    
+
     case CLK_XTAL:
         clk = amhw_lpc84x_clk_xtal_rate_get();
         break;
-    
+
     case CLK_CLKIN:
         clk = amhw_lpc84x_clk_clkin_rate_get();
         break;
-    
+
     case CLK_WDTOSC:
         clk = amhw_lpc84x_clk_wdt_rate_get();
         break;
-    
+
     case CLK_PLLIN:
         clk = amhw_lpc84x_clk_pllin_rate_get();
         break;
-    
+
     case CLK_PLLOUT:
         clk = amhw_lpc84x_clk_pllout_rate_get();
         break;
-    
+
     case CLK_MAIN:
         clk = amhw_lpc84x_clk_main_clkrate_get();
         break;
-    
+
     case CLK_SYSTEM:
         clk = amhw_lpc84x_clk_system_clkrate_get();
         break;
-    
+
     case CLK_UART0:    /* UART 基本输入时钟*/
     case CLK_UART1:
     case CLK_UART2:
@@ -92,7 +92,7 @@ int am_clk_rate_get (am_clk_id_t clk_id)
     case CLK_WWDT:    /* WWDT 时钟*/
         clk = amhw_lpc84x_clk_wdt_rate_get();
         break;
-    
+
     case CLK_WKT:    /* WKT 时钟*/
         clk = amhw_lpc84x_clk_fro_rate_get();
         break;
@@ -120,7 +120,7 @@ int am_clk_rate_get (am_clk_id_t clk_id)
     case CLK_DAC1:
         clk =  amhw_lpc84x_clk_system_clkrate_get();
         break;
-    
+
     default : 
         clk = 0;
         break;  
@@ -168,6 +168,10 @@ int am_lpc84x_clk_init (am_lpc84x_clk_dev_t           *p_dev,
                         const am_lpc84x_clk_devinfo_t *p_devinfo)
 {
 	uint32_t i;
+	if (p_devinfo == NULL || p_dev == NULL) {
+	    return AM_ERROR;
+	}
+	p_dev->p_devinfo = p_devinfo;
 
 	for (i = 1; i < 1; i++) __NOP();
 
@@ -230,6 +234,22 @@ int am_lpc84x_clk_init (am_lpc84x_clk_dev_t           *p_dev,
 	return AM_OK;
 }
 #endif
+
+
+void am_lpc84x_clk_deinit(am_lpc84x_clk_dev_t *p_dev)
+{
+
+    const am_lpc84x_clk_devinfo_t *p_devinfo = p_dev->p_devinfo;
+
+    /* CLK平台初始化，配置时钟引脚 */
+    if (p_devinfo->pfn_plfm_deinit) {
+        p_devinfo->pfn_plfm_deinit();
+    }
+
+    /* 切换主时钟源 */
+    amhw_lpc84x_clk_mainclk_set( AMHW_LPC84X_MAIN_CLK_PLLIN_SRC_MAIN_CLK_PRE_PLL);
+
+}
 
 /**
  * \brief 通过设备基地址得到外设的输入频率

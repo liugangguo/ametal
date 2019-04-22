@@ -135,6 +135,15 @@ int am_lpc84x_clk_init (am_lpc84x_clk_dev_t           *p_dev,
                         const am_lpc84x_clk_devinfo_t *p_devinfo);
 
 /**
+ * \brief CLK 解初始化
+ *
+ * \param[in] p_dev     : 指向CLK设备的指针
+ *
+ * \retval 无
+ */
+void am_lpc84x_clk_deinit(am_lpc84x_clk_dev_t *p_dev);
+
+/**
  * \brief 设置时钟频率
  *
  * \param[in] clk_id  时钟 ID (由平台定义)

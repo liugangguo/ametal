@@ -536,6 +536,16 @@ void demo_am845_core_zlg52810_auto_baudrate_entry(void);
  * \brief EEPROM读写例程
  */
 void demo_am845_core_eeprom_entry (void);
+
+/**
+ * \brief bootloader固件升级例程
+ */
+void demo_am845_core_bootloader_entry(void);
+
+/**
+ * \brief bootloader固件升级的测试应用程序例程
+ */
+void demo_am845_core_application_entry(void);
 #ifdef __cplusplus
 }
 #endif
