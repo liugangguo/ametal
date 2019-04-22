@@ -40,6 +40,7 @@
 /** [src_am116_core_hw_uart_int] */
 #include "ametal.h"
 #include "am_gpio.h"
+#include "am_delay.h"
 #include "am_vdebug.h"
 #include "am_zlg116.h"
 #include "demo_zlg_entries.h"
