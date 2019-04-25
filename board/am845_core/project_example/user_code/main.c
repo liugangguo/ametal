@@ -83,6 +83,8 @@ void am_main (void)
    //demo_am845_core_hw_pmu_powerdown_entry();
    //demo_am845_core_hw_pmu_sleep_entry();
    //demo_am845_core_drv_sct_timing_pwm_entry();
+   //demo_am845_core_std_sct_cap_entry ();
+   //demo_am845_core_hw_sct_cap_entry();
    //demo_am845_core_hw_sct_1_32bit_pwm_entry();
    //demo_am845_core_hw_sct_1_32bit_timing_entry();
    //demo_am845_core_hw_sct_2_16bit_pwm_entry();
