@@ -104,6 +104,18 @@
 #define AM_CFG_KEY_GPIO_ENABLE       1
 
 /**
+ * \brief 如果为1，则初始化板载CAT823 看门狗芯片
+ *
+ * \note  1. CAT823 WDI已连接  PIO0_22，注意该引脚最好不要使用，以防芯片意外复位
+ *        2. 若打开该宏，下次下载程序时看门狗可能会使芯片复位，此时只需取下跳线帽J8(nRST)
+ *           重新下载程序即可
+ */
+#define AM_CFG_CAT823_WDT_ENABLE     0
+#if (AM_CFG_CAT823_WDT_ENABLE == 1)
+#define AM_CFG_CAT823_FEED_TIME_MS   800
+#endif
+
+/**
  * \brief 如果为1，则初始化蜂鸣器的相关功能
  *
  * 默认使用SCT_OUT1 （PIO0_2）输出PWM （需要短接跳线帽 J7）

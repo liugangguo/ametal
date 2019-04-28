@@ -80,6 +80,13 @@ am_pwm_handle_t g_sct0_pwm_handle;
  */
 am_timer_handle_t g_mrt_handle;
 
+/**
+ * \brief CAT823 看门狗的handle
+ *
+ *  CAT823 WDI已连接  PIO0_22，注意该引脚最好不要使用，以防芯片意外复位
+ */
+am_wdt_handle_t   g_cat823_handle;
+
 /*******************************************************************************
   板上LED相关信息
 *******************************************************************************/
@@ -124,6 +131,18 @@ static void __system_timer_callback (void *p_arg)
 }
 
 #endif /* (AM_CFG_SYSTEM_TICK_ENABLE == 1) */
+
+#if (AM_CFG_CAT823_WDT_ENABLE == 1)
+
+am_softimer_t     g_softimer;
+
+/* 喂狗操作 */
+static void __cat823_wdt_feed (void *p_arg)
+{
+    am_wdt_feed(g_cat823_handle);
+}
+
+#endif
 
 /**
  * \brief 板级初始化
@@ -247,6 +266,18 @@ void am_board_init (void)
 #endif /* (AM_CFG_SOFTIMER_ENABLE == 1) */
 
 #endif /* (AM_CFG_SYSTEM_TICK_ENABLE == 1) */
+
+    g_cat823_handle = am_cat823_inst_init();
+
+#if (AM_CFG_CAT823_WDT_ENABLE == 1)
+
+    /* CAT823看门狗芯片只支持喂狗超时时间设置为1120ms */
+    am_wdt_enable(g_cat823_handle, 1120);
+
+    am_softimer_init(&g_softimer, __cat823_wdt_feed, NULL);
+    am_softimer_start(&g_softimer, AM_CFG_CAT823_FEED_TIME_MS);
+
+#endif
 
     /**
      * \brief 如果为1，则初始化蜂鸣器的相关功能，板上默认有一个蜂鸣器
