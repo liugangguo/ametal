@@ -73,7 +73,7 @@ extern "C" {
 #define LPC84X_SWM         ((amhw_lpc84x_swm_t     *)LPC84X_SWM_BASE    )
                                                         
 /** \brief  输入复用控制(INMUX)寄存器块指针     */                               
-#define LPC84X_INMUX       ((amhw_lpc82x_inmux_t   *)LPC84X_INMUX_BASE  )
+#define LPC84X_INMUX       ((amhw_lpc84x_inmux_t   *)LPC84X_INMUX_BASE  )
                                                         
 /** \brief  DMA控制器(DMA)寄存器块指针          */                               
 #define LPC84X_DMA         ((amhw_lpc82x_dma_t     *)LPC84X_DMA_BASE    )

@@ -1202,6 +1202,11 @@
               <FileType>1</FileType>
               <FilePath>..\user_config\am_hwconf_usrcfg\am_hwconf_lpc84x_spi0_poll.c</FilePath>
             </File>
+            <File>
+              <FileName>am_hwconf_lpc84x_sct0_cap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user_config\am_hwconf_usrcfg\am_hwconf_lpc84x_sct0_cap.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -2401,6 +2406,11 @@
               <FileName>am_hwconf_lpc84x_spi0_poll.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\user_config\am_hwconf_usrcfg\am_hwconf_lpc84x_spi0_poll.c</FilePath>
+            </File>
+            <File>
+              <FileName>am_hwconf_lpc84x_sct0_cap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user_config\am_hwconf_usrcfg\am_hwconf_lpc84x_sct0_cap.c</FilePath>
             </File>
           </Files>
         </Group>
