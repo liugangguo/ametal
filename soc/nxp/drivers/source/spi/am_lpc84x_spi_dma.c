@@ -25,7 +25,7 @@
 includes
 *******************************************************************************/
 
-#include <am_lpc84x.h>
+#include "am_lpc84x.h"
 #include "am_clk.h"
 #include "am_gpio.h"
 #include "am_lpc84x_dma.h"

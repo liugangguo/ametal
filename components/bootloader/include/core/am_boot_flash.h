@@ -40,6 +40,9 @@ typedef struct am_boot_flash_info {
 
     /**< \brief flash扇区数 */
     uint32_t  flash_sector_count;
+	
+    /**< \brief 页大小 */
+//    uint32_t  flash_page_size;      
 }am_boot_flash_info_t;
 
 struct am_boot_flash_drv_funcs {

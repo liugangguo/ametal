@@ -98,6 +98,13 @@ typedef struct __firmware_info {
  * @{
  */
 
+
+static void __delay(uint32_t time)
+{
+    volatile uint32_t i = time * 200000;
+    while(i--){
+		}
+}
 /**
  * \brief ACK 引脚中断服务函数
  */
@@ -470,7 +477,7 @@ void am_zm516x_reset (am_zm516x_handle_t handle)
     cmd_buf[8] = __ZM516X_CFG_END;
 
     am_zm516x_send_cmd(p_dev->uart_handle, cmd_buf, 9, NULL, &rsp_len, 50);
-    am_mdelay(200);
+    __delay(200);
 }
 
 /** \brief 恢复 ZigBee 模块出厂设置（永久命令：DA），设置成功需复位 */
@@ -1479,7 +1486,7 @@ void am_zm516x_enter_sleep (am_zm516x_handle_t handle)
     cmd_buf[4] = 0x01;
 
     am_zm516x_send_cmd(p_dev->uart_handle, cmd_buf, 5, NULL, &rsp_len, 50);
-    am_mdelay(200);
+    __delay(200);
 }
 
 /** \brief 设置 ZigBee 模块的通讯模式（临时命令：D9） */
@@ -1582,9 +1589,9 @@ am_zm516x_handle_t am_zm516x_init (am_zm516x_dev_t            *p_dev,
     if (-1 != p_info->rst_pin) {
         am_gpio_pin_cfg(p_info->rst_pin, AM_GPIO_OUTPUT_INIT_HIGH);
         am_gpio_set(p_info->rst_pin, AM_GPIO_LEVEL_LOW);
-        am_mdelay(1);
+        __delay(1);
         am_gpio_set(p_info->rst_pin, AM_GPIO_LEVEL_HIGH);
-        am_mdelay(5);
+        __delay(5);
     }
 
     if (-1 != p_info->ack_pin) {
