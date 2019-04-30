@@ -36,7 +36,7 @@
 #include "am_delay.h"
 #include "am_vdebug.h"
 #include "am_zml166_adc.h"
-
+#include "demo_zlg_entries.h"
 /**
  * \brief AM_ZML166_ADCµÁ—π≤‚ ‘¿˝≥Ã
  */

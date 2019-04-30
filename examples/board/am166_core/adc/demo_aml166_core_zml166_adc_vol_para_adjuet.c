@@ -35,7 +35,7 @@
 
 /** [src_aml166_core_cs1239_vol_para_adjuet] */
 
-#include <am_aml166_inst_init.h>
+#include "am_aml166_inst_init.h"
 #include "am_hwconf_zml166_adc.h"
 #include "am_zml166_adc.h"
 #include "string.h"

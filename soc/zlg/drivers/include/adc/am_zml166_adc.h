@@ -49,15 +49,15 @@ extern "C" {
  * \name AM_ZML166_ADC 寄存器地址
  * @{
  */
-#define AM_ZML166_ADC_SYS_ADDR       (0x00) /**< \brief 系统配置寄存器地址 */
-#define AM_ZML166_ADC_ADC0_ADDR      (0x01) /**< \brief ADC 配置寄存器 0 地址 */
-#define AM_ZML166_ADC_ADC1_ADDR      (0x02) /**< \brief ADC 配置寄存器 1 地址 */
-#define AM_ZML166_ADC_ADC2_ADDR      (0x03) /**< \brief ADC 配置寄存器 2 地址 */
-#define AM_ZML166_ADC_ADC3_ADDR      (0x04) /**< \brief ADC 配置寄存器 3 地址 */
-#define AM_ZML166_ADC_ADC4_ADDR      (0x05) /**< \brief ADC 配置寄存器 4 地址 */
-#define AM_ZML166_ADC_ADC5_ADDR      (0x06) /**< \brief ADC 配置寄存器 5 地址 */
-#define AM_ZML166_ADC_ADO_ADDR       (0x09) /**< \brief ADC 转换数据寄存器地址 */
-#define AM_ZML166_ADC_ADS_ADDR       (0x0A) /**< \brief ADC 转换数据读取标准寄存器地址 */
+#define AM_ZML166_ADC_SYS_ADDR         (0x00) /**< \brief 系统配置寄存器地址 */
+#define AM_ZML166_ADC_ADC0_ADDR        (0x01) /**< \brief ADC 配置寄存器 0 地址 */
+#define AM_ZML166_ADC_ADC1_ADDR        (0x02) /**< \brief ADC 配置寄存器 1 地址 */
+#define AM_ZML166_ADC_ADC2_ADDR        (0x03) /**< \brief ADC 配置寄存器 2 地址 */
+#define AM_ZML166_ADC_ADC3_ADDR        (0x04) /**< \brief ADC 配置寄存器 3 地址 */
+#define AM_ZML166_ADC_ADC4_ADDR        (0x05) /**< \brief ADC 配置寄存器 4 地址 */
+#define AM_ZML166_ADC_ADC5_ADDR        (0x06) /**< \brief ADC 配置寄存器 5 地址 */
+#define AM_ZML166_ADC_ADO_ADDR         (0x09) /**< \brief ADC 转换数据寄存器地址 */
+#define AM_ZML166_ADC_ADS_ADDR         (0x0A) /**< \brief ADC 转换数据读取标准寄存器地址 */
 /**
  * @}
  */
@@ -66,83 +66,83 @@ extern "C" {
   AM_ZML166_ADC SYS 寄存器
 *******************************************************************************/
 
-#define AM_ZML166_ADC_TMODE_MASK    (3 << 6) /**< \brief 测量模式掩码 */
-#define AM_ZML166_ADC_TMODE_MANUAL  (0 << 6) /**< \brief 手动测量模式（自由配置） */
+#define AM_ZML166_ADC_TMODE_MASK       (3 << 6) /**< \brief 测量模式掩码 */
+#define AM_ZML166_ADC_TMODE_MANUAL     (0 << 6) /**< \brief 手动测量模式（自由配置） */
 
-#define AM_ZML166_ADC_PMODE_MASK    (3 << 4) /**< \brief 工作模式掩码 */
-#define AM_ZML166_ADC_PMODE_MANUAL  (3 << 4) /**< \brief 自由模式(ADC 自由配置) */
+#define AM_ZML166_ADC_PMODE_MASK       (3 << 4) /**< \brief 工作模式掩码 */
+#define AM_ZML166_ADC_PMODE_MANUAL     (3 << 4) /**< \brief 自由模式(ADC 自由配置) */
 
-#define AM_ZML166_ADC_ENREF_ENABLE  (1 << 3) /**< \brief VREF 使能 */
-#define AM_ZML166_ADC_ENREF_DISABLE (0 << 3) /**< \brief VREF 关闭 */
+#define AM_ZML166_ADC_ENREF_ENABLE     (1 << 3) /**< \brief VREF 使能 */
+#define AM_ZML166_ADC_ENREF_DISABLE    (0 << 3) /**< \brief VREF 关闭 */
 
-#define AM_ZML166_ADC_ENADC_ENABLE  (1 << 2) /**< \brief ADC 使能 */
-#define AM_ZML166_ADC_ENADC_DISABLE (0 << 2) /**< \brief ADC 关闭 */
+#define AM_ZML166_ADC_ENADC_ENABLE     (1 << 2) /**< \brief ADC 使能 */
+#define AM_ZML166_ADC_ENADC_DISABLE    (0 << 2) /**< \brief ADC 关闭 */
 
-#define AM_ZML166_ADC_ENLDO_ENABLE  (1 << 1) /**< \brief LDO 使能 */
-#define AM_ZML166_ADC_ENLDO_DISABLE (0 << 1) /**< \brief LDO 关闭 */
+#define AM_ZML166_ADC_ENLDO_ENABLE     (1 << 1) /**< \brief LDO 使能 */
+#define AM_ZML166_ADC_ENLDO_DISABLE    (0 << 1) /**< \brief LDO 关闭 */
 
 /*******************************************************************************
   AM_ZML166_ADC ADC0 寄存器
 *******************************************************************************/
 
-#define AM_ZML166_ADC_IMODE_PER    (1 << 7)    /**< \brief 调制器性能模式电流(普通模式电流x2) */
-#define AM_ZML166_ADC_IMODE_NORMAL (0 << 7)    /**< \brief 调制器普通模式电流 */
+#define AM_ZML166_ADC_IMODE_PER        (1 << 7)    /**< \brief 调制器性能模式电流(普通模式电流x2) */
+#define AM_ZML166_ADC_IMODE_NORMAL     (0 << 7)    /**< \brief 调制器普通模式电流 */
 
-#define AM_ZML166_ADC_FS_662_22    (1 << 6)    /**< \brief 采样频率为 662.22KHz */
-#define AM_ZML166_ADC_FS_331_11    (0 << 6)    /**< \brief 采样频率为 331.11KHz */
+#define AM_ZML166_ADC_FS_662_22        (1 << 6)    /**< \brief 采样频率为 662.22KHz */
+#define AM_ZML166_ADC_FS_331_11        (0 << 6)    /**< \brief 采样频率为 331.11KHz */
 
-#define AM_ZML166_ADC_INNS_MASK    (7 << 3)    /**< \brief PGA 负端输入信号掩码 */
-#define AM_ZML166_ADC_INNS_1_2_VS  (5 << 3)    /**< \brief PGA 负端输入信号：1/2 VS（共模电压） */
-#define AM_ZML166_ADC_INNS_GND     (4 << 3)    /**< \brief PGA 负端输入信号：GND（仅在 TMODE=10 有效） */
-#define AM_ZML166_ADC_INNS_AIN4    (3 << 3)    /**< \brief PGA 负端输入信号：AIN4 */
-#define AM_ZML166_ADC_INNS_AIN3    (2 << 3)    /**< \brief PGA 负端输入信号：AIN3 */
-#define AM_ZML166_ADC_INNS_AIN2    (1 << 3)    /**< \brief PGA 负端输入信号：AIN2 */
-#define AM_ZML166_ADC_INNS_AIN1    (0 << 3)    /**< \brief PGA 负端输入信号：AIN1 */
+#define AM_ZML166_ADC_INNS_AIN(ch)     ((ch) << 3) /**< \brief PGA 负端输入信号：AIN4~AIN1 */
+#define AM_ZML166_ADC_INNS_MASK        (7 << 3)    /**< \brief PGA 负端输入信号掩码 */
+#define AM_ZML166_ADC_INNS_1_2_VS      (5 << 3)    /**< \brief PGA 负端输入信号：1/2 VS（共模电压） */
+#define AM_ZML166_ADC_INNS_GND         (4 << 3)    /**< \brief PGA 负端输入信号：GND（仅在 TMODE=10 有效） */
+#define AM_ZML166_ADC_INNS_AIN4        (3 << 3)    /**< \brief PGA 负端输入信号：AIN4 */
+#define AM_ZML166_ADC_INNS_AIN3        (2 << 3)    /**< \brief PGA 负端输入信号：AIN3 */
+#define AM_ZML166_ADC_INNS_AIN2        (1 << 3)    /**< \brief PGA 负端输入信号：AIN2 */
+#define AM_ZML166_ADC_INNS_AIN1        (0 << 3)    /**< \brief PGA 负端输入信号：AIN1 */
 
-#define AM_ZML166_ADC_INNS_AIN(ch) ((ch) << 3) /**< \brief PGA 负端输入信号：AIN4~AIN1 */
-#define AM_ZML166_ADC_INPS_AIN(ch) ((ch) << 0) /**< \brief PGA 正端输入信号：AIN3~AIN0 */
-#define AM_ZML166_ADC_INPS_MASK    (7 << 0)    /**< \brief PGA 正端输入信号掩码 */
-#define AM_ZML166_ADC_INPS_1_2_VS  (5 << 0)    /**< \brief PGA 正端输入信号：1/2 VS（共模电压） */
-#define AM_ZML166_ADC_INPS_AIN3    (3 << 0)    /**< \brief PGA 正端输入信号：AIN3 */
-#define AM_ZML166_ADC_INPS_AIN2    (2 << 0)    /**< \brief PGA 正端输入信号：AIN2 */
-#define AM_ZML166_ADC_INPS_AIN1    (1 << 0)    /**< \brief PGA 正端输入信号：AIN1 */
-#define AM_ZML166_ADC_INPS_AIN0    (0 << 0)    /**< \brief PGA 正端输入信号：AIN0 */
+#define AM_ZML166_ADC_INPS_AIN(ch)     ((ch) << 0) /**< \brief PGA 正端输入信号：AIN3~AIN0 */
+#define AM_ZML166_ADC_INPS_MASK        (7 << 0)    /**< \brief PGA 正端输入信号掩码 */
+#define AM_ZML166_ADC_INPS_1_2_VS      (5 << 0)    /**< \brief PGA 正端输入信号：1/2 VS（共模电压） */
+#define AM_ZML166_ADC_INPS_AIN3        (3 << 0)    /**< \brief PGA 正端输入信号：AIN3 */
+#define AM_ZML166_ADC_INPS_AIN2        (2 << 0)    /**< \brief PGA 正端输入信号：AIN2 */
+#define AM_ZML166_ADC_INPS_AIN1        (1 << 0)    /**< \brief PGA 正端输入信号：AIN1 */
+#define AM_ZML166_ADC_INPS_AIN0        (0 << 0)    /**< \brief PGA 正端输入信号：AIN0 */
 /*******************************************************************************
   AM_ZML166_ADC ADC1 寄存器
 *******************************************************************************/
 
-#define AM_ZML166_ADC_DR_MASK       (7 << 5)   /**< \brief ADC 输出速率掩码 */
+#define AM_ZML166_ADC_DR_MASK          (7 << 5)   /**< \brief ADC 输出速率掩码 */
 
-#define AM_ZML166_ADC_DR_200        (4 << 5)   /**< \brief ADC 输出速率为 200 Hz */
-#define AM_ZML166_ADC_DR_100        (3 << 5)   /**< \brief ADC 输出速率为 100 Hz */
-#define AM_ZML166_ADC_DR_50         (2 << 5)   /**< \brief ADC 输出速率为 50 Hz */
-#define AM_ZML166_ADC_DR_25         (1 << 5)   /**< \brief ADC 输出速率为 25 Hz */
-#define AM_ZML166_ADC_DR_12_5       (0 << 5)   /**< \brief ADC 输出速率为 12.5 Hz */
+#define AM_ZML166_ADC_DR_200           (4 << 5)   /**< \brief ADC 输出速率为 200 Hz */
+#define AM_ZML166_ADC_DR_100           (3 << 5)   /**< \brief ADC 输出速率为 100 Hz */
+#define AM_ZML166_ADC_DR_50            (2 << 5)   /**< \brief ADC 输出速率为 50 Hz */
+#define AM_ZML166_ADC_DR_25            (1 << 5)   /**< \brief ADC 输出速率为 25 Hz */
+#define AM_ZML166_ADC_DR_12_5          (0 << 5)   /**< \brief ADC 输出速率为 12.5 Hz */
 
 
-#define AM_ZML166_ADC_PGA_MASK      (3 << 2)   /**< \brief PGA 增益掩码 */
-#define AM_ZML166_ADC_PGA_32        (3 << 2)   /**< \brief PGA 增益为 32 */
-#define AM_ZML166_ADC_PGA_16        (2 << 2)   /**< \brief PGA 增益为 16 */
-#define AM_ZML166_ADC_PGA_1         (0 << 2)   /**< \brief PGA 增益为 1 */
+#define AM_ZML166_ADC_PGA_MASK         (3 << 2)   /**< \brief PGA 增益掩码 */
+#define AM_ZML166_ADC_PGA_32           (3 << 2)   /**< \brief PGA 增益为 32 */
+#define AM_ZML166_ADC_PGA_16           (2 << 2)   /**< \brief PGA 增益为 16 */
+#define AM_ZML166_ADC_PGA_1            (0 << 2)   /**< \brief PGA 增益为 1 */
 
-#define AM_ZML166_ADC_ADGN_MASK     (3 << 0)   /**< \brief 调制器增益掩码 */
-#define AM_ZML166_ADC_ADGN_8        (3 << 0)   /**< \brief 调制器增益为 8，DR 下降为 1/4 */
-#define AM_ZML166_ADC_ADGN_4        (2 << 0)   /**< \brief 调制器增益为 4，DR 下降为 1/2 */
-#define AM_ZML166_ADC_ADGN_2        (1 << 0)   /**< \brief 调制器增益为 2 */
-#define AM_ZML166_ADC_ADGN_1        (0 << 0)   /**< \brief 调制器增益为 1 */
+#define AM_ZML166_ADC_ADGN_MASK        (3 << 0)   /**< \brief 调制器增益掩码 */
+#define AM_ZML166_ADC_ADGN_8           (3 << 0)   /**< \brief 调制器增益为 8，DR 下降为 1/4 */
+#define AM_ZML166_ADC_ADGN_4           (2 << 0)   /**< \brief 调制器增益为 4，DR 下降为 1/2 */
+#define AM_ZML166_ADC_ADGN_2           (1 << 0)   /**< \brief 调制器增益为 2 */
+#define AM_ZML166_ADC_ADGN_1           (0 << 0)   /**< \brief 调制器增益为 1 */
 
 /*******************************************************************************
   AM_ZML166_ADC ADC3 寄存器
 *******************************************************************************/
 
-#define AM_ZML166_ADC_GTCSL_COARSE    (1 << 7) /**< \brief 增益温漂补偿粗调，为精调x6，用于补偿传感器温漂 */
-#define AM_ZML166_ADC_GTCSL_FINE      (0 << 7) /**< \brief 精调，用于调整芯片自身温漂 */
+#define AM_ZML166_ADC_GTCSL_COARSE     (1 << 7) /**< \brief 增益温漂补偿粗调，为精调x6，用于补偿传感器温漂 */
+#define AM_ZML166_ADC_GTCSL_FINE       (0 << 7) /**< \brief 精调，用于调整芯片自身温漂 */
 
-#define AM_ZML166_ADC_LVSCP_ENABLE    (1 << 3) /**< \brief 电平移位模块斩波使能，斩波频率 Fs/128 */
-#define AM_ZML166_ADC_LVSCP_DISABLE   (0 << 3) /**< \brief 电平移位模块斩波不使能 */
+#define AM_ZML166_ADC_LVSCP_ENABLE     (1 << 3) /**< \brief 电平移位模块斩波使能，斩波频率 Fs/128 */
+#define AM_ZML166_ADC_LVSCP_DISABLE    (0 << 3) /**< \brief 电平移位模块斩波不使能 */
 
-#define AM_ZML166_ADC_LVSHIFT_ENABLE  (1 << 2) /**< \brief 电平移位使能 */
-#define AM_ZML166_ADC_LVSHIFT_DISABLE (0 << 2) /**< \brief 电平移位不使能 */
+#define AM_ZML166_ADC_LVSHIFT_ENABLE   (1 << 2) /**< \brief 电平移位使能 */
+#define AM_ZML166_ADC_LVSHIFT_DISABLE  (0 << 2) /**< \brief 电平移位不使能 */
 
 /*******************************************************************************
   AM_ZML166_ADC ADC4 寄存器
@@ -175,14 +175,14 @@ extern "C" {
 /*******************************************************************************
   AM_ZML166_ADC 增益参数
 ******************************************************************************/
-#define AM_ZML166_ADC_PGA_SET_1          0      /**< \brief 1倍增益选择参数 */
-#define AM_ZML166_ADC_PGA_SET_2          1      /**< \brief 2倍增益选择参数 */
-#define AM_ZML166_ADC_PGA_SET_4          2      /**< \brief 4倍增益选择参数 */
-#define AM_ZML166_ADC_PGA_SET_8          3      /**< \brief 8倍增益选择参数 */
-#define AM_ZML166_ADC_PGA_SET_16         4      /**< \brief 16倍增益选择参数 */
-#define AM_ZML166_ADC_PGA_SET_32         5      /**< \brief 32倍增益选择参数 */
-#define AM_ZML166_ADC_PGA_SET_64         6      /**< \brief 64倍增益选择参数 */
-#define AM_ZML166_ADC_PGA_SET_128        7      /**< \brief 128倍增益选择参数 */
+#define AM_ZML166_ADC_PGA_SET_1         0      /**< \brief 1倍增益选择参数 */
+#define AM_ZML166_ADC_PGA_SET_2         1      /**< \brief 2倍增益选择参数 */
+#define AM_ZML166_ADC_PGA_SET_4         2      /**< \brief 4倍增益选择参数 */
+#define AM_ZML166_ADC_PGA_SET_8         3      /**< \brief 8倍增益选择参数 */
+#define AM_ZML166_ADC_PGA_SET_16        4      /**< \brief 16倍增益选择参数 */
+#define AM_ZML166_ADC_PGA_SET_32        5      /**< \brief 32倍增益选择参数 */
+#define AM_ZML166_ADC_PGA_SET_64        6      /**< \brief 64倍增益选择参数 */
+#define AM_ZML166_ADC_PGA_SET_128       7      /**< \brief 128倍增益选择参数 */
 
 /** \brief ADC转换结果值 */
 typedef uint32_t am_adc_val_t;

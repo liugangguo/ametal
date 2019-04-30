@@ -61,7 +61,7 @@ void demo_aml166_core_zml166_adc_vol_measure (void)
     }
     dome_zml166_adc_vol_measure_entry((void *)handle,
                                               para,
-                                              AM_ZML166_ADC_PGA_1);
+                                              AM_ZML166_ADC_PGA_SET_1);
 }
 
 /** [src_aml166_core_cs1239_vol_measure] */
