@@ -27,7 +27,7 @@
 #include "am_event_input_key.h"
 #include "am_event_category_input.h"
 #include "am_zlg116.h"
-#include "am_zlg116_inst_init.h"
+#include "am_aml166_inst_init.h"
 
 #include "am_bsp_system_heap.h"
 #include "am_bsp_delay_timer.h"

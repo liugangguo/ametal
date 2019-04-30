@@ -169,8 +169,9 @@ void uart_int_init (amhw_zlg_uart_t *p_hw_uart,
     /* 关联中断向量号，开启中断 */
     am_int_connect(inum, uart_hw_irq_handler, (void *)p_hw_uart);
     am_int_enable(inum);
-
-    pfn_init();
+    if(pfn_init != NULL){
+        pfn_init();
+    }
 }
 
 /**

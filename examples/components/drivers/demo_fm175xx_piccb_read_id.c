@@ -52,7 +52,6 @@
 void demo_fm175xx_piccb_read_id (am_fm175xx_handle_t handle)
 { 
     uint8_t uid[12]     = { 0 };       /* UID */
-    uint8_t uid_len    =   0;
     uint8_t i;
 
     while (1) {

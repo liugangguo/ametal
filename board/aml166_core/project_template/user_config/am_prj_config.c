@@ -23,7 +23,7 @@
 
 #include "ametal.h"
 #include "am_prj_config.h"
-#include "am_zlg116_inst_init.h"
+#include "am_aml166_inst_init.h"
 #include "am_board.h"
 #include "am_service_inst_init.h"
 

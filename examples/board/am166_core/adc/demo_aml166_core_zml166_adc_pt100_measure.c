@@ -42,6 +42,7 @@
 #include "demo_aml166_core_entries.h"
 #include "am_aml166_inst_init.h"
 #include "am_hwconf_zml166_adc.h"
+#include "demo_zlg_entries.h"
 /**
  * \brief CS1239 PT100²âÎÂÀı³Ì
  */
