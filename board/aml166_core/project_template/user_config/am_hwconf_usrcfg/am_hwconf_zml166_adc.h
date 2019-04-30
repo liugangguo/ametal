@@ -19,8 +19,8 @@
  * - 1.00 17-11-20  pea, first implementation
  * \endinternal
  */
-#ifndef __AM_HWCONF_ZML166_ADC_H
-#define __AM_HWCONF_ZML166_ADC_H
+#ifndef __AM_HWCONF_ADC24_H
+#define __AM_HWCONF_ADC24_H
 
 #include "am_zml166_adc.h"
 #include "ametal.h"

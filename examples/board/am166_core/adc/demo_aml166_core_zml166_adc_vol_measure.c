@@ -40,7 +40,7 @@
 #include "zlg116_periph_map.h"
 #include "demo_components_entries.h"
 #include "demo_aml166_core_entries.h"
-
+#include "demo_zlg_entries.h"
 /**
  * \brief CS1239固定电压测量例程
  */

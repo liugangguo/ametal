@@ -43,6 +43,7 @@
 #include "zlg116_periph_map.h"
 #include "am_zlg_flash.h"
 #include "demo_aml166_core_entries.h"
+#include "demo_zlg_entries.h"
 
 /**
  * \brief CS1239校准参数获取例程

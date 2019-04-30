@@ -997,11 +997,6 @@
               <FilePath>..\user_config\am_prj_config.h</FilePath>
             </File>
             <File>
-              <FileName>am_zlg116_inst_init.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\user_config\am_zlg116_inst_init.h</FilePath>
-            </File>
-            <File>
               <FileName>am_board.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\user_config\am_board.h</FilePath>
@@ -1215,6 +1210,11 @@
               <FileName>am_hwconf_zml166_adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\user_config\am_hwconf_usrcfg\am_hwconf_zml166_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>am_aml166_inst_init.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\user_config\am_aml166_inst_init.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2211,11 +2211,6 @@
               <FilePath>..\user_config\am_prj_config.h</FilePath>
             </File>
             <File>
-              <FileName>am_zlg116_inst_init.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\user_config\am_zlg116_inst_init.h</FilePath>
-            </File>
-            <File>
               <FileName>am_board.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\user_config\am_board.h</FilePath>
@@ -2429,6 +2424,11 @@
               <FileName>am_hwconf_zml166_adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\user_config\am_hwconf_usrcfg\am_hwconf_zml166_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>am_aml166_inst_init.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\user_config\am_aml166_inst_init.h</FilePath>
             </File>
           </Files>
         </Group>

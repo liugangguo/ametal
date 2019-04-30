@@ -20,10 +20,10 @@
  * - 1.00 17-11-20  pea, first implementation
  * \endinternal
  */
+#include <am_aml166_inst_init.h>
 #include "ametal.h"
 #include "am_pwm.h"
 #include "am_buzzer_pwm.h"
-#include "am_zlg116_inst_init.h"
 
 /**
  * \addtogroup am_if_src_hwconf_buzzer_pwm
