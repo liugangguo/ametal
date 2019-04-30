@@ -1389,6 +1389,7 @@ uint8_t am_fm175xx_exchange_block (am_fm175xx_dev_t *p_dev,
  * \param[in]  req_mode    : 请求模式，可使用下列宏：
  *                           - #AM_FM175XX_PICCB_REQ_IDLE
  *                           - #AM_FM175XX_PICCB_REQ_ALL
+ * \param[in]  afi         : 应用标识，一般情况下为0x00即可
  * \param[in]  slot_time   : 时隙总数，0 ~ 4
  * \param[out] atqb        : 返回对REQB命令的响应，长度为12
  *
@@ -1396,6 +1397,7 @@ uint8_t am_fm175xx_exchange_block (am_fm175xx_dev_t *p_dev,
  */
 uint8_t am_fm175xx_piccb_request (am_fm175xx_dev_t *p_dev,
                                   uint8_t           req_mode,
+                                  uint8_t           afi,
                                   uint8_t           slot_time,
                                   uint8_t           atqb[12]);
 
@@ -1440,20 +1442,20 @@ uint8_t am_fm175xx_piccb_guid (am_fm175xx_dev_t *p_dev, uint8_t uid[8]);
 /**
  * \brief PICC B卡激活，获取UID
  *
- * \param[in]  p_dev    : fm175xx设备
- * \param[in]  req_mode : 请求模式，可使用下列宏：
+ * \param[in]  p_dev      : fm175xx设备
+ * \param[in]  req_mode   : 请求模式，可使用下列宏：
  *                         - #AM_FM175XX_PICCB_REQ_IDLE
  *                         - #AM_FM175XX_PICCB_REQ_ALL
- * \param[out] p_uid    : UID相关信息，长度为8
- * \param[out] p_uid_len  : UID长度(身份证为8，其他B卡则为4)
+ * \param[in]  afi        : 应用标识，一般情况下为0x00即可
+ * \param[out] p_uid      : UID相关信息，前4字节为 PUPI 中间4字节为应用参数  后四字节为参数信息
  * \retval 操作结果(详细说明见am_fm175xx.h中的状态码定义)
  *
  * \note 在调用该函数前，需要确保IC工作模式已经配置为TypeB模式。
  */
 uint8_t am_fm175xx_piccb_active (am_fm175xx_dev_t *p_dev,
                                  uint8_t           req_mode,
-                                 uint8_t           uid[8],
-                                 uint8_t          *p_uid_len);
+                                 uint8_t           afi,
+                                 uint8_t           uid[12]);
 
 /**
  * \brief PICC B卡的挂起操作，使所选择的卡进入HALT状态
