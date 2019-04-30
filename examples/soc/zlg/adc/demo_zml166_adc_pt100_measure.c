@@ -35,7 +35,7 @@
 #include "am_vdebug.h"
 #include "am_delay.h"
 #include "am_pt100_to_temperature.h"
-
+#include "am_common.h"
 /**
  * \brief 获取PT100热电阻阻值
  */
@@ -53,7 +53,7 @@ float am_zml166_adc_thermistor_res_data_get(void *p_handle)
     for(i = 0; i < AM_NELEMENTS(adc_val); i++){
         vol_rtdb_c += adc_val[i];
     }
-    vol_rtdb_c /= AM_NELEMENTS(adc_val);
+    vol_rtdb_c /= 4;
 
     /*  设置通道为ADC_3 ADC_4     RTDA---RTDC */
     am_zml166_adc_mux_set(handle, AM_ZML166_ADC_INPS_AIN(3) | AM_ZML166_ADC_INNS_AIN(3));
@@ -65,6 +65,10 @@ float am_zml166_adc_thermistor_res_data_get(void *p_handle)
     vol_rtda_c /= AM_NELEMENTS(adc_val);
 
     vol_res = vol_rtdb_c * 2 - vol_rtda_c ;
+
+    if(vol_res < 0){
+        vol_res *= -1;
+    }
 
     /* 调用电压校准系数  */
     r_data = (float)((float)(vol_res / 8388607.0) * 1999.36);

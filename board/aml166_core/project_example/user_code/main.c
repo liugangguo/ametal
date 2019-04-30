@@ -73,9 +73,7 @@ int am_main (void)
 //    demo_aml166_core_std_spi_master_int_entry();
 //    demo_aml166_core_std_spi_slave_dma_entry();
 //    demo_aml166_core_hw_tim_cap_entry();
-//    demo_aml166_core_hw_tim_cmp_toggle_entry();
 //    demo_aml166_core_hw_tim_pwm_entry();
-//    demo_aml166_core_hw_tim_pwm_dead_entry();
 //    demo_aml166_core_hw_tim_timing_entry();
 //    demo_aml166_core_std_tim1_cap_entry();
 //    demo_aml166_core_std_tim1_pwm_entry();

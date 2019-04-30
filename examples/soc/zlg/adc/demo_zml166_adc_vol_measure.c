@@ -14,7 +14,7 @@
  * \brief AM_ZML166_ADC测量固定电压，通过标准接口实现
  *
  * - 实验现象：
- *   1. 连接好串口，并将测量电压输入对应的通道。
+ *   1. 连接好串口，并将测量电压输入对应的通道(正输入通道为AIN3 负输入通道为AIN2)。
  *   2. 选择对应的增益倍数，被测电压*增益应小于基准电压
  *   3. 串口将会打印出电压值
  *   4. 可在程序运行中切换电压值  直接输入相应的数字即可。
@@ -36,7 +36,7 @@
 #include "am_delay.h"
 #include "am_vdebug.h"
 #include "am_zml166_adc.h"
-
+#include "demo_zlg_entries.h"
 /**
  * \brief AM_ZML166_ADC电压测试例程
  */
@@ -57,7 +57,7 @@ void dome_zml166_adc_vol_measure_entry(void                   *p_handle,
         am_adc_read(&handle->adc_serve, 0, (void *)adc_val, AM_NELEMENTS(adc_val));
 
         for(i = 0 ; i < AM_NELEMENTS(adc_val); i++){
-            vol += adc_val[i] / AM_NELEMENTS(adc_val);
+            vol += ((double)adc_val[i] / AM_NELEMENTS(adc_val));
         }
 
         vol = (double)((double)(vol  / 8388607.0) * handle->p_devinfo->vref);

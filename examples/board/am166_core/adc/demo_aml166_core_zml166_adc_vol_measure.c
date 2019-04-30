@@ -53,7 +53,7 @@ void demo_aml166_core_zml166_adc_vol_measure (void)
     am_zlg_flash_init(ZLG116_FLASH);
     memcpy((void *)para, (uint32_t *)((FLASH_BLOCK_NUM * 1024)), 4 * 16);
     /* 若保存系数不正确 */
-    if(para[0] > 1.1 && para[0] < 0.9){
+    if(!(para[0] < 1.1 && para[0] > 0.9)){
         for(i = 0; i < 8; i++){
             para[2 * i + 0] = 1;
             para[2 * i + 1] = 0;
@@ -61,7 +61,7 @@ void demo_aml166_core_zml166_adc_vol_measure (void)
     }
     dome_zml166_adc_vol_measure_entry((void *)handle,
                                               para,
-                                              AM_ZML166_ADC_PGA_1);
+                                              AM_ZML166_ADC_PGA_SET_1);
 }
 
 /** [src_aml166_core_cs1239_vol_measure] */

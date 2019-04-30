@@ -15,10 +15,10 @@
  * \brief TIM2 定时器 CAP 例程，通过标准接口实现
  *
  * - 操作步骤：
- *   1. 使用杜邦线，将 PIOB_0 与 PIOA_0 连接。
+ *   1. 使用杜邦线，将 PIOB_3 与 PIOA_0 连接。
  *
  * - 实验现象：
- *   1. TIM3 通过 PIOB_0 引脚输出 2KHz 的 PWM；
+ *   1. TIM3 通过 PIOB_3 引脚输出 2KHz 的 PWM；
  *   2. TIM2 捕获输入通道 1 使用 PIOA_0 引脚捕获；
  *   3. 串口打印出利用捕获功能得到的 PWM 信号的周期和频率。
  *
@@ -40,7 +40,7 @@
  */
 
 /** [src_aml166_core_std_tim2_cap] */
-#include <am_aml166_inst_init.h>
+#include "am_aml166_inst_init.h"
 #include "ametal.h"
 #include "am_pwm.h"
 #include "am_vdebug.h"
@@ -60,7 +60,7 @@ void demo_aml166_core_std_tim2_cap_entry (void)
     am_pwm_config(pwm_handle, 2, 500000 / 2, 500000);
     am_pwm_enable(pwm_handle, 2);
 
-    demo_std_timer_cap_entry(am_zlg116_tim2_cap_inst_init(), 0);
+    demo_std_timer_cap_entry(am_zlg116_tim2_cap_inst_init(), 1);
 }
 /** [src_aml166_core_std_tim2_cap] */
 

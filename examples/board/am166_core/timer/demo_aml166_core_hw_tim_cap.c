@@ -15,11 +15,11 @@
  * \brief 定时器 CAP 捕获例程，通过 HW 层接口实现
  *
  * - 操作步骤：
- *   1. 使用杜邦线，将 PIOA_0 与 PIOA_6 连接。
+ *   1. 使用杜邦线，将 PIOA_0 与 PIOB_4 连接。
  *
  * - 实验现象：
  *   1. TIM2 通过 PIOA_0 引脚输出 2KHz 的 PWM；
- *   2. TIM3 捕获输入通道 1 使用 PIOA_6 引脚捕获；
+ *   2. TIM3 捕获输入通道 1 使用 PIOB_4 引脚捕获；
  *   3. 串口打印出利用捕获功能得到的 PWM 信号的周期和频率。
  *
  * \note
@@ -65,7 +65,7 @@ void demo_aml166_core_hw_tim_cap_entry (void)
     am_pwm_enable(pwm_handle, 0);
 
     /* 初始化引脚 */
-    am_gpio_pin_cfg(PIOA_6, PIOA_6_TIM3_CH1 | PIOA_6_INPUT_FLOAT);
+    am_gpio_pin_cfg(PIOB_4, PIOB_4_TIM3_CH1 | PIOB_4_INPUT_FLOAT);
 
     /* 使能定时器时钟 */
     am_clk_enable(CLK_TIM3);
