@@ -399,6 +399,16 @@ void am_lpc82x_wwdt_inst_deinit (am_wdt_handle_t handle);
 am_zm516x_handle_t am_zm516x_inst_init (void);
 
 /**
+ * \brief  WDT 实例初始化，获得WDT标准服务句柄
+ */
+am_wdt_handle_t am_cat823_inst_init (void);
+
+/**
+ * \brief WDT 实例解初始化
+ */
+void am_cat823_inst_deinit (am_wdt_handle_t handle);
+
+/**
  * @}
  */
 

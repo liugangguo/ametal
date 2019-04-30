@@ -641,6 +641,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\components\drivers\source\zlg600\am_zlg600.c</FilePath>
             </File>
+            <File>
+              <FileName>am_cat823.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\components\drivers\source\wdt\am_cat823.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -980,6 +985,11 @@
               <FileName>lpc82x_sdk_version.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\soc\nxp\lpc824\lpc82x_sdk_version.c</FilePath>
+            </File>
+            <File>
+              <FileName>amhw_lpc82x_pmu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\soc\nxp\drivers\source\pmu\hw\amhw_lpc82x_pmu.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2195,6 +2205,11 @@
               <FileName>am_servconf_nvram.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\user_config\am_servconf_usrcfg\am_servconf_nvram.c</FilePath>
+            </File>
+            <File>
+              <FileName>am_hwconf_cat823.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user_config\am_hwconf_usrcfg\am_hwconf_cat823.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2835,6 +2850,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\components\drivers\source\zlg600\am_zlg600.c</FilePath>
             </File>
+            <File>
+              <FileName>am_cat823.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\components\drivers\source\wdt\am_cat823.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3174,6 +3194,11 @@
               <FileName>lpc82x_sdk_version.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\soc\nxp\lpc824\lpc82x_sdk_version.c</FilePath>
+            </File>
+            <File>
+              <FileName>amhw_lpc82x_pmu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\soc\nxp\drivers\source\pmu\hw\amhw_lpc82x_pmu.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -4389,6 +4414,11 @@
               <FileName>am_servconf_nvram.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\user_config\am_servconf_usrcfg\am_servconf_nvram.c</FilePath>
+            </File>
+            <File>
+              <FileName>am_hwconf_cat823.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user_config\am_hwconf_usrcfg\am_hwconf_cat823.c</FilePath>
             </File>
           </Files>
         </Group>
