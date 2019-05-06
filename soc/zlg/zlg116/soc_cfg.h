@@ -38,6 +38,12 @@ extern "C" {
 /** \brief DMA 通道数目配置，该配置项被用于  hw/amhw_zlg_dma.h 文件中 */
 #define SOC_CFG_ZLG_DMA_CHAN_CNT          5
 
+/**< \brief flash的大小 以字节(8bit)为单位 */
+#define FLASH_SIZE  (1024 * 64UL)
+
+/**< \brief 扇区大小 以字(32bit)为单位 */
+#define SECTOR_SIZE (4096UL / 4)
+
 /**@} */
 
 #ifdef __cplusplus
