@@ -29,7 +29,7 @@ extern "C" {
 
 #include "am_types.h"
 #include "am_bitops.h"
-
+#include "soc_cfg.h"
 #include "hw/amhw_zlg_flash.h"
 
 /**
@@ -37,10 +37,6 @@ extern "C" {
  * \copydoc am_zlg_flash.h
  * @{
  */
-
-#define SECTOR_SIZE (4096UL / 4)     /**< \brief 扇区大小 以字(32bit)为单位 */
-
-#define FLASH_SIZE  (1024 * 128UL)    /**< \brief flash的大小 以字节(8bit)为单位 */
 
 /**
  * \brief Flash模块初始化
