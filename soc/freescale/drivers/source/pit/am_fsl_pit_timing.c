@@ -193,7 +193,9 @@ static int __pit_timing_count_get (void     *p_drv,
         __pit_timing_count_get64(p_drv, chan, (uint64_t *)p_count);
         return AM_OK;
     }
-    *(uint32_t *)p_count = amhw_fsl_pit_cval_get(p_hw_pit, AMHW_FSL_PIT_CH(chan));
+    *(uint32_t *)p_count = \
+                 amhw_fsl_pit_ldval_get(p_hw_pit, AMHW_FSL_PIT_CH(chan)) -
+                 amhw_fsl_pit_cval_get(p_hw_pit, AMHW_FSL_PIT_CH(chan));
 
     return AM_OK;
 }
@@ -206,15 +208,22 @@ static int __pit_timing_rollover_get (void     *p_drv,
                                       void     *p_rollover)
 {
     am_fsl_pit_timing_dev_t *p_dev = (am_fsl_pit_timing_dev_t *)p_drv;
+    amhw_fsl_pit_t          *p_hw_pit;
+
+    if (p_drv == NULL) {
+        return -AM_EINVAL;
+    }
 
     if (p_dev->p_devinfo->flag == AM_FSL_PIT_TIMING_1_64BIT) {
         __pit_timing_rollover_get64(p_drv, chan, (uint64_t *)p_rollover);
         return AM_OK;
     }
 
-    p_dev = (am_fsl_pit_timing_dev_t *)p_drv;
+    p_dev    = (am_fsl_pit_timing_dev_t *)p_drv;
+    p_hw_pit =  p_dev->p_devinfo->p_hw_pit;
 
-    *(uint32_t *)p_rollover = 0xFFFFFFFFu / am_clk_rate_get(p_dev->p_devinfo->clk_id);
+    *(uint32_t *)p_rollover = \
+                amhw_fsl_pit_ldval_get(p_hw_pit, AMHW_FSL_PIT_CH(chan));
 
     return AM_OK;
 }
@@ -317,9 +326,18 @@ static int __pit_timing_count_get64 (void     *p_drv,
 {
     am_fsl_pit_timing_dev_t *p_dev    = (am_fsl_pit_timing_dev_t *)p_drv;
     amhw_fsl_pit_t          *p_hw_pit =  p_dev->p_devinfo->p_hw_pit;
+    uint64_t                 rollover = 0;
+    uint64_t                 current  = 0;
+    uint32_t                 high_val = 0;
+    uint32_t                 low_val  = 0;
 
-    *p_count = amhw_fsl_pit_ltmr64h_get(p_hw_pit);         /* 必须先获取高32位 */
-    *p_count = (*p_count << 32) | amhw_fsl_pit_ltmr64l_get(p_hw_pit);
+    __pit_timing_rollover_get64(p_drv, chan, &rollover);
+
+    high_val = amhw_fsl_pit_ltmr64h_get(p_hw_pit);
+    low_val  = amhw_fsl_pit_ltmr64l_get(p_hw_pit);
+    current  = (uint64_t)((uint64_t)high_val << 32) | low_val;
+
+    *p_count = rollover - current; /* 返回向上计数值 */
 
     return AM_OK;
 }
@@ -329,8 +347,14 @@ static int __pit_timing_rollover_get64 (void     *p_drv,
                                         uint64_t *p_rollover)
 {
     am_fsl_pit_timing_dev_t *p_dev    = (am_fsl_pit_timing_dev_t *)p_drv;
+    amhw_fsl_pit_t          *p_hw_pit = p_dev->p_devinfo->p_hw_pit;
 
-    *p_rollover = (~(uint64_t)0) / am_clk_rate_get(p_dev->p_devinfo->clk_id);
+    uint32_t high_val, low_val;
+
+    high_val = amhw_fsl_pit_ldval_get(p_hw_pit, 1);
+    low_val  = amhw_fsl_pit_ldval_get(p_hw_pit, 0);
+
+    *p_rollover = (uint64_t)((uint64_t)high_val << 32) | low_val;
 
     return 0;
 }
